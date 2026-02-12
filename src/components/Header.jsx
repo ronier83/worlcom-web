@@ -41,14 +41,8 @@ export default function Header() {
           </a>
         </div>
 
-        {/* Mobile - orange W-PAY button and menu toggle */}
+        {/* Mobile - menu toggle only; W-PAY Login is inside the hamburger menu */}
         <div className="flex items-center gap-2 md:hidden">
-          <a
-            href="#wpay-login"
-            className="flex min-h-[44px] items-center rounded-lg bg-[#F48F47] px-3 py-1.5 text-xs font-medium text-white transition hover:bg-[#F48F47]/90"
-          >
-            {nav.ctaLabel}
-          </a>
           <button
             type="button"
             onClick={() => setMobileMenuOpen((o) => !o)}
@@ -83,6 +77,14 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
+              {/* W-PAY Login inside menu, orange so it stays distinct from nav links */}
+              <a
+                href="#wpay-login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="mt-2 flex min-h-[44px] items-center justify-center rounded-xl bg-[#F48F47] px-4 py-3 text-sm font-medium text-white transition hover:bg-[#F48F47]/90"
+              >
+                {nav.ctaLabel}
+              </a>
             </div>
           </motion.div>
         )}
