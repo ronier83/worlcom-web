@@ -3,6 +3,7 @@
  * Logos live in public/vendor-logos/; filenames with spaces use %20 in the path.
  */
 const vendorLogos = [
+  { name: 'AUB', src: '/vendor-logos/aub.svg' },
   { name: 'B2B Trust', src: '/vendor-logos/b2b-trust.svg' },
   { name: 'BDO', src: '/vendor-logos/bdo.svg' },
   { name: 'BOC', src: '/vendor-logos/boc.svg' },
@@ -14,11 +15,13 @@ const vendorLogos = [
   { name: 'Korona', src: '/vendor-logos/korona.svg' },
   { name: 'Land Bank', src: '/vendor-logos/land%20bank.svg' },
   { name: 'Pamlyang', src: '/vendor-logos/pamlyang.svg' },
+  { name: 'PUB', src: '/vendor-logos/pub.svg' },
   { name: 'RIA', src: '/vendor-logos/ria.svg' },
   { name: 'Sampath', src: '/vendor-logos/sampath.svg' },
   { name: 'Siam Commercial Bank', src: '/vendor-logos/siam.svg' },
   { name: 'Thunes', src: '/vendor-logos/thunes.svg' },
   { name: 'Union Pay', src: '/vendor-logos/union%20pay.svg' },
+  { name: 'Uption', src: '/vendor-logos/uption.svg' },
   { name: 'Yes Bank', src: '/vendor-logos/yes%20bank.svg' },
 ]
 
