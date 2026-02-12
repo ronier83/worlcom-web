@@ -39,12 +39,12 @@ export default function TrustSection() {
           {clientLogos.map((client) => (
             <div
               key={client.name}
-              className="flex h-14 w-28 flex-shrink-0 items-center justify-center sm:h-16 sm:w-32 md:h-20 md:w-40"
+              className="flex h-14 w-28 flex-shrink-0 items-center justify-center sm:h-16 sm:w-32 md:h-20 md:w-40 vendor-logo-wrapper"
             >
               <img
                 src={client.src}
                 alt={client.name}
-                className="max-h-full w-auto max-w-full object-contain opacity-90"
+                className="max-h-full w-auto max-w-full object-contain opacity-90 vendor-logo"
               />
             </div>
           ))}
