@@ -28,9 +28,9 @@ export default function Services() {
     <section id="services" className="bg-gray-50/50 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-20px' }}
           className="text-center text-3xl font-bold text-black md:text-4xl"
         >
           Our Services

@@ -22,9 +22,9 @@ export default function TrustSection() {
     <section id="about" className="bg-black py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-20px' }}
           className="text-center text-2xl font-bold text-white md:text-3xl"
         >
           Trusted by Leading Financial Institutions Worldwide

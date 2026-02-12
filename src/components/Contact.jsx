@@ -15,7 +15,7 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-20px' }}
           className="relative mx-auto max-w-2xl overflow-hidden rounded-3xl bg-slate-600 shadow-xl"
         >
           <img
@@ -29,10 +29,10 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-10 text-center"
+          viewport={{ once: true, margin: '-20px' }}
+          className="mt-10 min-w-0 text-center"
         >
-          <p className="text-white">
+          <p className="break-words text-white">
             {contact.hours[0]} | {contact.hours[1]}
           </p>
           <p className="mt-1 text-sm text-white/80">{contact.supportNote}</p>
@@ -42,7 +42,7 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-20px' }}
           className="mt-14 grid gap-10 sm:grid-cols-3"
         >
           <a
@@ -53,7 +53,7 @@ export default function Contact() {
               <HiOutlineEnvelope className="h-7 w-7" />
             </span>
             <span className="mt-3 font-medium text-white">Email</span>
-            <span className="mt-1 text-sm text-white underline underline-offset-2">{contact.email}</span>
+            <span className="mt-1 break-all text-sm text-white underline underline-offset-2">{contact.email}</span>
           </a>
           <a
             href={`tel:${contact.phone.replace(/\s/g, '').replace(/-/g, '')}`}

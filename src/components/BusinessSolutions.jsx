@@ -13,7 +13,7 @@ export default function BusinessSolutions() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-20px' }}
           className="mx-auto max-w-3xl text-center"
         >
           <div className="mb-6 inline-flex rounded-2xl bg-white/20 p-4">

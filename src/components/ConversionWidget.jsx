@@ -75,12 +75,12 @@ export default function ConversionWidget() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl"
+      viewport={{ once: true, margin: '-20px' }}
+      className="w-full min-w-0 max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl lg:max-w-[380px]"
     >
-      {/* Top strip: light purple bg, rate left, Check Our Rates link right (underlined) */}
-      <div className="flex items-center justify-between gap-3 bg-[#3482F1]/10 px-6 py-3">
-        <span className="text-sm font-medium text-gray-700">{rateDisplay}</span>
+      {/* Top strip: light purple bg, rate left, Check Our Rates link right (underlined); min-w-0 so flex doesn't overflow on small screens */}
+      <div className="flex min-w-0 items-center justify-between gap-3 bg-[#3482F1]/10 px-4 py-3 sm:px-6">
+        <span className="min-w-0 truncate text-sm font-medium text-gray-700">{rateDisplay}</span>
         <Link
           to="rates"
           smooth
@@ -181,7 +181,7 @@ export default function ConversionWidget() {
         {/* Get Started: full width purple button, white text + arrow */}
         <Link to="services" smooth duration={500} offset={-72} className="mt-8 block">
           <motion.span
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-4 text-lg font-bold text-white transition hover:bg-[#3482F1]/90"
+            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-4 text-lg font-bold text-white transition hover:bg-[#3482F1]/90"
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
           >

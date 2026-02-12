@@ -1,5 +1,6 @@
+import { useRef } from 'react'
 import { Link } from 'react-scroll'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { hero } from '../data/content'
 import ConversionWidget from './ConversionWidget'
 
@@ -67,25 +68,31 @@ function HeroBgGraphic() {
 
 /**
  * Hero section: Rewire-style prominent blue (#3482F1) background, white text, white conversion card.
+ * Scroll-based parallax on background graphic so it moves slightly slower than content.
  */
 export default function Hero() {
+  const ref = useRef(null)
+  const reducedMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 1], [0, 40])
+
   return (
-    <section id="hero" className="relative overflow-hidden bg-[#3482F1] pt-14 pb-20 md:pt-20 md:pb-24">
-      {/* Background: globe/blobs behind calculator (right); logo is in flow, never behind text */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+    <section ref={ref} id="hero" className="relative overflow-hidden bg-[#3482F1] pt-14 pb-20 md:pt-20 md:pb-24">
+      {/* Background: globe/blobs with parallax (disabled when user prefers reduced motion) */}
+      <motion.div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0, y: reducedMotion ? 0 : y }}>
         <HeroBgGraphic />
-      </div>
+      </motion.div>
 
       {/* Tighter max-width so hero stays compact on xl/2xl and beyond */}
       <div className="relative z-10 mx-auto max-w-6xl pl-2 pr-4 sm:pl-4 sm:pr-6 lg:pl-4 lg:pr-8">
-        {/* Compact gap at all breakpoints; headline size unchanged */}
-        <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
-          {/* Left: logo then text — logo above on small, to the left on lg (always in flow, never behind) */}
-          <div className="relative flex min-w-0 flex-1 flex-col text-center md:min-w-[420px] md:shrink-0 lg:flex-row lg:items-center lg:gap-6 lg:min-w-[480px] lg:max-w-xl lg:text-left">
+        {/* Mobile: stacked with gap-8; desktop: row with clear gap so calculator never overlaps headline */}
+        <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10 xl:gap-12">
+          {/* Left: logo then text — min-width on desktop so headline is never squeezed by calculator */}
+          <div className="relative flex min-w-0 flex-1 flex-col text-center lg:min-w-[320px] lg:flex-row lg:items-center lg:gap-6 lg:max-w-xl lg:text-left">
             <div className="flex justify-center pb-2 lg:shrink-0 lg:pb-0 lg:justify-start">
               <HeroLogoMark />
             </div>
-            <div className="flex flex-col">
+            <div className="min-w-0 flex flex-col">
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -107,14 +114,14 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative z-10 mt-10 flex flex-nowrap items-center justify-center gap-4 lg:justify-start"
+              className="relative z-10 mt-10 flex flex-col items-center justify-center gap-3 lg:flex-row lg:flex-nowrap lg:gap-4 lg:justify-start"
             >
               <Link
                 to="services"
                 smooth
                 duration={500}
                 offset={-72}
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-white px-5 py-2.5 text-base font-semibold text-[#3482F1] shadow-lg transition hover:bg-white/95"
+                className="inline-flex min-h-[44px] items-center justify-center whitespace-nowrap rounded-xl bg-white px-5 py-2.5 text-base font-semibold text-[#3482F1] shadow-lg transition hover:bg-white/95"
               >
                 {hero.ctaLabel}
               </Link>
@@ -123,7 +130,7 @@ export default function Hero() {
                 smooth
                 duration={500}
                 offset={-72}
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-xl border-2 border-white bg-transparent px-5 py-2.5 text-base font-semibold text-white transition hover:bg-white/10"
+                className="inline-flex min-h-[44px] items-center justify-center whitespace-nowrap rounded-xl border-2 border-white bg-transparent px-5 py-2.5 text-base font-semibold text-white transition hover:bg-white/10"
               >
                 Money Transfer
               </Link>
@@ -131,8 +138,8 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right: conversion card + app store buttons, centered as a block */}
-          <div className="flex w-full max-w-md flex-shrink-0 flex-col items-center gap-4 lg:max-w-none">
+          {/* Right: conversion card capped on desktop so left column has room; full width on mobile */}
+          <div className="flex w-full max-w-md flex-shrink-0 flex-col items-center gap-4 lg:max-w-[380px]">
             <ConversionWidget />
             {/* App store badges: native-style Download on App Store / Get it on Google Play */}
             <div className="flex flex-wrap items-center justify-center gap-3">
