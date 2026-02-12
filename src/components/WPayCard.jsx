@@ -20,9 +20,7 @@ export default function WPayCard() {
     offset: ['start end', 'end start'],
   })
   const rawCardX = useTransform(scrollYProgress, [0, 0.2, 0.45, 0.55, 0.8, 1], [100, 100, 0, 0, 100, 100])
-  const rawCardOpacity = useTransform(scrollYProgress, [0, 0.2, 0.45, 0.55, 0.8, 1], [0, 0, 1, 1, 0, 0])
   const cardX = useSpring(rawCardX, { stiffness: 200, damping: 25 })
-  const cardOpacity = useSpring(rawCardOpacity, { stiffness: 200, damping: 25 })
 
   const tiltX = useMotionValue(0)
   const tiltY = useMotionValue(0)
@@ -75,7 +73,7 @@ export default function WPayCard() {
             </motion.a>
           </motion.div>
 
-          {/* Card mockup with 3D tilt; scroll-driven: in from right when in view, out to right when scrolled past */}
+          {/* Visa card image with 3D tilt and scroll-driven in/out animation */}
           <motion.div
             ref={cardRef}
             onMouseMove={handleMouseMove}
@@ -83,7 +81,7 @@ export default function WPayCard() {
             onMouseLeave={handleMouseLeave}
             style={{
               x: reducedMotion ? 0 : cardX,
-              opacity: reducedMotion ? 1 : cardOpacity,
+              opacity: 1,
               rotateX,
               rotateY,
               transformStyle: 'preserve-3d',
@@ -92,22 +90,16 @@ export default function WPayCard() {
             className="flex min-w-0 justify-center"
           >
             <div
-              className="h-40 w-full max-w-[260px] rounded-2xl bg-gradient-to-br from-[#2a6ed8] to-[#2362c7] p-4 shadow-xl sm:h-48 sm:max-w-[280px] sm:p-5 md:h-52 md:max-w-[320px] md:p-6"
+              className="flex max-w-[260px] justify-center sm:max-w-[280px] md:max-w-[320px] lg:max-w-[360px] xl:max-w-[400px]"
               style={{
                 transform: isHovering ? 'translateZ(20px)' : 'translateZ(0)',
               }}
             >
-              <div className="flex items-start justify-between text-white/90">
-                <span className="text-xs font-medium sm:text-sm">WPay Card</span>
-                <span className="text-[10px] sm:text-xs">VISA</span>
-              </div>
-              <div className="mt-5 whitespace-nowrap font-mono text-sm tracking-widest text-white sm:mt-6 sm:text-base md:mt-8 md:text-lg">
-                **** **** **** 4242
-              </div>
-              <div className="mt-4 flex justify-between text-xs text-white/80 sm:mt-5 sm:text-sm md:mt-6">
-                <span>John Smith</span>
-                <span>Valid 12/28</span>
-              </div>
+              <img
+                src="/images/visa.png"
+                alt="WPay Visa card"
+                className="max-h-40 w-full object-contain sm:max-h-48 md:max-h-52 lg:max-h-56 xl:max-h-64"
+              />
             </div>
           </motion.div>
         </div>
