@@ -72,32 +72,20 @@
   }
 }
 
-/* Fix for vendor logos appearing as black boxes on mobile Safari */
-.vendor-logo {
-  /* Force proper rendering of SVG images with embedded PNGs */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  /* Ensure proper color space */
-  color-scheme: light;
-  /* Prevent black box rendering */
-  background: transparent;
-  mix-blend-mode: normal;
-  /* Hardware acceleration for better mobile performance */
+/* Vendor logo styling */
+.vendor-logo-wrapper {
+  /* Force GPU acceleration for smooth scrolling animation */
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  will-change: transform;
-  /* Ensure visibility */
-  opacity: 1;
-  visibility: visible;
 }
 
-/* Additional mobile-specific fixes */
-@media (max-width: 768px) {
-  .vendor-logo {
-    /* Force re-rendering on mobile */
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
+.vendor-logo {
+  /* Smooth rendering for logos */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  /* Hardware acceleration */
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }

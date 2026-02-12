@@ -1,28 +1,30 @@
 /**
  * White section: "Trusted by Leading Financial Institutions Worldwide" with vendor logos.
- * Logos live in public/vendor-logos/; filenames with spaces use %20 in the path.
+ * Logos live in public/vendor-logos-png/ as PNG files (extracted from SVG patterns)
+ * Some logos remain as SVG in public/vendor-logos/ (kasikornthai, land bank, pamlyang)
+ * Filenames with spaces use %20 in the path.
  */
 const vendorLogos = [
-  { name: 'AUB', src: '/vendor-logos/aub.svg' },
-  { name: 'B2B Trust', src: '/vendor-logos/b2b-trust.svg' },
-  { name: 'BDO', src: '/vendor-logos/bdo.svg' },
-  { name: 'BOC', src: '/vendor-logos/boc.svg' },
-  { name: 'BPI', src: '/vendor-logos/bpi.svg' },
-  { name: 'Cebuana', src: '/vendor-logos/cebuana.svg' },
-  { name: 'DFCC Bank', src: '/vendor-logos/dfcc%20bank.svg' },
-  { name: 'Inteli', src: '/vendor-logos/inteli.svg' },
-  { name: 'Kasikorn Thai', src: '/vendor-logos/kasikornthai.svg' },
-  { name: 'Korona', src: '/vendor-logos/korona.svg' },
-  { name: 'Land Bank', src: '/vendor-logos/land%20bank.svg' },
-  { name: 'Pamlyang', src: '/vendor-logos/pamlyang.svg' },
-  { name: 'PUB', src: '/vendor-logos/pub.svg' },
-  { name: 'RIA', src: '/vendor-logos/ria.svg' },
-  { name: 'Sampath', src: '/vendor-logos/sampath.svg' },
-  { name: 'Siam Commercial Bank', src: '/vendor-logos/siam.svg' },
-  { name: 'Thunes', src: '/vendor-logos/thunes.svg' },
-  { name: 'Union Pay', src: '/vendor-logos/union%20pay.svg' },
-  { name: 'Uption', src: '/vendor-logos/uption.svg' },
-  { name: 'Yes Bank', src: '/vendor-logos/yes%20bank.svg' },
+  { name: 'AUB', src: '/vendor-logos-png/aub.png' },
+  { name: 'B2B Trust', src: '/vendor-logos-png/b2b-trust.png' },
+  { name: 'BDO', src: '/vendor-logos-png/bdo.png' },
+  { name: 'BOC', src: '/vendor-logos-png/boc.png' },
+  { name: 'BPI', src: '/vendor-logos-png/bpi.png' },
+  { name: 'Cebuana', src: '/vendor-logos-png/cebuana.png' },
+  { name: 'DFCC Bank', src: '/vendor-logos-png/dfcc%20bank.png' },
+  { name: 'Inteli', src: '/vendor-logos-png/inteli.png' },
+  { name: 'Kasikorn Thai', src: '/vendor-logos/kasikornthai.svg' }, // Pure SVG
+  { name: 'Korona', src: '/vendor-logos-png/korona.png' },
+  { name: 'Land Bank', src: '/vendor-logos/land%20bank.svg' }, // Pure SVG
+  { name: 'Pamlyang', src: '/vendor-logos/pamlyang.svg' }, // Pure SVG
+  { name: 'PUB', src: '/vendor-logos-png/pub.png' },
+  { name: 'RIA', src: '/vendor-logos-png/ria.png' },
+  { name: 'Sampath', src: '/vendor-logos-png/sampath.png' },
+  { name: 'Siam Commercial Bank', src: '/vendor-logos-png/siam.png' },
+  { name: 'Thunes', src: '/vendor-logos-png/thunes.png' },
+  { name: 'Union Pay', src: '/vendor-logos-png/union%20pay.png' },
+  { name: 'Uption', src: '/vendor-logos-png/uption.png' },
+  { name: 'Yes Bank', src: '/vendor-logos-png/yes%20bank.png' },
 ]
 
 // Split logos between the two rows so each logo appears in only one row
@@ -32,25 +34,6 @@ const row2Logos = vendorLogos.slice(mid)
 
 function LogoStrip({ logos, scrollRight, rowId }) {
   const duplicated = [...logos, ...logos]
-  
-  // Handle image load errors by forcing a re-render
-  const handleImageError = (e) => {
-    const img = e.target
-    // Add a small delay and try to reload
-    setTimeout(() => {
-      img.src = img.src.split('?')[0] + '?retry=' + Date.now()
-    }, 100)
-  }
-
-  // Ensure images are loaded properly on mobile
-  const handleImageLoad = (e) => {
-    const img = e.target
-    // Force a repaint to fix black box issue on Safari iOS
-    img.style.opacity = '0.99'
-    setTimeout(() => {
-      img.style.opacity = '1'
-    }, 10)
-  }
 
   return (
     <div
@@ -59,15 +42,12 @@ function LogoStrip({ logos, scrollRight, rowId }) {
       {duplicated.map((vendor, i) => (
         <div
           key={`${rowId}-${vendor.name}-${i}`}
-          className="flex h-14 w-28 flex-shrink-0 items-center justify-center sm:h-16 sm:w-32 md:h-20 md:w-40"
+          className="flex h-14 w-28 flex-shrink-0 items-center justify-center sm:h-16 sm:w-32 md:h-20 md:w-40 vendor-logo-wrapper"
         >
           <img
             src={vendor.src}
             alt={i < logos.length ? vendor.name : ''}
-            loading="lazy"
             className="max-h-full w-auto max-w-full object-contain vendor-logo"
-            onError={handleImageError}
-            onLoad={handleImageLoad}
             {...(i >= logos.length && { 'aria-hidden': true })}
           />
         </div>
