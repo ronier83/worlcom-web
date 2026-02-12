@@ -5,7 +5,7 @@ import { hero } from '../data/content'
 import ConversionWidget from './ConversionWidget'
 
 const defaultLogoClass =
-  'h-[110px] w-[74px] shrink-0 opacity-90 sm:h-[132px] sm:w-[89px] md:opacity-90 lg:h-[200px] lg:w-[135px] lg:opacity-90'
+  'h-[120px] w-[81px] shrink-0 opacity-100 sm:h-[145px] sm:w-[98px] lg:h-[220px] lg:w-[149px]'
 
 /**
  * Company logo from asset: white shapes only (black background and dark accents removed).
@@ -103,25 +103,39 @@ export default function Hero() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const y = useTransform(scrollYProgress, [0, 1], [0, 40])
 
-  // Logo paths: entrance from sides on load, then scroll-driven exit (larger movement: 220px)
-  const LOGO_OFFSET = 220
+  // Logo paths: big offset so scroll-apart is very obvious; entrance from sides on load
+  const LOGO_OFFSET = 520
+  const ENTRANCE_DURATION_MS = 700
   const path0X = useMotionValue(reducedMotion ? 0 : -LOGO_OFFSET)
   const path1X = useMotionValue(reducedMotion ? 0 : LOGO_OFFSET)
 
   useEffect(() => {
     if (reducedMotion) return
-    animate(path0X, 0, { duration: 0.65, ease: 'easeOut' })
-    animate(path1X, 0, { duration: 0.65, ease: 'easeOut' })
+    animate(path0X, 0, { duration: 0.7, ease: 'easeOut' })
+    animate(path1X, 0, { duration: 0.7, ease: 'easeOut' })
   }, [path0X, path1X, reducedMotion])
+
+  // Delay scroll-driven updates so entrance animation always runs first (fixes mobile where scroll can fire early)
+  const entranceDoneRef = useRef(false)
+  useEffect(() => {
+    const t = setTimeout(() => {
+      entranceDoneRef.current = true
+    }, ENTRANCE_DURATION_MS)
+    return () => clearTimeout(t)
+  }, [])
 
   useEffect(() => {
     if (reducedMotion) return
-    const unsub = scrollYProgress.on('change', (v) => {
-      if (v <= 0.01) return
-      const x0 = v < 0.35 ? 0 : v > 0.85 ? -LOGO_OFFSET : ((v - 0.35) / 0.5) * -LOGO_OFFSET
-      const x1 = v < 0.35 ? 0 : v > 0.85 ? LOGO_OFFSET : ((v - 0.35) / 0.5) * LOGO_OFFSET
+    const updateFromScroll = (v) => {
+      // Strong response: move apart from first scroll; full separation by 0.45 progress so it's very visible
+      const x0 = v < 0.01 ? 0 : v > 0.45 ? -LOGO_OFFSET : ((v - 0.01) / 0.44) * -LOGO_OFFSET
+      const x1 = v < 0.01 ? 0 : v > 0.45 ? LOGO_OFFSET : ((v - 0.01) / 0.44) * LOGO_OFFSET
       path0X.set(x0)
       path1X.set(x1)
+    }
+    const unsub = scrollYProgress.on('change', (v) => {
+      if (!entranceDoneRef.current) return
+      updateFromScroll(v)
     })
     return () => unsub()
   }, [scrollYProgress, path0X, path1X, reducedMotion])
