@@ -15,7 +15,7 @@ export const nav = {
     { label: 'Developers', href: '#developers' },
     { label: 'About Us', href: '#about' },
   ],
-  ctaLabel: 'W-PAY Card Login',
+  ctaLabel: 'W-PAY Login',
 }
 
 export const hero = {
@@ -163,7 +163,7 @@ export const sitemap = [
     title: 'WPay Card',
     links: [
       { label: 'Order WPay Card', href: '#' },
-      { label: 'W-PAY Card Login', href: '#' },
+      { label: 'W-PAY Login', href: '#' },
       { label: 'Card for Businesses', href: '#' },
     ],
   },

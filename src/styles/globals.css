@@ -11,6 +11,15 @@
   body {
     @apply text-black antialiased;
     overflow-x: hidden;
+    /* Slightly smaller base text on mobile; normal size from md up */
+    font-size: 0.875rem; /* 14px */
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    body {
+      font-size: 1rem; /* 16px */
+      text-align: left;
+    }
   }
   /* Offset for sticky header when scrolling to section anchors */
   [id] {

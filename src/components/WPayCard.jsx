@@ -34,7 +34,7 @@ export default function WPayCard() {
 
   return (
     <section id="wpay-card" className="bg-gray-50/50 py-16 md:py-24">
-      {/* Anchor for header W-PAY Card Login CTA */}
+      {/* Anchor for header W-PAY Login CTA */}
       <span id="wpay-login" className="block -scroll-mt-24" aria-hidden />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">

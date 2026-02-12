@@ -5,7 +5,7 @@ import { HiMenu, HiX } from 'react-icons/hi'
 import { nav, brand } from '../data/content'
 
 /**
- * Sticky header with logo, nav links (smooth scroll), and W-PAY Card Login CTA.
+ * Sticky header with logo, nav links (smooth scroll), and W-PAY Login CTA.
  */
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -45,7 +45,7 @@ export default function Header() {
         <div className="flex items-center gap-2 md:hidden">
           <a
             href="#wpay-login"
-            className="flex min-h-[44px] items-center rounded-xl bg-[#F48F47] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#F48F47]/90"
+            className="flex min-h-[44px] items-center rounded-lg bg-[#F48F47] px-3 py-1.5 text-xs font-medium text-white transition hover:bg-[#F48F47]/90"
           >
             {nav.ctaLabel}
           </a>
