@@ -4,14 +4,18 @@ import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion
 import { hero } from '../data/content'
 import ConversionWidget from './ConversionWidget'
 
+const defaultLogoClass =
+  'h-[100px] w-[67px] shrink-0 opacity-50 sm:h-[120px] sm:w-[81px] md:opacity-60 lg:h-[180px] lg:w-[122px] lg:opacity-70'
+
 /**
  * Company logo from asset: white shapes only (black background and dark accents removed).
  * Fill #F48F47. Always in document flow so it never appears behind text.
+ * Exported for reuse (e.g. Contact section overlay). Pass className to override size.
  */
-function HeroLogoMark() {
+export function HeroLogoMark({ className = defaultLogoClass }) {
   return (
     <svg
-      className="h-[100px] w-[67px] shrink-0 opacity-50 sm:h-[120px] sm:w-[81px] md:opacity-60 lg:h-[180px] lg:w-[122px] lg:opacity-70"
+      className={className}
       viewBox="0 0 231 349"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

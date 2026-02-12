@@ -30,12 +30,9 @@ function App() {
       <Footer />
       <PrivacyModal />
       <FloatingSupport />
-      {/* Chat bubble: bottom-right, above the support button; slightly smaller/inset on very small screens so it doesn't cover CTAs */}
+      {/* Chat bubble: bottom-right, above the support button; clean rounded box, no clip so bottom isn't cut */}
       <div
         className="fixed bottom-20 right-4 z-[100] max-w-[140px] rounded-xl bg-[#334155] px-3 py-2 shadow-xl sm:bottom-24 sm:right-6 sm:max-w-[160px]"
-        style={{
-          clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 14px) 100%, calc(100% - 14px) calc(100% - 10px), 0 calc(100% - 10px))',
-        }}
         aria-hidden
       >
         <p className="text-xs font-medium text-white">We Are</p>

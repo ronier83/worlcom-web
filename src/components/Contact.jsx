@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { HiOutlineEnvelope, HiOutlinePhone, HiOutlineClock } from 'react-icons/hi2'
+import { HeroLogoMark } from './Hero'
 import { contact } from '../data/content'
 
 /**
@@ -23,6 +24,13 @@ export default function Contact() {
             alt="Customer support"
             className="h-[280px] w-full object-cover sm:h-[320px]"
           />
+          {/* Logo mark overlay at bottom-right corner (same SVG as hero, smaller size) */}
+          <span
+            className="absolute bottom-4 right-4 flex items-end justify-end drop-shadow-lg"
+            aria-hidden
+          >
+            <HeroLogoMark className="h-14 w-[54px] shrink-0 opacity-90 sm:h-16 sm:w-[62px]" />
+          </span>
         </motion.div>
 
         {/* Availability / support note — centered, ample spacing */}
