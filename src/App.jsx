@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Statistics from './components/Statistics'
@@ -13,15 +14,23 @@ import Footer from './components/Footer'
 import FloatingSupport from './components/FloatingSupport'
 
 function App() {
+  // Accordion state for mobile collapsible sections (Statistics, Services, MoneyTransfer)
+  // Money Transfer (rates) starts expanded on mobile; others collapsed
+  const [activeSection, setActiveSection] = useState('rates')
+
+  const handleSectionToggle = (sectionId) => {
+    setActiveSection((prev) => (prev === sectionId ? null : sectionId))
+  }
+
   return (
     <>
       <Header />
       <main className="pt-14 sm:pt-20">
         <Hero />
         <TrustedByVendors />
-        <Statistics />
-        <Services />
-        <MoneyTransfer />
+        <Statistics activeSection={activeSection} onToggle={handleSectionToggle} />
+        <Services activeSection={activeSection} onToggle={handleSectionToggle} />
+        <MoneyTransfer activeSection={activeSection} onToggle={handleSectionToggle} />
         <BusinessSolutions />
         <WPayCard />
         <TrustSection />

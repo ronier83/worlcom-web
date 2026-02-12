@@ -15,6 +15,8 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        // Modern geometric sans for collapsible section headers (Outfit)
+        display: ['Outfit', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         'xl': '1rem',
