@@ -5,19 +5,30 @@ import { HiOutlineBolt, HiOutlineArrowRight, HiOutlinePaperAirplane, HiOutlineBa
 import { HiChevronDown } from 'react-icons/hi'
 import { conversionWidget } from '../data/content'
 
-// Sample rates for demo (ILS base). In production, replace with API or Rates page.
-const SAMPLE_RATES = {
-  USD: 0.27,
-  EUR: 0.25,
-  GBP: 0.21,
+// Sample rates for demo: from sendCurrency to receiveCurrency. In production, replace with API or Rates page.
+const RATE_MATRIX = {
+  ILS: { USD: 0.27, EUR: 0.25, ILS: 1, THB: 9.5 },
+  USD: { ILS: 3.7, EUR: 0.92, USD: 1, THB: 35 },
+  EUR: { ILS: 4.0, USD: 1.09, EUR: 1, THB: 38 },
 }
 
 const CURRENCIES = [
   { code: 'ILS', symbol: '₪', name: 'Israeli Shekel', flag: 'il' },
   { code: 'USD', symbol: '$', name: 'US Dollar', flag: 'us' },
-  { code: 'EUR', symbol: '€', name: 'Euro', flag: 'de' },
-  { code: 'GBP', symbol: '£', name: 'British Pound', flag: 'gb' },
+  { code: 'EUR', symbol: '€', name: 'Euro', flag: 'eu' },
+  { code: 'THB', symbol: '฿', name: 'Thai Baht', flag: 'th' },
 ]
+
+// Send-currency options for "You send" dropdown (ILS, USD, EUR with round flags)
+const SEND_CURRENCIES = CURRENCIES.filter((c) => ['ILS', 'USD', 'EUR'].includes(c.code))
+
+// Receive-currency options for "They get" dropdown: USD, EUR, ILS, THB with round flags
+const RECEIVE_CURRENCIES = [
+  CURRENCIES.find((c) => c.code === 'USD'),
+  CURRENCIES.find((c) => c.code === 'EUR'),
+  CURRENCIES.find((c) => c.code === 'ILS'),
+  CURRENCIES.find((c) => c.code === 'THB'),
+].filter(Boolean)
 
 const deliveryIcons = {
   'Bank Transfer': HiOutlineBuildingLibrary,
@@ -43,13 +54,16 @@ function Flag({ countryCode, className = 'h-6 w-6' }) {
  */
 export default function ConversionWidget() {
   const [sendAmount, setSendAmount] = useState(1000)
+  const [sendCurrency, setSendCurrency] = useState('ILS')
   const [receiveCurrency, setReceiveCurrency] = useState('USD')
   const [delivery, setDelivery] = useState('Cash Pickup')
 
-  const rate = SAMPLE_RATES[receiveCurrency] ?? 0.27
+  const fromRates = RATE_MATRIX[sendCurrency]
+  const rate = fromRates?.[receiveCurrency] ?? (sendCurrency === 'ILS' ? 0.27 : 1)
   const receiveAmount = useMemo(() => Math.round(sendAmount * rate * 100) / 100, [sendAmount, rate])
+  const fromCurrency = CURRENCIES.find((c) => c.code === sendCurrency)
   const toCurrency = CURRENCIES.find((c) => c.code === receiveCurrency)
-  const rateDisplay = `₪1 = ${toCurrency?.symbol ?? '$'}${rate}`
+  const rateDisplay = `${fromCurrency?.symbol ?? '₪'}1 = ${toCurrency?.symbol ?? '$'}${rate}`
 
   const formatAmount = (value, code) => {
     const c = CURRENCIES.find((x) => x.code === code)
@@ -80,7 +94,7 @@ export default function ConversionWidget() {
       </div>
 
       <div className="p-6 sm:p-8">
-        {/* You send: label, bold amount, underline, ILS + flag */}
+        {/* You send: label, bold amount, dropdown (ILS / USD / EUR) with round flags */}
         <div className="mt-2">
           <label className="block text-sm font-medium text-gray-600">{conversionWidget.youSend}</label>
           <div className="mt-1 flex items-center gap-2 border-b border-gray-300 pb-2">
@@ -91,8 +105,23 @@ export default function ConversionWidget() {
               onChange={(e) => setSendAmount(Number(e.target.value) || 0)}
               className="min-w-0 flex-1 bg-transparent text-2xl font-bold text-gray-900 outline-none sm:text-3xl"
             />
-            <span className="text-base font-medium text-gray-600">ILS</span>
-            <Flag countryCode="il" className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+            <label className="relative flex cursor-pointer items-center gap-1.5">
+              <span className="pointer-events-none text-base font-medium text-gray-600">{sendCurrency}</span>
+              <span className="pointer-events-none">
+                <Flag countryCode={fromCurrency?.flag || 'il'} className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+              </span>
+              <HiChevronDown className="pointer-events-none h-5 w-5 shrink-0 text-gray-500" />
+              <select
+                value={sendCurrency}
+                onChange={(e) => setSendCurrency(e.target.value)}
+                className="absolute inset-0 cursor-pointer opacity-0"
+                aria-label="Select send currency"
+              >
+                {SEND_CURRENCIES.map((c) => (
+                  <option key={c.code} value={c.code}>{c.code}</option>
+                ))}
+              </select>
+            </label>
           </div>
         </div>
 
@@ -113,8 +142,12 @@ export default function ConversionWidget() {
                 value={receiveCurrency}
                 onChange={(e) => setReceiveCurrency(e.target.value)}
                 className="absolute inset-0 cursor-pointer opacity-0"
-                aria-label="Select currency"
-              />
+                aria-label="Select receive currency"
+              >
+                {RECEIVE_CURRENCIES.map((c) => (
+                  <option key={c.code} value={c.code}>{c.name}</option>
+                ))}
+              </select>
             </label>
           </div>
         </div>
@@ -158,7 +191,7 @@ export default function ConversionWidget() {
         </Link>
 
         {/* Fee disclaimer: paper plane icon + purple text (left-aligned) */}
-        <p className="mt-4 flex items-center gap-2 text-sm font-medium text-[#3482F1]">
+        <p className="mt-4 flex items-center justify-center gap-2 text-sm font-medium text-[#3482F1]">
           <HiOutlinePaperAirplane className="h-4 w-4 shrink-0" />
           {conversionWidget.feesLabel}
         </p>

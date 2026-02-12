@@ -134,30 +134,33 @@ export default function Hero() {
           {/* Right: conversion card + app store buttons, centered as a block */}
           <div className="flex w-full max-w-md flex-shrink-0 flex-col items-center gap-4 lg:max-w-none">
             <ConversionWidget />
-            {/* App store buttons: solid, smaller, centered below calculator */}
-            <div className="flex w-full max-w-md items-center justify-center gap-2">
+            {/* App store badges: native-style Download on App Store / Get it on Google Play */}
+            <div className="flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#"
-                className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-white bg-black px-3 py-2 transition hover:bg-black/90 min-w-0 max-w-[160px]"
+                className="inline-flex h-10 items-center gap-1.5 rounded-[5px] bg-black px-3 py-2 transition hover:opacity-90"
+                aria-label="Download on the App Store"
               >
-                <svg className="h-5 w-5 shrink-0 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M12 8a4 4 0 0 1 4-4 4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4z"/>
+                {/* Apple logo — standard silhouette (bite + leaf) */}
+                <svg className="h-6 w-6 shrink-0 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
                 </svg>
-                <div className="min-w-0 text-left">
-                  <span className="block truncate text-[9px] leading-tight text-white/90">Available on the</span>
-                  <span className="block truncate text-xs font-semibold leading-tight text-white">App Store</span>
+                <div className="text-left leading-tight">
+                  <span className="block text-[10px] text-white">Download on the</span>
+                  <span className="block text-[14px] font-semibold tracking-tight text-white">App Store</span>
                 </div>
               </a>
               <a
                 href="#"
-                className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-white bg-black px-3 py-2 transition hover:bg-black/90 min-w-0 max-w-[160px]"
+                className="inline-flex h-10 items-center gap-1.5 rounded-[5px] bg-black px-3 py-2 transition hover:opacity-90"
+                aria-label="Get it on Google Play"
               >
-                <svg className="h-5 w-5 shrink-0 text-white" viewBox="0 0 24 24" aria-hidden>
+                <svg className="h-6 w-6 shrink-0 text-white" viewBox="0 0 24 24" aria-hidden>
                   <path fill="currentColor" d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.636z"/>
                 </svg>
-                <div className="min-w-0 text-left">
-                  <span className="block truncate text-[9px] leading-tight text-white/90">ANDROID APP ON</span>
-                  <span className="block truncate text-xs font-semibold leading-tight text-white">Google Play</span>
+                <div className="text-left leading-tight">
+                  <span className="block text-[10px] text-white">Get it on</span>
+                  <span className="block text-[14px] font-semibold tracking-tight text-white">Google Play</span>
                 </div>
               </a>
             </div>
