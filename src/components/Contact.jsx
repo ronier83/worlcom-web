@@ -11,7 +11,7 @@ import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 export default function Contact() {
   const shouldAnimate = usePageLoadAnimation()
   return (
-    <section id="contact" className="bg-gray-200 py-10 md:py-14">
+    <section id="contact" className="bg-white py-10 md:py-14">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-6">
         {/* Centered image with rounded border and speech-bubble overlay */}
         <motion.div
@@ -49,27 +49,27 @@ export default function Contact() {
         <motion.div
           initial={shouldAnimate ? { opacity: 0, y: 24 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="mx-auto mt-8 grid max-w-xl grid-cols-2 justify-items-center gap-3 sm:gap-6 md:mt-10 md:gap-6"
+          className="mx-auto mt-8 grid max-w-xl grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 sm:gap-6 md:mt-10 md:gap-6"
         >
           <a
             href={`mailto:${contact.email}`}
             className="flex flex-col items-center text-center"
           >
             <span className="flex items-center justify-center">
-              <img src="/images/mail.png" alt="" className="h-10 w-10 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" aria-hidden />
+              <img src="/images/mail.png" alt="" className="h-16 w-16 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" aria-hidden />
             </span>
-            <span className="mt-2 text-xs font-medium text-gray-900 sm:mt-3 sm:text-base">Email</span>
-            <span className="mt-0.5 break-all text-[10px] text-gray-700 underline underline-offset-2 sm:mt-1 sm:text-sm">{contact.email}</span>
+            <span className="mt-3 text-base font-medium text-gray-900 sm:mt-2 sm:text-xs md:text-base">Email</span>
+            <span className="mt-1 break-all text-sm text-gray-700 underline underline-offset-2 sm:mt-0.5 sm:text-[10px] md:text-sm">{contact.email}</span>
           </a>
           <a
             href={`tel:${contact.phone.replace(/\s/g, '').replace(/-/g, '')}`}
             className="flex flex-col items-center text-center"
           >
             <span className="flex items-center justify-center">
-              <img src="/images/phone.png" alt="" className="h-10 w-10 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" aria-hidden />
+              <img src="/images/phone.png" alt="" className="h-16 w-16 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" aria-hidden />
             </span>
-            <span className="mt-2 text-xs font-medium text-gray-900 sm:mt-3 sm:text-base">Phone</span>
-            <span className="mt-0.5 text-[10px] text-gray-700 underline underline-offset-2 sm:mt-1 sm:text-sm">{contact.phone}</span>
+            <span className="mt-3 text-base font-medium text-gray-900 sm:mt-2 sm:text-xs md:text-base">Phone</span>
+            <span className="mt-1 text-sm text-gray-700 underline underline-offset-2 sm:mt-0.5 sm:text-[10px] md:text-sm">{contact.phone}</span>
           </a>
         </motion.div>
       </div>

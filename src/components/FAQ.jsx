@@ -5,24 +5,24 @@ import { faq } from '../data/content'
 import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 /**
- * FAQ accordion: expandable questions with smooth transitions (Rewire-inspired).
+ * FAQ accordion: expandable questions with clean, minimal design.
  */
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null)
   const shouldAnimate = usePageLoadAnimation()
 
   return (
-    <section id="faq" className="py-16 md:py-24">
+    <section id="faq" className="bg-[#FFF0E6] py-16 font-google-sans md:py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <motion.h2
           initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="text-center text-3xl font-bold text-black md:text-4xl"
+          className="text-center text-3xl font-bold text-[#A04D1A] md:text-4xl"
         >
           Frequently Asked Questions
         </motion.h2>
 
-        <div className="mt-12 space-y-3">
+        <div className="mt-12 divide-y divide-[#2563AB]">
           {faq.map((item, index) => {
             const isOpen = openIndex === index
             return (
@@ -30,17 +30,18 @@ export default function FAQ() {
                 key={index}
                 initial={shouldAnimate ? { opacity: 0, y: 10 } : false}
                 {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true } } : { animate: { opacity: 1, y: 0 } })}
-                className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-card"
+                className="py-5"
               >
                 <button
                   type="button"
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="flex w-full items-center justify-between px-6 py-5 text-left font-semibold text-black"
+                  className="flex w-full items-center justify-between text-left"
                 >
-                  {item.question}
+                  <span className="text-base font-medium text-[#A04D1A] sm:text-lg">{item.question}</span>
                   <motion.span
                     animate={{ rotate: isOpen ? 180 : 0 }}
-                    className="text-primary"
+                    transition={{ duration: 0.2 }}
+                    className="ml-4 flex-shrink-0 text-[#2563AB]"
                   >
                     <HiChevronDown className="h-5 w-5" />
                   </motion.span>
@@ -52,9 +53,9 @@ export default function FAQ() {
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="border-t border-gray-100"
+                      className="overflow-hidden"
                     >
-                      <p className="px-6 py-5 text-black/80">{item.answer}</p>
+                      <p className="mt-3 pr-8 text-sm text-[#A04D1A]/80 sm:text-base">{item.answer}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>

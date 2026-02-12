@@ -17,6 +17,8 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         // Modern geometric sans for collapsible section headers (Outfit)
         display: ['Outfit', 'system-ui', 'sans-serif'],
+        // Google Sans for FAQ section
+        'google-sans': ['Product Sans', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         'xl': '1rem',

@@ -8,6 +8,7 @@ import MoneyTransfer from './components/MoneyTransfer'
 import BusinessSolutions from './components/BusinessSolutions'
 import WPayCard from './components/WPayCard'
 import TrustSection from './components/TrustSection'
+import HaveYourBackBanner from './components/HaveYourBackBanner'
 import FAQ from './components/FAQ'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
@@ -34,6 +35,7 @@ function App() {
         <BusinessSolutions />
         <WPayCard />
         <TrustSection />
+        <HaveYourBackBanner />
         <FAQ />
         <Contact />
       </main>
