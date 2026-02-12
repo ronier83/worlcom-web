@@ -125,11 +125,11 @@ export default function ConversionWidget() {
           </div>
         </div>
 
-        {/* They get: bold amount, underline, currency + flag + chevron (dropdown) */}
-        <div className="mt-6">
+        {/* They get: bold amount left-aligned on mobile (body is text-center); currency + flag on right */}
+        <div className="mt-6 text-left">
           <label className="block text-sm font-medium text-gray-600">{conversionWidget.theyGet}</label>
-          <div className="mt-1 flex items-center gap-2 border-b border-gray-300 pb-2">
-            <span className="min-w-0 flex-1 text-2xl font-bold text-gray-900 sm:text-3xl">
+          <div className="mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
+            <span className="min-w-0 flex-1 text-left text-2xl font-bold text-gray-900 sm:text-3xl">
               {formatAmount(receiveAmount, receiveCurrency)}
             </span>
             <label className="relative flex cursor-pointer items-center gap-1.5">
