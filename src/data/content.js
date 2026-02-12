@@ -40,13 +40,13 @@ export const statistics = [
   { value: 750000, suffix: '', label: 'Transfers Annually' },
   { value: 1000, suffix: '', label: 'Branches' },
   { value: 15000, suffix: '', label: 'Pickup Points' },
+  { value: 150, suffix: '+', label: 'Countries Served' },
 ]
 
 export const services = [
   { id: 'money-transfer', title: 'Money Transfer', description: 'Global transfers at competitive rates' },
   { id: 'currency-exchange', title: 'Currency Exchange', description: 'Multi-currency exchange' },
-  { id: 'prepaid-cards', title: 'Prepaid Cards', description: '' },
-  { id: 'loans', title: 'Loans', description: '' },
+  { id: 'prepaid-cards', title: 'Prepaid Cards', description: 'Load and spend in multiple currencies with ease.' },
   { id: 'digital-wallet', title: 'Digital Wallet', description: 'Store, manage, and exchange multiple currencies' },
   { id: 'sim-topup', title: 'SIM Top-Up', description: 'Mobile recharge plans' },
   { id: 'wpay-card', title: 'WPay Card', description: 'No annual fees for daily and international use' },

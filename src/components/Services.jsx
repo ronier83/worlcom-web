@@ -3,7 +3,6 @@ import {
   HiOutlineArrowPath,
   HiOutlineCurrencyDollar,
   HiOutlineCreditCard,
-  HiOutlineBanknotes,
   HiOutlineWallet,
   HiOutlineDevicePhoneMobile,
   HiOutlineIdentification,
@@ -14,7 +13,6 @@ const iconMap = {
   'money-transfer': HiOutlineArrowPath,
   'currency-exchange': HiOutlineCurrencyDollar,
   'prepaid-cards': HiOutlineCreditCard,
-  'loans': HiOutlineBanknotes,
   'digital-wallet': HiOutlineWallet,
   'sim-topup': HiOutlineDevicePhoneMobile,
   'wpay-card': HiOutlineIdentification,
@@ -25,13 +23,13 @@ const iconMap = {
  */
 export default function Services() {
   return (
-    <section id="services" className="bg-gray-50/50 py-16 md:py-24">
+    <section id="services" className="bg-gray-50/50 py-10 sm:py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-20px' }}
-          className="text-center text-3xl font-bold text-black md:text-4xl"
+          className="text-center text-2xl font-bold text-black sm:text-3xl md:text-4xl"
         >
           Our Services
         </motion.h2>
@@ -39,12 +37,12 @@ export default function Services() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mx-auto mt-4 max-w-2xl text-center text-black/70"
+          className="mx-auto mt-2 max-w-2xl text-center text-sm text-black/70 sm:mt-4 sm:text-base"
         >
           A full suite of cross-border financial solutions for individuals and businesses.
         </motion.p>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-6 grid grid-cols-2 gap-2 sm:mt-12 sm:gap-6">
           {services.map((service, index) => {
             const Icon = iconMap[service.id] || HiOutlineCurrencyDollar
             return (
@@ -55,14 +53,14 @@ export default function Services() {
                 viewport={{ once: true, margin: '-30px' }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 whileHover={{ y: -4 }}
-                className="rounded-2xl bg-white p-6 shadow-card transition hover:shadow-lg"
+                className="rounded-lg bg-white p-3 shadow-card transition hover:shadow-lg sm:rounded-2xl sm:p-6"
               >
-                <div className="mb-4 inline-flex rounded-xl bg-primary/10 p-3">
-                  <Icon className="h-7 w-7 text-primary" />
+                <div className="mb-1.5 inline-flex rounded-md bg-primary/10 p-1.5 sm:mb-4 sm:rounded-xl sm:p-3">
+                  <Icon className="h-4 w-4 text-primary sm:h-7 sm:w-7" />
                 </div>
-                <h3 className="text-lg font-semibold text-black">{service.title}</h3>
+                <h3 className="text-xs font-semibold leading-tight text-black sm:text-lg">{service.title}</h3>
                 {service.description && (
-                  <p className="mt-2 text-sm text-black/70">{service.description}</p>
+                  <p className="mt-0.5 line-clamp-2 text-[10px] leading-tight text-black/70 sm:mt-2 sm:line-clamp-none sm:text-sm sm:leading-normal">{service.description}</p>
                 )}
               </motion.div>
             )
