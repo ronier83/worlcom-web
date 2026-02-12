@@ -18,9 +18,9 @@ function App() {
       <Header />
       <main className="pt-14 sm:pt-20">
         <Hero />
+        <TrustedByVendors />
         <Statistics />
         <Services />
-        <TrustedByVendors />
         <MoneyTransfer />
         <BusinessSolutions />
         <WPayCard />
