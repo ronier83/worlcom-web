@@ -189,12 +189,6 @@ export default function ConversionWidget() {
             <HiOutlineArrowRight className="h-5 w-5" />
           </motion.span>
         </Link>
-
-        {/* Fee disclaimer: paper plane icon + purple text (left-aligned) */}
-        <p className="mt-4 flex items-center justify-center gap-2 text-sm font-medium text-[#3482F1]">
-          <HiOutlinePaperAirplane className="h-4 w-4 shrink-0" />
-          {conversionWidget.feesLabel}
-        </p>
       </div>
     </motion.div>
   )
