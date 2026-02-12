@@ -1,18 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-scroll'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiMenu, HiX } from 'react-icons/hi'
 import { nav, brand } from '../data/content'
 
+const SCROLL_THRESHOLD_PX = 20
+
 /**
- * Sticky header with logo, nav links (smooth scroll), and W-PAY Login CTA.
+ * Fixed header: solid blue at top (matches hero); slightly transparent + blur only when scrolled.
  */
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > SCROLL_THRESHOLD_PX)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 bg-[#3482F1]">
-      {/* Solid blue to match hero; no opacity so no shade mismatch before scroll */}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow] duration-200 ${
+        isScrolled ? 'bg-[#3482F1]/90 backdrop-blur-sm' : 'bg-[#3482F1]'
+      }`}
+    >
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         {/* Logo - scroll to hero, fills nav height; h-20 nav gives larger logo */}
         <Link to="hero" smooth duration={500} className="flex h-full items-center p-0">
