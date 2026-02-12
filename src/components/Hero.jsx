@@ -106,6 +106,8 @@ export default function Hero() {
 
   // Logo paths: entrance from sides on load; scroll-out distance = edge-to-edge on mobile, fixed on desktop
   const LOGO_OFFSET_DESKTOP = 520
+  // Right path needs larger offset on desktop so bottom arrow moves fully off screen (logo is left of center)
+  const LOGO_OFFSET_DESKTOP_RIGHT = 1200
   const ENTRANCE_DURATION_MS = 700
   const path0X = useMotionValue(reducedMotion ? 0 : -LOGO_OFFSET_DESKTOP)
   const path1X = useMotionValue(reducedMotion ? 0 : LOGO_OFFSET_DESKTOP)
@@ -127,11 +129,12 @@ export default function Hero() {
   useEffect(() => {
     if (reducedMotion) return
     const updateFromScroll = (v) => {
-      // Mobile: offset = half viewport width so paths move to screen edges; desktop: fixed offset
+      // Mobile: offset = half viewport width so paths move to screen edges; desktop: left fixed, right larger so bottom arrow goes off screen
       const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
-      const offset = isMobile ? window.innerWidth * 0.5 : LOGO_OFFSET_DESKTOP
-      const x0 = v <= 0 ? 0 : v >= 0.28 ? -offset : (v / 0.28) * -offset
-      const x1 = v <= 0 ? 0 : v >= 0.28 ? offset : (v / 0.28) * offset
+      const offset0 = isMobile ? window.innerWidth * 0.5 : LOGO_OFFSET_DESKTOP
+      const offset1 = isMobile ? window.innerWidth * 0.5 : LOGO_OFFSET_DESKTOP_RIGHT
+      const x0 = v <= 0 ? 0 : v >= 0.28 ? -offset0 : (v / 0.28) * -offset0
+      const x1 = v <= 0 ? 0 : v >= 0.28 ? offset1 : (v / 0.28) * offset1
       path0X.set(x0)
       path1X.set(x1)
     }
@@ -149,8 +152,8 @@ export default function Hero() {
         <HeroBgGraphic />
       </motion.div>
 
-      {/* Mobile only: full-width logo row outside padded container so logo is viewport-centred and animation is edge-to-edge */}
-      <div className="relative z-10 mb-6 flex w-full justify-center lg:hidden">
+      {/* Mobile only: full-width logo row; z-0 so it stays behind calculator and content */}
+      <div className="relative z-0 mb-6 flex w-full justify-center lg:hidden">
         <HeroLogoMark path0X={path0X} path1X={path1X} />
       </div>
 
@@ -158,8 +161,8 @@ export default function Hero() {
       <div className="relative z-10 mx-auto max-w-6xl pl-2 pr-4 sm:pl-4 sm:pr-6 lg:pl-4 lg:pr-8">
         {/* Mobile: stacked with gap-8; desktop: row with clear gap so calculator never overlaps headline */}
         <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10 xl:gap-12">
-          {/* Left: logo (desktop only) then text — min-width on desktop so headline is never squeezed */}
-          <div className="relative flex min-w-0 flex-1 flex-col text-center lg:min-w-[320px] lg:flex-row lg:items-center lg:gap-6 lg:max-w-xl lg:text-left">
+          {/* Left: logo (desktop only) then text; z-0 so logo animates behind calculator */}
+          <div className="relative z-0 flex min-w-0 flex-1 flex-col text-center lg:min-w-[320px] lg:flex-row lg:items-center lg:gap-6 lg:max-w-xl lg:text-left">
             <div className="hidden justify-center pb-2 lg:flex lg:shrink-0 lg:pb-0 lg:justify-start">
               <HeroLogoMark path0X={path0X} path1X={path1X} />
             </div>
@@ -209,8 +212,8 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right: conversion card capped on desktop so left column has room; full width on mobile */}
-          <div className="flex w-full max-w-md flex-shrink-0 flex-col items-center gap-4 lg:max-w-[380px]">
+          {/* Right: conversion card; z-10 so it stacks above the logo when paths animate */}
+          <div className="relative z-10 flex w-full max-w-md flex-shrink-0 flex-col items-center gap-4 lg:max-w-[380px]">
             <ConversionWidget />
             {/* App store badges: native-style Download on App Store / Get it on Google Play */}
             <div className="flex flex-wrap items-center justify-center gap-3">
