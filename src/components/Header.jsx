@@ -26,10 +26,10 @@ export default function Header() {
         isScrolled ? 'bg-[#3482F1]/90 backdrop-blur-sm' : 'bg-[#3482F1]'
       }`}
     >
-      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        {/* Logo - scroll to hero, fills nav height; h-20 nav gives larger logo */}
+      <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-3 sm:h-20 sm:gap-4 sm:px-6 lg:px-8">
+        {/* Logo - fills nav height; narrower on mobile (h-14), full height from sm */}
         <Link to="hero" smooth duration={500} className="flex h-full items-center p-0">
-          <img src="/logoWhite.PNG" alt={brand.name} className="h-full max-h-20 w-auto object-contain" />
+          <img src="/logoWhite.PNG" alt={brand.name} className="h-full max-h-14 w-auto object-contain sm:max-h-20" />
         </Link>
 
         {/* Desktop nav - white text */}
@@ -59,7 +59,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((o) => !o)}
-            className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-white"
+            className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg p-1.5 text-white sm:min-h-[44px] sm:min-w-[44px] sm:p-2"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <HiX className="h-6 w-6" /> : <HiMenu className="h-6 w-6" />}

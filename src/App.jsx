@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <Header />
-      <main className="pt-20">
+      <main className="pt-14 sm:pt-20">
         <Hero />
         <Statistics />
         <Services />
