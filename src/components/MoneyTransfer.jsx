@@ -20,30 +20,39 @@ const featureIcons = [
  */
 export default function MoneyTransfer() {
   return (
-    <section id="rates" className="py-16 md:py-24">
+    <section id="rates" className="relative overflow-hidden bg-[#E8EEFC] py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <motion.h2
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+        <motion.h2
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-10 text-center text-3xl font-bold text-black md:text-4xl"
+        >
+          {moneyTransfer.heading}
+        </motion.h2>
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+          {/* Left: image + description */}
+          <div className="flex flex-col">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-3xl font-bold text-black md:text-4xl"
+              transition={{ delay: 0.15 }}
+              className="w-full max-w-xl overflow-hidden rounded-2xl"
             >
-              {moneyTransfer.heading}
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="mt-6 text-lg text-black/80"
-            >
-              {moneyTransfer.description}
-            </motion.p>
+              <img
+                src="/images/transfer.png"
+                alt=""
+                className="w-full object-cover"
+              />
+            </motion.div>
+            <p className="mt-6 text-lg text-black/80">
+              With Worldcom Finance's technology, you can securely transfer money to a wide range of destinations worldwide at highly competitive rates.
+            </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          {/* Right: feature cards */}
+          <div className="grid min-w-0 gap-4 sm:grid-cols-2">
             {moneyTransfer.features.map((feature, index) => {
               const Icon = featureIcons[index]
               return (

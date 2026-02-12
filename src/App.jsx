@@ -30,6 +30,17 @@ function App() {
       <Footer />
       <PrivacyModal />
       <FloatingSupport />
+      {/* Chat bubble: bottom-right, above the support button; high z-index so it stays visible */}
+      <div
+        className="fixed bottom-20 right-5 z-[100] max-w-[160px] rounded-xl bg-[#334155] px-3 py-2 shadow-xl sm:bottom-24 sm:right-6"
+        style={{
+          clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 14px) 100%, calc(100% - 14px) calc(100% - 10px), 0 calc(100% - 10px))',
+        }}
+        aria-hidden
+      >
+        <p className="text-xs font-medium text-white">We Are</p>
+        <p className="text-xs font-semibold leading-tight text-[#F48F47]">Here For You</p>
+      </div>
     </>
   )
 }
