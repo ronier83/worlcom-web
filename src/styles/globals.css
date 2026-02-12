@@ -40,7 +40,7 @@
   }
 }
 
-/* Infinite scroll marquee for vendor logos */
+/* Infinite scroll marquee for vendor logos: row 1 scrolls left, row 2 scrolls right (scissors) */
 @keyframes vendor-logo-scroll {
   from {
     transform: translateX(0);
@@ -50,12 +50,24 @@
   }
 }
 
+@keyframes vendor-logo-scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 /* Custom utility classes */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
   .animate-vendor-scroll {
-    animation: vendor-logo-scroll 28s linear infinite;
+    animation: vendor-logo-scroll 45s linear infinite;
+  }
+  .animate-vendor-scroll-right {
+    animation: vendor-logo-scroll-right 45s linear infinite;
   }
 }
