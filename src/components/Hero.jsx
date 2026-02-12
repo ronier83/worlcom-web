@@ -5,7 +5,7 @@ import { hero } from '../data/content'
 import ConversionWidget from './ConversionWidget'
 
 const defaultLogoClass =
-  'h-[100px] w-[67px] shrink-0 opacity-50 sm:h-[120px] sm:w-[81px] md:opacity-60 lg:h-[180px] lg:w-[122px] lg:opacity-70'
+  'h-[110px] w-[74px] shrink-0 opacity-90 sm:h-[132px] sm:w-[89px] md:opacity-90 lg:h-[200px] lg:w-[135px] lg:opacity-90'
 
 /**
  * Company logo from asset: white shapes only (black background and dark accents removed).
