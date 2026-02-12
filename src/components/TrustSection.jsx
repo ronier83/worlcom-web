@@ -3,19 +3,20 @@ import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 /**
  * Trust section: "Trusted by Leading Financial Institutions Worldwide" with client logos.
- * Logos scraped from worldcomfinance.com (assets/clients/).
+ * Logos live in public/client-logos-png/ as PNG files (extracted from SVG patterns)
+ * Some logos remain as SVG in public/client-logos/ (HOLON, PAPA_JOHNS)
  */
 const clientLogos = [
-  { name: 'City Time', src: '/client-logos/CITY_TIME.svg' },
-  { name: 'Egged', src: '/client-logos/EGGED.svg' },
-  { name: 'Good Pharm', src: '/client-logos/GOOD_PHARM.svg' },
-  { name: 'Hadassa', src: '/client-logos/HADASA.svg' },
-  { name: 'Holon', src: '/client-logos/HOLON.svg' },
-  { name: 'Ituran', src: '/client-logos/ITURAN.svg' },
-  { name: 'Papa Johns', src: '/client-logos/PAPA_JOHNS.svg' },
-  { name: 'Tel Aviv University', src: '/client-logos/TEL_AVIV_UNI.svg' },
-  { name: 'Tel Aviv', src: '/client-logos/TEL_AVIV.svg' },
-  { name: 'WIZO', src: '/client-logos/WIZO.svg' },
+  { name: 'City Time', src: '/client-logos-png/CITY_TIME.png' },
+  { name: 'Egged', src: '/client-logos-png/EGGED.png' },
+  { name: 'Good Pharm', src: '/client-logos-png/GOOD_PHARM.png' },
+  { name: 'Hadassa', src: '/client-logos-png/HADASA.png' },
+  { name: 'Holon', src: '/client-logos/HOLON.svg' }, // Pure SVG
+  { name: 'Ituran', src: '/client-logos-png/ITURAN.png' },
+  { name: 'Papa Johns', src: '/client-logos/PAPA_JOHNS.svg' }, // Pure SVG
+  { name: 'Tel Aviv University', src: '/client-logos-png/TEL_AVIV_UNI.png' },
+  { name: 'Tel Aviv', src: '/client-logos-png/TEL_AVIV.png' },
+  { name: 'WIZO', src: '/client-logos-png/WIZO.png' },
 ]
 
 export default function TrustSection() {
