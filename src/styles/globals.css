@@ -98,3 +98,18 @@
   /* Keep opacity from parent */
   opacity: inherit;
 }
+
+/* Hero: force calculator column well to the right so it never overlaps headline text */
+@media (min-width: 1280px) {
+  #hero .hero-calculator-col {
+    margin-left: 4rem; /* 64px - clear gap so "Cross-Border Financial Solutions" stays fully visible */
+  }
+}
+@media (min-width: 1536px) {
+  #hero .hero-calculator-col {
+    margin-left: 5rem; /* 80px on 2xl for more breathing room */
+  }
+}
+#hero .hero-headline-block {
+  z-index: 20;
+}

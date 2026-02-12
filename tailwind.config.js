@@ -4,6 +4,11 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  // Ensure hero layout classes are always generated (not purged by JIT)
+  safelist: [
+    'xl:flex-row', 'xl:ml-8', 'xl:max-w-[380px]', 'z-20', 'font-google-sans',
+    'hero-calculator-col', 'hero-headline-block',
+  ],
   theme: {
     extend: {
       // Worldcom Finance brand colors
@@ -17,8 +22,8 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         // Modern geometric sans for collapsible section headers (Outfit)
         display: ['Outfit', 'system-ui', 'sans-serif'],
-        // Google Sans for FAQ section
-        'google-sans': ['Product Sans', 'system-ui', 'sans-serif'],
+        // Google Sans for hero headline and elsewhere (https://fonts.google.com/specimen/Google+Sans)
+        'google-sans': ['Google Sans', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         'xl': '1rem',

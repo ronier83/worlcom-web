@@ -6,7 +6,7 @@ import ConversionWidget from './ConversionWidget'
 import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 const defaultLogoClass =
-  'h-[120px] w-[81px] shrink-0 opacity-100 sm:h-[145px] sm:w-[98px] lg:h-[220px] lg:w-[149px]'
+  'h-[120px] w-[81px] shrink-0 opacity-100 sm:h-[145px] sm:w-[98px] xl:h-[220px] xl:w-[149px]'
 
 /**
  * Company logo from asset: white shapes only (black background and dark accents removed).
@@ -160,21 +160,21 @@ export default function Hero() {
         <HeroBgGraphic />
       </motion.div>
 
-      {/* Tighter max-width so hero stays compact on xl/2xl and beyond */}
-      <div className="relative z-10 mx-auto max-w-6xl pl-2 pr-4 sm:pl-4 sm:pr-6 lg:pl-4 lg:pr-8">
-        {/* Mobile: stacked with gap-8; desktop: row with clear gap so calculator never overlaps headline */}
-        <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10 xl:gap-12">
-          {/* Left: logo (desktop only) then text; z-0 so logo animates behind calculator */}
-          <div className="relative z-0 flex min-w-0 flex-1 flex-col text-center lg:min-w-[320px] lg:flex-row lg:items-center lg:gap-6 lg:max-w-xl lg:text-left">
-            <div className="hidden justify-center pb-2 lg:flex lg:shrink-0 lg:pb-0 lg:justify-start">
+      {/* Wider max-width so headline and calculator have enough room without overlap */}
+      <div className="relative z-10 mx-auto max-w-[1520px] pl-2 pr-4 sm:pl-4 sm:pr-6 lg:pl-4 lg:pr-8">
+        {/* Stack until xl so headline is never behind calculator; side-by-side only when enough space */}
+        <div className="flex flex-col items-center gap-8 xl:flex-row xl:items-center xl:justify-between xl:gap-10 2xl:gap-12" style={{ flexWrap: 'nowrap' }}>
+          {/* Left: logo (desktop only) then text; z-0 so logo animates behind calculator; text block z-20 so never hidden */}
+          <div className="relative z-0 flex min-w-0 flex-1 flex-col text-center xl:min-w-[320px] xl:flex-row xl:items-center xl:gap-6 xl:max-w-xl xl:text-left">
+            <div className="hidden justify-center pb-2 xl:flex xl:shrink-0 xl:pb-0 xl:justify-start">
               <HeroLogoMark path0X={path0X} path1X={path1X} />
             </div>
-            <div className="min-w-0 flex flex-col">
+            <div className="hero-headline-block relative z-20 min-w-0 flex flex-col">
             <motion.h1
               initial={shouldAnimate ? { opacity: 0, y: 24 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="relative z-10 overflow-visible text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[2.25rem] xl:text-5xl"
+              className="relative z-10 font-google-sans overflow-visible text-5xl font-bold leading-tight tracking-tight text-white sm:text-6xl md:text-6xl lg:text-6xl xl:text-7xl"
             >
               <span className="block whitespace-nowrap">{hero.headlineLines?.[0] ?? hero.headline}</span>
               <span className="block whitespace-nowrap">{hero.headlineLines?.[1] ?? ''}</span>
@@ -183,7 +183,7 @@ export default function Hero() {
               initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="relative z-10 mx-auto mt-6 max-w-2xl text-lg text-white/90 sm:text-xl md:text-2xl lg:mx-0"
+              className="relative z-10 mx-auto mt-6 max-w-2xl text-lg text-white/90 sm:text-xl md:text-2xl xl:mx-0"
             >
               {hero.subheadline}
             </motion.p>
@@ -191,14 +191,14 @@ export default function Hero() {
               initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative z-10 mt-10 flex flex-col items-center justify-center gap-3 lg:flex-row lg:flex-nowrap lg:gap-4 lg:justify-start"
+              className="relative z-10 mt-10 flex flex-col items-center justify-center gap-3 xl:flex-row xl:flex-nowrap xl:gap-4 xl:justify-start"
             >
               <Link
                 to="services"
                 smooth
                 duration={500}
                 offset={-72}
-                className="inline-flex min-h-[44px] items-center justify-center whitespace-nowrap rounded-xl bg-white px-5 py-2.5 text-base font-semibold text-[#3482F1] shadow-lg"
+                className="hidden min-h-[44px] items-center justify-center whitespace-nowrap rounded-xl bg-white px-5 py-2.5 text-base font-semibold text-[#3482F1] shadow-lg sm:inline-flex"
               >
                 {hero.ctaLabel}
               </Link>
@@ -207,7 +207,7 @@ export default function Hero() {
                 smooth
                 duration={500}
                 offset={-72}
-                className="inline-flex min-h-[44px] items-center justify-center whitespace-nowrap rounded-xl border-2 border-white bg-transparent px-5 py-2.5 text-base font-semibold text-white"
+                className="hidden min-h-[44px] items-center justify-center whitespace-nowrap rounded-xl border-2 border-white bg-transparent px-5 py-2.5 text-base font-semibold text-white sm:inline-flex"
               >
                 Money Transfer
               </Link>
@@ -215,10 +215,10 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right: conversion card; on mobile, logo at top centered then widget and badges */}
-          <div className="relative z-10 flex w-full max-w-md flex-shrink-0 flex-col items-center gap-4 lg:max-w-[380px]">
-            {/* Mobile only: logo centered at top of this column */}
-            <div className="flex w-full justify-center lg:hidden">
+          {/* Right: conversion card; on mobile/tablet, logo at top centered then widget and badges */}
+          <div className="relative z-10 flex w-full max-w-md flex-shrink-0 flex-col items-center gap-4 xl:max-w-[380px] xl:ml-16 2xl:ml-20 hero-calculator-col">
+            {/* Logo centered at top of this column until xl (then logo is in left column) */}
+            <div className="flex w-full justify-center xl:hidden">
               <HeroLogoMark path0X={path0X} path1X={path1X} />
             </div>
             <ConversionWidget />
