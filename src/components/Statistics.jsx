@@ -71,12 +71,16 @@ export default function Statistics({ activeSection, onToggle }) {
     </div>
   )
   return (
-    <section id="statistics" className="bg-[#F48F47] py-8 sm:py-12 md:py-16">
+    <section id="statistics" className="bg-[#F48F47] md:py-8 md:sm:py-12 md:md:py-16">
       <CollapsibleSection
         id="statistics"
         title="Our Footprint"
         isExpanded={activeSection === 'statistics'}
         onToggle={onToggle}
+        headerClassName="bg-[#F48F47]"
+        textColor="text-white"
+        iconColor="text-[#F48F47]"
+        iconBgColor="bg-white"
       >
         {content}
       </CollapsibleSection>

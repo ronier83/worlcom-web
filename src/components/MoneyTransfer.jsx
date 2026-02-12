@@ -68,12 +68,16 @@ export default function MoneyTransfer({ activeSection, onToggle }) {
     </div>
   )
   return (
-    <section id="rates" className="relative overflow-hidden bg-[#E8EEFC] py-16 md:py-24">
+    <section id="rates" className="relative overflow-hidden bg-[#E8EEFC] md:py-16 md:md:py-24">
       <CollapsibleSection
         id="rates"
         title="Money Transfer"
         isExpanded={activeSection === 'rates'}
         onToggle={onToggle}
+        headerClassName="bg-[#E8EEFC]"
+        textColor="text-[#3482F1]"
+        iconColor="text-[#3482F1]"
+        iconBgColor="bg-white"
       >
         {content}
       </CollapsibleSection>

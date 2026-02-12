@@ -14,6 +14,9 @@ export default function CollapsibleSection({
   children,
   className = '',
   headerClassName = '',
+  textColor = 'text-black',
+  iconColor = 'text-black',
+  iconBgColor = 'bg-white/90',
 }) {
   const contentId = `${id}-content`
   const triggerId = `${id}-trigger`
@@ -28,20 +31,20 @@ export default function CollapsibleSection({
           onClick={() => onToggle(id)}
           aria-expanded={isExpanded}
           aria-controls={contentId}
-          className="flex h-20 w-full items-center justify-between gap-3 px-4 py-3 text-left text-black"
+          className={`flex h-20 w-full items-center justify-between gap-3 px-4 py-3 text-left ${textColor}`}
         >
           {/* Title only when collapsed; when expanded show only arrow (right-aligned) */}
           {!isExpanded && (
-            <span className="font-display text-2xl font-semibold text-black sm:text-3xl">
+            <span className={`font-display text-2xl font-semibold sm:text-3xl ${textColor}`}>
               {title}
             </span>
           )}
           <span
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/90 transition-transform duration-300 ${isExpanded ? 'ml-auto' : ''}`}
+            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${iconBgColor} transition-transform duration-300 ${isExpanded ? 'ml-auto' : ''}`}
             aria-hidden
           >
             <HiChevronDown
-              className={`h-6 w-6 text-black ${isExpanded ? 'rotate-180' : ''}`}
+              className={`h-7 w-7 ${iconColor} ${isExpanded ? 'rotate-180' : ''}`}
             />
           </span>
         </button>
@@ -58,7 +61,7 @@ export default function CollapsibleSection({
         }}
       >
         <div className="overflow-hidden md:!min-h-0">
-          <div className="min-h-0 md:min-h-0">{children}</div>
+          <div className={`min-h-0 md:min-h-0 ${isExpanded ? 'py-8 sm:py-12' : ''}`}>{children}</div>
         </div>
       </div>
     </>
