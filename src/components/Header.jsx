@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-scroll'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiMenu, HiX } from 'react-icons/hi'
@@ -8,13 +8,21 @@ const SCROLL_THRESHOLD_PX = 20
 
 /**
  * Fixed header: solid blue at top (matches hero); slightly transparent + blur only when scrolled.
+ * setState only when crossing threshold to avoid re-renders on every scroll.
  */
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const prevScrolledRef = useRef(false)
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > SCROLL_THRESHOLD_PX)
+    const onScroll = () => {
+      const scrolled = window.scrollY > SCROLL_THRESHOLD_PX
+      if (scrolled !== prevScrolledRef.current) {
+        prevScrolledRef.current = scrolled
+        setIsScrolled(scrolled)
+      }
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)

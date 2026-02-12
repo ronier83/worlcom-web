@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { motion, useScroll, useMotionValue, useTransform, useReducedMotion } from 'framer-motion'
+import { motion, useScroll, useMotionValue, useTransform, useSpring, useReducedMotion } from 'framer-motion'
 import { HiOutlineCreditCard } from 'react-icons/hi2'
 import { wpayCard } from '../data/content'
 
@@ -17,8 +17,10 @@ export default function WPayCard() {
     target: sectionRef,
     offset: ['start end', 'end start'],
   })
-  const cardX = useTransform(scrollYProgress, [0, 0.2, 0.45, 0.55, 0.8, 1], [100, 100, 0, 0, 100, 100])
-  const cardOpacity = useTransform(scrollYProgress, [0, 0.2, 0.45, 0.55, 0.8, 1], [0, 0, 1, 1, 0, 0])
+  const rawCardX = useTransform(scrollYProgress, [0, 0.2, 0.45, 0.55, 0.8, 1], [100, 100, 0, 0, 100, 100])
+  const rawCardOpacity = useTransform(scrollYProgress, [0, 0.2, 0.45, 0.55, 0.8, 1], [0, 0, 1, 1, 0, 0])
+  const cardX = useSpring(rawCardX, { stiffness: 200, damping: 25 })
+  const cardOpacity = useSpring(rawCardOpacity, { stiffness: 200, damping: 25 })
 
   const tiltX = useMotionValue(0)
   const tiltY = useMotionValue(0)
@@ -90,7 +92,7 @@ export default function WPayCard() {
             className="flex min-w-0 justify-center"
           >
             <div
-              className="h-40 w-full max-w-[260px] rounded-2xl bg-gradient-to-br from-primary to-primary/80 p-4 shadow-xl sm:h-48 sm:max-w-[280px] sm:p-5 md:h-52 md:max-w-[320px] md:p-6"
+              className="h-40 w-full max-w-[260px] rounded-2xl bg-gradient-to-br from-[#2a6ed8] to-[#2362c7] p-4 shadow-xl sm:h-48 sm:max-w-[280px] sm:p-5 md:h-52 md:max-w-[320px] md:p-6"
               style={{
                 transform: isHovering ? 'translateZ(20px)' : 'translateZ(0)',
               }}
@@ -99,11 +101,11 @@ export default function WPayCard() {
                 <span className="text-xs font-medium sm:text-sm">WPay Card</span>
                 <span className="text-[10px] sm:text-xs">VISA</span>
               </div>
-              <div className="mt-5 font-mono text-lg tracking-widest text-white sm:mt-6 sm:text-xl md:mt-8 md:text-2xl">
+              <div className="mt-5 whitespace-nowrap font-mono text-sm tracking-widest text-white sm:mt-6 sm:text-base md:mt-8 md:text-lg">
                 **** **** **** 4242
               </div>
               <div className="mt-4 flex justify-between text-xs text-white/80 sm:mt-5 sm:text-sm md:mt-6">
-                <span>worldcom FINANCE</span>
+                <span>John Smith</span>
                 <span>Valid 12/28</span>
               </div>
             </div>

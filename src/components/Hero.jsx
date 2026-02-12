@@ -126,21 +126,27 @@ export default function Hero() {
     return () => clearTimeout(t)
   }, [])
 
+  // Batch logo path updates to once per frame to avoid flashes on fast scroll
+  const latestProgressRef = useRef(0)
+  const rafScheduledRef = useRef(false)
   useEffect(() => {
     if (reducedMotion) return
-    const updateFromScroll = (v) => {
-      // Mobile: offset = half viewport width so paths move to screen edges; desktop: left fixed, right larger so bottom arrow goes off screen
-      const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
-      const offset0 = isMobile ? window.innerWidth * 0.5 : LOGO_OFFSET_DESKTOP
-      const offset1 = isMobile ? window.innerWidth * 0.5 : LOGO_OFFSET_DESKTOP_RIGHT
-      const x0 = v <= 0 ? 0 : v >= 0.28 ? -offset0 : (v / 0.28) * -offset0
-      const x1 = v <= 0 ? 0 : v >= 0.28 ? offset1 : (v / 0.28) * offset1
-      path0X.set(x0)
-      path1X.set(x1)
-    }
     const unsub = scrollYProgress.on('change', (v) => {
       if (!entranceDoneRef.current) return
-      updateFromScroll(v)
+      latestProgressRef.current = v
+      if (rafScheduledRef.current) return
+      rafScheduledRef.current = true
+      requestAnimationFrame(() => {
+        rafScheduledRef.current = false
+        const v = latestProgressRef.current
+        const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
+        const offset0 = isMobile ? window.innerWidth * 0.5 : LOGO_OFFSET_DESKTOP
+        const offset1 = isMobile ? window.innerWidth * 0.5 : LOGO_OFFSET_DESKTOP_RIGHT
+        const x0 = v <= 0 ? 0 : v >= 0.28 ? -offset0 : (v / 0.28) * -offset0
+        const x1 = v <= 0 ? 0 : v >= 0.28 ? offset1 : (v / 0.28) * offset1
+        path0X.set(x0)
+        path1X.set(x1)
+      })
     })
     return () => unsub()
   }, [scrollYProgress, path0X, path1X, reducedMotion])
