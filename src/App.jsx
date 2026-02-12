@@ -10,6 +10,7 @@ import WPayCard from './components/WPayCard'
 import TrustSection from './components/TrustSection'
 import HaveYourBackBanner from './components/HaveYourBackBanner'
 import FAQ from './components/FAQ'
+import MultilingualGreeting from './components/MultilingualGreeting'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import FloatingSupport from './components/FloatingSupport'
@@ -37,6 +38,7 @@ function App() {
         <TrustSection />
         <FAQ />
         <HaveYourBackBanner />
+        <MultilingualGreeting />
         <Contact />
       </main>
       <Footer />
