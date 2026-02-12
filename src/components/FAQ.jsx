@@ -2,20 +2,21 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiChevronDown } from 'react-icons/hi'
 import { faq } from '../data/content'
+import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 /**
  * FAQ accordion: expandable questions with smooth transitions (Rewire-inspired).
  */
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null)
+  const shouldAnimate = usePageLoadAnimation()
 
   return (
     <section id="faq" className="py-16 md:py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-20px' }}
+          initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
+          {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
           className="text-center text-3xl font-bold text-black md:text-4xl"
         >
           Frequently Asked Questions
@@ -27,15 +28,14 @@ export default function FAQ() {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                initial={shouldAnimate ? { opacity: 0, y: 10 } : false}
+                {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true } } : { animate: { opacity: 1, y: 0 } })}
                 className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-card"
               >
                 <button
                   type="button"
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="flex w-full items-center justify-between px-6 py-5 text-left font-semibold text-black transition hover:bg-gray-50"
+                  className="flex w-full items-center justify-between px-6 py-5 text-left font-semibold text-black"
                 >
                   {item.question}
                   <motion.span

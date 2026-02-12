@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { motion, useScroll, useMotionValue, useTransform, useSpring, useReducedMotion } from 'framer-motion'
 import { HiOutlineCreditCard } from 'react-icons/hi2'
 import { wpayCard } from '../data/content'
+import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 /**
  * WPay Card section with description and interactive 3D tilt card visual.
@@ -12,6 +13,7 @@ export default function WPayCard() {
   const cardRef = useRef(null)
   const [isHovering, setIsHovering] = useState(false)
   const reducedMotion = useReducedMotion()
+  const shouldAnimate = usePageLoadAnimation()
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -51,9 +53,8 @@ export default function WPayCard() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 overflow-x-hidden">
         <div className="grid min-w-0 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={shouldAnimate ? { opacity: 0, x: -24 } : false}
+            {...(shouldAnimate ? { whileInView: { opacity: 1, x: 0 }, viewport: { once: true } } : { animate: { opacity: 1, x: 0 } })}
             className="min-w-0"
           >
             <div className="mb-6 inline-flex rounded-2xl bg-primary/10 p-4">
@@ -67,9 +68,8 @@ export default function WPayCard() {
             </p>
             <motion.a
               href="#wpay-login"
-              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="mt-8 inline-block rounded-2xl bg-primary px-8 py-4 font-semibold text-white shadow-soft transition hover:bg-primary/90"
+              className="mt-8 inline-block rounded-2xl bg-primary px-8 py-4 font-semibold text-white shadow-soft"
             >
               {wpayCard.ctaLabel}
             </motion.a>

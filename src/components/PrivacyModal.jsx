@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { privacyModal } from '../data/content'
+import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 const STORAGE_KEY = 'worldcom-privacy-accepted'
 
@@ -10,6 +11,7 @@ const STORAGE_KEY = 'worldcom-privacy-accepted'
 export default function PrivacyModal() {
   const [visible, setVisible] = useState(false)
   const [confirmed, setConfirmed] = useState(false)
+  const shouldAnimate = usePageLoadAnimation()
 
   useEffect(() => {
     const accepted = localStorage.getItem(STORAGE_KEY)
@@ -27,14 +29,14 @@ export default function PrivacyModal() {
       {visible && (
         <>
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={shouldAnimate ? { opacity: 0 } : false}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] bg-black/50"
             onClick={() => {}}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={shouldAnimate ? { opacity: 0, scale: 0.95 } : false}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             className="fixed bottom-0 left-0 right-0 z-[101] flex max-h-[90vh] w-full flex-col rounded-t-2xl bg-white p-6 shadow-2xl sm:bottom-auto sm:left-1/2 sm:right-auto sm:top-1/2 sm:max-h-[85vh] sm:w-full sm:max-w-lg sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-2xl sm:p-8"
@@ -60,7 +62,7 @@ export default function PrivacyModal() {
                   type="button"
                   onClick={handleContinue}
                   disabled={!confirmed}
-                  className="w-full rounded-xl bg-primary py-3 font-semibold text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full rounded-xl bg-primary py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {privacyModal.buttonLabel}
                 </button>

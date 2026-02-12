@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 /**
  * Trust section: "Trusted by Leading Financial Institutions Worldwide" with client logos.
@@ -18,22 +19,20 @@ const clientLogos = [
 ]
 
 export default function TrustSection() {
+  const shouldAnimate = usePageLoadAnimation()
   return (
     <section id="about" className="bg-black py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-20px' }}
+          initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
+          {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
           className="text-center text-2xl font-bold text-white md:text-3xl"
         >
           Trusted by Leading Financial Institutions Worldwide
         </motion.h2>
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
+          initial={shouldAnimate ? { opacity: 0 } : false}
+          {...(shouldAnimate ? { whileInView: { opacity: 1 }, viewport: { once: true }, transition: { delay: 0.2 } } : { animate: { opacity: 1 } })}
           className="mt-12 flex flex-wrap items-center justify-center gap-8 sm:gap-10 md:gap-12 lg:gap-16"
         >
           {clientLogos.map((client) => (
@@ -44,7 +43,7 @@ export default function TrustSection() {
               <img
                 src={client.src}
                 alt={client.name}
-                className="max-h-full w-auto max-w-full object-contain opacity-90 transition hover:opacity-100"
+                className="max-h-full w-auto max-w-full object-contain opacity-90"
               />
             </div>
           ))}

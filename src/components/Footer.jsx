@@ -21,7 +21,7 @@ export default function Footer() {
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="text-sm text-white/70 transition hover:text-white"
+                        className="text-sm text-white/70"
                       >
                         {link.label}
                       </a>
@@ -48,7 +48,7 @@ export default function Footer() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-sm text-white/70 transition hover:text-white"
+                  className="text-sm text-white/70"
                 >
                   {link.label}
                 </a>
@@ -57,19 +57,19 @@ export default function Footer() {
           </div>
           <div>
             <p className="font-semibold">Contact</p>
-            <a href={`mailto:${footer.email}`} className="mt-2 block text-sm text-white/70 hover:text-white">
+            <a href={`mailto:${footer.email}`} className="mt-2 block text-sm text-white/70">
               {footer.email}
             </a>
-            <a href={`tel:${footer.phone.replace(/-/g, '')}`} className="mt-1 block text-sm text-white/70 hover:text-white">
+            <a href={`tel:${footer.phone.replace(/-/g, '')}`} className="mt-1 block text-sm text-white/70">
               {footer.phone}
             </a>
           </div>
           <div>
             <p className="font-semibold">Navigate</p>
             <div className="mt-2 flex flex-col gap-2">
-              <Link to="services" smooth duration={500} offset={-72} className="text-sm text-white/70 hover:text-white">Services</Link>
-              <Link to="rates" smooth duration={500} offset={-72} className="text-sm text-white/70 hover:text-white">Rates</Link>
-              <Link to="contact" smooth duration={500} offset={-72} className="text-sm text-white/70 hover:text-white">Contact</Link>
+              <Link to="services" smooth duration={500} offset={-72} className="text-sm text-white/70">Services</Link>
+              <Link to="rates" smooth duration={500} offset={-72} className="text-sm text-white/70">Rates</Link>
+              <Link to="contact" smooth duration={500} offset={-72} className="text-sm text-white/70">Contact</Link>
             </div>
           </div>
         </div>

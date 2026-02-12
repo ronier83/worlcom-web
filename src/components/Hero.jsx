@@ -3,6 +3,7 @@ import { Link } from 'react-scroll'
 import { motion, useScroll, useTransform, useMotionValue, animate, useReducedMotion } from 'framer-motion'
 import { hero } from '../data/content'
 import ConversionWidget from './ConversionWidget'
+import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 const defaultLogoClass =
   'h-[120px] w-[81px] shrink-0 opacity-100 sm:h-[145px] sm:w-[98px] lg:h-[220px] lg:w-[149px]'
@@ -101,6 +102,7 @@ function HeroBgGraphic() {
 export default function Hero() {
   const ref = useRef(null)
   const reducedMotion = useReducedMotion()
+  const shouldAnimate = usePageLoadAnimation()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const y = useTransform(scrollYProgress, [0, 1], [0, 40])
 
@@ -174,7 +176,7 @@ export default function Hero() {
             </div>
             <div className="min-w-0 flex flex-col">
             <motion.h1
-              initial={{ opacity: 0, y: 24 }}
+              initial={shouldAnimate ? { opacity: 0, y: 24 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="relative z-10 overflow-visible text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[2.25rem] xl:text-5xl"
@@ -183,7 +185,7 @@ export default function Hero() {
               <span className="block whitespace-nowrap">{hero.headlineLines?.[1] ?? ''}</span>
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="relative z-10 mx-auto mt-6 max-w-2xl text-lg text-white/90 sm:text-xl md:text-2xl lg:mx-0"
@@ -191,7 +193,7 @@ export default function Hero() {
               {hero.subheadline}
             </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative z-10 mt-10 flex flex-col items-center justify-center gap-3 lg:flex-row lg:flex-nowrap lg:gap-4 lg:justify-start"
@@ -201,7 +203,7 @@ export default function Hero() {
                 smooth
                 duration={500}
                 offset={-72}
-                className="inline-flex min-h-[44px] items-center justify-center whitespace-nowrap rounded-xl bg-white px-5 py-2.5 text-base font-semibold text-[#3482F1] shadow-lg transition hover:bg-white/95"
+                className="inline-flex min-h-[44px] items-center justify-center whitespace-nowrap rounded-xl bg-white px-5 py-2.5 text-base font-semibold text-[#3482F1] shadow-lg"
               >
                 {hero.ctaLabel}
               </Link>
@@ -210,7 +212,7 @@ export default function Hero() {
                 smooth
                 duration={500}
                 offset={-72}
-                className="inline-flex min-h-[44px] items-center justify-center whitespace-nowrap rounded-xl border-2 border-white bg-transparent px-5 py-2.5 text-base font-semibold text-white transition hover:bg-white/10"
+                className="inline-flex min-h-[44px] items-center justify-center whitespace-nowrap rounded-xl border-2 border-white bg-transparent px-5 py-2.5 text-base font-semibold text-white"
               >
                 Money Transfer
               </Link>
@@ -225,7 +227,7 @@ export default function Hero() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#"
-                className="inline-flex h-10 items-center gap-1.5 rounded-[5px] bg-black px-3 py-2 transition hover:opacity-90"
+                className="inline-flex h-10 items-center gap-1.5 rounded-[5px] bg-black px-3 py-2"
                 aria-label="Download on the App Store"
               >
                 {/* Apple logo — standard silhouette (bite + leaf) */}
@@ -239,7 +241,7 @@ export default function Hero() {
               </a>
               <a
                 href="#"
-                className="inline-flex h-10 items-center gap-1.5 rounded-[5px] bg-black px-3 py-2 transition hover:opacity-90"
+                className="inline-flex h-10 items-center gap-1.5 rounded-[5px] bg-black px-3 py-2"
                 aria-label="Get it on Google Play"
               >
                 <svg className="h-6 w-6 shrink-0 text-white" viewBox="0 0 24 24" aria-hidden>

@@ -3,6 +3,7 @@ import { Link } from 'react-scroll'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiMenu, HiX } from 'react-icons/hi'
 import { nav, brand } from '../data/content'
+import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 const SCROLL_THRESHOLD_PX = 20
 
@@ -14,6 +15,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const prevScrolledRef = useRef(false)
+  const shouldAnimate = usePageLoadAnimation()
 
   useEffect(() => {
     const onScroll = () => {
@@ -49,14 +51,14 @@ export default function Header() {
               smooth
               duration={500}
               offset={-72}
-              className="text-white transition hover:text-white/90"
+              className="text-white"
             >
               {item.label}
             </Link>
           ))}
           <a
             href="#wpay-login"
-            className="rounded-xl bg-[#F48F47] px-5 py-2.5 font-medium text-white transition hover:bg-[#F48F47]/90"
+            className="rounded-xl bg-[#F48F47] px-5 py-2.5 font-medium text-white"
           >
             {nav.ctaLabel}
           </a>
@@ -79,7 +81,7 @@ export default function Header() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
+            initial={shouldAnimate ? { opacity: 0, height: 0 } : false}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             className="border-t border-white/20 bg-white md:hidden"
@@ -93,7 +95,7 @@ export default function Header() {
                   duration={500}
                   offset={-72}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex min-h-[44px] items-center rounded-lg px-4 py-3 text-black/80 hover:bg-gray-50 hover:text-primary"
+                  className="flex min-h-[44px] items-center rounded-lg px-4 py-3 text-black/80"
                 >
                   {item.label}
                 </Link>
@@ -102,7 +104,7 @@ export default function Header() {
               <a
                 href="#wpay-login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="mt-2 flex min-h-[44px] items-center justify-center rounded-xl bg-[#F48F47] px-4 py-3 text-sm font-medium text-white transition hover:bg-[#F48F47]/90"
+                className="mt-2 flex min-h-[44px] items-center justify-center rounded-xl bg-[#F48F47] px-4 py-3 text-sm font-medium text-white"
               >
                 {nav.ctaLabel}
               </a>

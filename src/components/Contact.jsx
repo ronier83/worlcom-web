@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { HeroLogoMark } from './Hero'
 import { contact } from '../data/content'
+import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 /**
  * Contact section: "We Are Here For You" — dark background, hero image with speech-bubble overlay,
@@ -8,14 +9,14 @@ import { contact } from '../data/content'
  * Help-desk image: public/images/help-desk.png
  */
 export default function Contact() {
+  const shouldAnimate = usePageLoadAnimation()
   return (
     <section id="contact" className="bg-[#1e293b] py-10 md:py-14">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-6">
         {/* Centered image with rounded border and speech-bubble overlay */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-20px' }}
+          initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
+          {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
           className="relative mx-auto max-w-2xl overflow-hidden rounded-3xl bg-slate-600 shadow-xl"
         >
           <img
@@ -34,9 +35,8 @@ export default function Contact() {
 
         {/* Availability / support note — centered, ample spacing */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-20px' }}
+          initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
+          {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
           className="mt-6 min-w-0 text-center md:mt-8"
         >
           <p className="break-words text-white">
@@ -47,9 +47,8 @@ export default function Contact() {
 
         {/* Contact methods: centred, compact on desktop */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-20px' }}
+          initial={shouldAnimate ? { opacity: 0, y: 24 } : false}
+          {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
           className="mx-auto mt-8 grid max-w-xl grid-cols-2 justify-items-center gap-3 sm:gap-6 md:mt-10 md:gap-6"
         >
           <a

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { HiOutlineBolt, HiOutlineArrowRight, HiOutlinePaperAirplane, HiOutlineBanknotes, HiOutlineBuildingLibrary, HiOutlineDevicePhoneMobile } from 'react-icons/hi2'
 import { HiChevronDown } from 'react-icons/hi'
 import { conversionWidget } from '../data/content'
+import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 // Sample rates for demo: from sendCurrency to receiveCurrency. In production, replace with API or Rates page.
 const RATE_MATRIX = {
@@ -57,6 +58,7 @@ export default function ConversionWidget() {
   const [sendCurrency, setSendCurrency] = useState('ILS')
   const [receiveCurrency, setReceiveCurrency] = useState('USD')
   const [delivery, setDelivery] = useState('Cash Pickup')
+  const shouldAnimate = usePageLoadAnimation()
 
   const fromRates = RATE_MATRIX[sendCurrency]
   const rate = fromRates?.[receiveCurrency] ?? (sendCurrency === 'ILS' ? 0.27 : 1)
@@ -73,9 +75,8 @@ export default function ConversionWidget() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-20px' }}
+      initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
+      {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
       className="w-full min-w-0 max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl lg:max-w-[380px]"
     >
       {/* Top strip: light purple bg, rate left, Check Our Rates link right (underlined); min-w-0 so flex doesn't overflow on small screens */}
@@ -86,7 +87,7 @@ export default function ConversionWidget() {
           smooth
           duration={500}
           offset={-72}
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#3482F1] underline decoration-[#3482F1] underline-offset-2 transition hover:text-[#3482F1]/90"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#3482F1] underline decoration-[#3482F1] underline-offset-2"
         >
           <HiOutlineBolt className="h-4 w-4 shrink-0" />
           {conversionWidget.rateLabel}
@@ -167,7 +168,7 @@ export default function ConversionWidget() {
                   className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
                     active
                       ? 'border-[#3482F1] bg-white text-[#3482F1]'
-                      : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300'
+                      : 'border-gray-200 bg-gray-50 text-gray-600'
                   }`}
                 >
                   <Icon className="h-4 w-4" />
@@ -181,8 +182,7 @@ export default function ConversionWidget() {
         {/* Get Started: full width purple button, white text + arrow */}
         <Link to="services" smooth duration={500} offset={-72} className="mt-8 block">
           <motion.span
-            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-4 text-lg font-bold text-white transition hover:bg-[#3482F1]/90"
-            whileHover={{ scale: 1.01 }}
+            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-4 text-lg font-bold text-white"
             whileTap={{ scale: 0.99 }}
           >
             {conversionWidget.ctaLabel}

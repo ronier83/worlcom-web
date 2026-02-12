@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { HiOutlineArrowTrendingUp, HiOutlineBuildingOffice2, HiOutlineMapPin, HiOutlineGlobeAlt } from 'react-icons/hi2'
 import { statistics } from '../data/content'
+import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 const icons = [HiOutlineArrowTrendingUp, HiOutlineBuildingOffice2, HiOutlineMapPin, HiOutlineGlobeAlt]
 
@@ -41,6 +42,7 @@ function AnimatedCounter({ value, suffix = '', duration = 2000 }) {
  * Statistics bar: 750k transfers, 1k branches, 15k pickup points. Animates on scroll.
  */
 export default function Statistics() {
+  const shouldAnimate = usePageLoadAnimation()
   return (
     <section id="statistics" className="bg-[#F48F47] py-8 sm:py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -50,10 +52,8 @@ export default function Statistics() {
             return (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
+                {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-50px' }, transition: { duration: 0.5, delay: index * 0.1 } } : { animate: { opacity: 1, y: 0 } })}
                 className="flex flex-col items-center text-center"
               >
                 <div className="mb-2 rounded-xl bg-white/20 p-2 sm:mb-4 sm:rounded-2xl sm:p-4">

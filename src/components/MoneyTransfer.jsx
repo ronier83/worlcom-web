@@ -6,6 +6,7 @@ import {
   HiOutlineChatBubbleLeftRight,
 } from 'react-icons/hi2'
 import { moneyTransfer } from '../data/content'
+import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 const featureIcons = [
   HiOutlineCurrencyDollar,
@@ -19,6 +20,7 @@ const featureIcons = [
  * Section id="rates" for nav scroll.
  */
 export default function MoneyTransfer() {
+  const shouldAnimate = usePageLoadAnimation()
   return (
     <section id="rates" className="relative overflow-hidden bg-[#E8EEFC] py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -26,10 +28,8 @@ export default function MoneyTransfer() {
           {/* Left: image + description; min-w-0 so grid doesn't overflow on narrow viewports */}
           <div className="flex min-w-0 flex-col">
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.15 }}
+              initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
+              {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { delay: 0.15 } } : { animate: { opacity: 1, y: 0 } })}
               className="w-full max-w-xl overflow-hidden rounded-2xl"
             >
               <img
@@ -50,11 +50,9 @@ export default function MoneyTransfer() {
               return (
                 <motion.div
                   key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-20px' }}
-                  transition={{ delay: index * 0.08 }}
-                  className="rounded-2xl border border-gray-100 bg-white p-6 shadow-card transition hover:border-primary/20 hover:shadow-soft"
+                  initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
+                  {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' }, transition: { delay: index * 0.08 } } : { animate: { opacity: 1, y: 0 } })}
+                  className="rounded-2xl border border-gray-100 bg-white p-6 shadow-card"
                 >
                   <div className="mb-3 inline-flex rounded-xl bg-primary/10 p-2.5">
                     <Icon className="h-6 w-6 text-primary" />
