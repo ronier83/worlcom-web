@@ -32,6 +32,26 @@ const row2Logos = vendorLogos.slice(mid)
 
 function LogoStrip({ logos, scrollRight, rowId }) {
   const duplicated = [...logos, ...logos]
+  
+  // Handle image load errors by forcing a re-render
+  const handleImageError = (e) => {
+    const img = e.target
+    // Add a small delay and try to reload
+    setTimeout(() => {
+      img.src = img.src.split('?')[0] + '?retry=' + Date.now()
+    }, 100)
+  }
+
+  // Ensure images are loaded properly on mobile
+  const handleImageLoad = (e) => {
+    const img = e.target
+    // Force a repaint to fix black box issue on Safari iOS
+    img.style.opacity = '0.99'
+    setTimeout(() => {
+      img.style.opacity = '1'
+    }, 10)
+  }
+
   return (
     <div
       className={`flex w-max items-center gap-8 sm:gap-10 md:gap-12 lg:gap-16 ${scrollRight ? 'animate-vendor-scroll-right' : 'animate-vendor-scroll'}`}
@@ -46,6 +66,8 @@ function LogoStrip({ logos, scrollRight, rowId }) {
             alt={i < logos.length ? vendor.name : ''}
             loading="lazy"
             className="max-h-full w-auto max-w-full object-contain vendor-logo"
+            onError={handleImageError}
+            onLoad={handleImageLoad}
             {...(i >= logos.length && { 'aria-hidden': true })}
           />
         </div>
