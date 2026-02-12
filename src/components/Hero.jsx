@@ -41,14 +41,16 @@ function HeroBgGraphic() {
  */
 export default function Hero() {
   return (
-    <section id="hero" className="relative overflow-hidden bg-[#3482F1] pt-16 pb-24 md:pt-24 md:pb-32">
+    <section id="hero" className="relative overflow-hidden bg-[#3482F1] pt-14 pb-20 md:pt-20 md:pb-24">
       {/* Background graphic behind calculator */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
         <HeroBgGraphic />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl pl-2 pr-4 sm:pl-4 sm:pr-6 lg:pl-4 lg:pr-8">
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+      {/* Tighter max-width so hero stays compact on xl/2xl and beyond */}
+      <div className="relative z-10 mx-auto max-w-6xl pl-2 pr-4 sm:pl-4 sm:pr-6 lg:pl-4 lg:pr-8">
+        {/* Compact gap at all breakpoints; headline size unchanged */}
+        <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
           {/* Left: headline exactly two lines; min-width from md up so first line fits */}
           <div className="flex min-w-0 flex-1 flex-col text-center md:min-w-[420px] md:shrink-0 lg:min-w-[480px] lg:max-w-xl lg:text-left">
             <motion.h1
@@ -72,14 +74,14 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
+              className="mt-10 flex flex-nowrap items-center justify-center gap-4 lg:justify-start"
             >
               <Link
                 to="services"
                 smooth
                 duration={500}
                 offset={-72}
-                className="inline-flex items-center justify-center rounded-2xl bg-white px-8 py-4 text-lg font-semibold text-[#3482F1] shadow-lg transition hover:bg-white/95"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-white px-5 py-2.5 text-base font-semibold text-[#3482F1] shadow-lg transition hover:bg-white/95"
               >
                 {hero.ctaLabel}
               </Link>
@@ -88,7 +90,7 @@ export default function Hero() {
                 smooth
                 duration={500}
                 offset={-72}
-                className="inline-flex items-center justify-center rounded-2xl border-2 border-white bg-transparent px-8 py-4 text-lg font-semibold text-white transition hover:bg-white/10"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-xl border-2 border-white bg-transparent px-5 py-2.5 text-base font-semibold text-white transition hover:bg-white/10"
               >
                 Money Transfer
               </Link>

@@ -12,11 +12,12 @@ export default function Header() {
   const [languageOpen, setLanguageOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-[#3482F1]/90 backdrop-blur-sm">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        {/* Logo - scroll to hero, fills nav height, no vertical padding */}
+    <header className="sticky top-0 z-50 bg-[#3482F1]">
+      {/* Solid blue to match hero; no opacity so no shade mismatch before scroll */}
+      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        {/* Logo - scroll to hero, fills nav height; h-20 nav gives larger logo */}
         <Link to="hero" smooth duration={500} className="flex h-full items-center p-0">
-          <img src="/logoWhite.PNG" alt={brand.name} className="h-full w-auto object-contain" />
+          <img src="/logoWhite.PNG" alt={brand.name} className="h-full max-h-20 w-auto object-contain" />
         </Link>
 
         {/* Desktop nav - white text */}
