@@ -1,17 +1,16 @@
 import { motion } from 'framer-motion'
-import { HiOutlineEnvelope, HiOutlinePhone, HiOutlineClock } from 'react-icons/hi2'
 import { HeroLogoMark } from './Hero'
 import { contact } from '../data/content'
 
 /**
  * Contact section: "We Are Here For You" — dark background, hero image with speech-bubble overlay,
- * availability line, and contact methods (Email, Phone, Hours) with accent icons.
+ * availability line, and contact methods (Email, Phone) with images: mail.png, phone.png.
  * Help-desk image: public/images/help-desk.png
  */
 export default function Contact() {
   return (
-    <section id="contact" className="bg-[#1e293b] py-16 md:py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="bg-[#1e293b] py-10 md:py-14">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-6">
         {/* Centered image with rounded border and speech-bubble overlay */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -38,7 +37,7 @@ export default function Contact() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-20px' }}
-          className="mt-10 min-w-0 text-center"
+          className="mt-6 min-w-0 text-center md:mt-8"
         >
           <p className="break-words text-white">
             {contact.hours[0]} | {contact.hours[1]}
@@ -46,44 +45,33 @@ export default function Contact() {
           <p className="mt-1 text-sm text-white/80">{contact.supportNote}</p>
         </motion.div>
 
-        {/* Contact methods: icon (circle + accent), label, underlined detail */}
+        {/* Contact methods: centred, compact on desktop */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-20px' }}
-          className="mt-14 grid gap-10 sm:grid-cols-3"
+          className="mx-auto mt-8 grid max-w-xl grid-cols-2 justify-items-center gap-3 sm:gap-6 md:mt-10 md:gap-6"
         >
           <a
             href={`mailto:${contact.email}`}
             className="flex flex-col items-center text-center"
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white text-[#F48F47]">
-              <HiOutlineEnvelope className="h-7 w-7" />
+            <span className="flex items-center justify-center">
+              <img src="/images/mail.png" alt="" className="h-10 w-10 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" aria-hidden />
             </span>
-            <span className="mt-3 font-medium text-white">Email</span>
-            <span className="mt-1 break-all text-sm text-white underline underline-offset-2">{contact.email}</span>
+            <span className="mt-2 text-xs font-medium text-white sm:mt-3 sm:text-base">Email</span>
+            <span className="mt-0.5 break-all text-[10px] text-white underline underline-offset-2 sm:mt-1 sm:text-sm">{contact.email}</span>
           </a>
           <a
             href={`tel:${contact.phone.replace(/\s/g, '').replace(/-/g, '')}`}
             className="flex flex-col items-center text-center"
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white text-[#F48F47]">
-              <HiOutlinePhone className="h-7 w-7" />
+            <span className="flex items-center justify-center">
+              <img src="/images/phone.png" alt="" className="h-10 w-10 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" aria-hidden />
             </span>
-            <span className="mt-3 font-medium text-white">Phone</span>
-            <span className="mt-1 text-sm text-white underline underline-offset-2">{contact.phone}</span>
+            <span className="mt-2 text-xs font-medium text-white sm:mt-3 sm:text-base">Phone</span>
+            <span className="mt-0.5 text-[10px] text-white underline underline-offset-2 sm:mt-1 sm:text-sm">{contact.phone}</span>
           </a>
-          <div className="flex flex-col items-center text-center">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white text-[#F48F47]">
-              <HiOutlineClock className="h-7 w-7" />
-            </span>
-            <span className="mt-3 font-medium text-white">Hours</span>
-            <div className="mt-1 text-sm text-white">
-              {contact.hours.map((line) => (
-                <p key={line}>{line}</p>
-              ))}
-            </div>
-          </div>
         </motion.div>
       </div>
     </section>
