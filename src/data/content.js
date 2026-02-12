@@ -20,6 +20,7 @@ export const nav = {
 
 export const hero = {
   headline: 'Cross-Border Financial Solutions',
+  headlineLines: ['Cross-Border Financial', 'Solutions'],
   subheadline: 'Streamline your global finances with our cross-border solutions.',
   ctaLabel: "Let's Get Started",
 }
@@ -32,7 +33,7 @@ export const conversionWidget = {
   deliveryMethod: 'Delivery method',
   deliveryOptions: ['Bank Transfer', 'Cash Pickup', 'Mobile Wallet'],
   ctaLabel: "Get Started",
-  feesLabel: 'Competitive rates on all transfers',
+  feesLabel: '₪0 Sending fees on all transfers',
 }
 
 export const statistics = [
@@ -124,6 +125,68 @@ export const contact = {
   phone: '03-900-9823',
   supportNote: '24/7 support in the language of your choice',
 }
+
+// Sitemap columns (Rewire-style). Links are placeholders (#).
+export const sitemap = [
+  {
+    title: 'Send Money',
+    links: [
+      { label: 'Send Money to USA', href: '#' },
+      { label: 'Send Money to UK', href: '#' },
+      { label: 'Send Money to Europe', href: '#' },
+      { label: 'Send Money to Philippines', href: '#' },
+      { label: 'Send Money to India', href: '#' },
+      { label: 'Send Money to China', href: '#' },
+    ],
+  },
+  {
+    title: 'Send by Region',
+    links: [
+      { label: 'Send Money to Africa', href: '#' },
+      { label: 'Send Money to Asia', href: '#' },
+      { label: 'Send Money to Europe', href: '#' },
+      { label: 'Send Money to North America', href: '#' },
+      { label: 'Send Money to South America', href: '#' },
+    ],
+  },
+  {
+    title: 'Services',
+    links: [
+      { label: 'Money Transfer', href: '#' },
+      { label: 'Currency Exchange', href: '#' },
+      { label: 'WPay Card', href: '#' },
+      { label: 'Business Solutions', href: '#' },
+      { label: 'Rates', href: '#' },
+    ],
+  },
+  {
+    title: 'WPay Card',
+    links: [
+      { label: 'Order WPay Card', href: '#' },
+      { label: 'W-PAY Card Login', href: '#' },
+      { label: 'Card for Businesses', href: '#' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About Us', href: '#' },
+      { label: 'Press', href: '#' },
+      { label: 'Blog', href: '#' },
+      { label: 'Careers', href: '#' },
+      { label: 'Privacy Policy', href: '#' },
+      { label: 'Terms & Conditions', href: '#' },
+    ],
+  },
+  {
+    title: 'Help',
+    links: [
+      { label: 'Customer Support', href: '#' },
+      { label: 'FAQs', href: '#' },
+      { label: 'Contact Us', href: '#' },
+    ],
+  },
+]
 
 export const footer = {
   company: brand.legalEntity,

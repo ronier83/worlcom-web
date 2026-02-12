@@ -42,7 +42,7 @@ function AnimatedCounter({ value, suffix = '', duration = 2000 }) {
  */
 export default function Statistics() {
   return (
-    <section id="statistics" className="border-y border-gray-100 bg-white py-12 md:py-16">
+    <section id="statistics" className="bg-[#F48F47] py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
           {statistics.map((stat, index) => {
@@ -56,13 +56,13 @@ export default function Statistics() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="flex flex-col items-center text-center"
               >
-                <div className="mb-4 rounded-2xl bg-primary/10 p-4">
-                  <Icon className="h-8 w-8 text-primary sm:h-10 sm:w-10" />
+                <div className="mb-4 rounded-2xl bg-white/20 p-4">
+                  <Icon className="h-8 w-8 text-white sm:h-10 sm:w-10" />
                 </div>
-                <div className="text-2xl font-bold text-primary sm:text-3xl md:text-4xl lg:text-5xl">
+                <div className="text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl">
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </div>
-                <p className="mt-2 text-black/70">{stat.label}</p>
+                <p className="mt-2 text-white/90">{stat.label}</p>
               </motion.div>
             )
           })}

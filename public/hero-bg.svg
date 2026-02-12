@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="blob1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="blob2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F48F47" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#F48F47" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <!-- Large circle (globe hint) - white -->
+  <circle cx="180" cy="220" r="140" fill="none" stroke="white" stroke-width="2" opacity="0.5"/>
+  <circle cx="180" cy="220" r="100" fill="none" stroke="white" stroke-width="1.5" opacity="0.35"/>
+  <!-- Organic blobs -->
+  <path d="M120 280c-8-24 20-60 55-55 28 4 45 38 38 70-6 28-40 42-72 35-32-7-25-38-21-50z" fill="url(#blob1)"/>
+  <path d="M200 120c15-12 50 5 55 45 4 35-25 65-58 58-30-6-52-45-42-75 8-22 30-28 45-28z" fill="url(#blob1)"/>
+  <path d="M280 320c20-15 55 10 50 50-4 35-45 55-80 45-28-8-35-45-20-70 12-20 35-25 50-25z" fill="url(#blob2)"/>
+  <!-- Dashed curves -->
+  <path d="M80 380 Q200 320 380 360" stroke="white" stroke-width="2" stroke-dasharray="12 8" fill="none" opacity="0.6"/>
+  <path d="M60 180 Q180 140 340 200" stroke="white" stroke-width="1.5" stroke-dasharray="10 6" fill="none" opacity="0.5"/>
+  <path d="M220 420 Q320 380 450 420" stroke="white" stroke-width="1.5" stroke-dasharray="8 10" fill="none" opacity="0.45"/>
+  <path d="M420 180 A80 80 0 0 1 420 340" stroke="white" stroke-width="1" fill="none" opacity="0.4"/>
+</svg>

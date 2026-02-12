@@ -1,20 +1,48 @@
 import { Link } from 'react-scroll'
-import { footer } from '../data/content'
+import { footer, sitemap } from '../data/content'
 
 /**
- * Footer: company name, licenses, Privacy/Terms links, contact, copyright.
+ * Footer: Rewire-style sitemap columns + company info, contact, copyright.
  */
 export default function Footer() {
   return (
-    <footer id="developers" className="bg-black py-12 text-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <footer id="developers" className="bg-black text-white">
+      {/* Sitemap - Rewire-style multi-column links */}
+      <div className="border-b border-white/10">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-6">
+            {sitemap.map((column) => (
+              <div key={column.title}>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
+                  {column.title}
+                </h3>
+                <ul className="mt-4 space-y-3">
+                  {column.links.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        className="text-sm text-white/70 transition hover:text-white"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom: company, contact, navigate, copyright */}
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <p className="font-semibold">{footer.company}</p>
             <p className="mt-2 text-sm text-white/70">Licenses No: {footer.licenses}</p>
           </div>
           <div>
-            <p className="font-semibold">Links</p>
+            <p className="font-semibold">Legal</p>
             <div className="mt-2 flex flex-col gap-2">
               {footer.links.map((link) => (
                 <a

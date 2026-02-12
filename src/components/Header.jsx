@@ -12,7 +12,7 @@ export default function Header() {
   const [languageOpen, setLanguageOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-[#3482F1] shadow-sm">
+    <header className="sticky top-0 z-50 bg-[#3482F1]/90 backdrop-blur-sm">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         {/* Logo - scroll to hero, fills nav height, no vertical padding */}
         <Link to="hero" smooth duration={500} className="flex h-full items-center p-0">
