@@ -45,7 +45,7 @@ function LogoStrip({ logos, scrollRight, rowId }) {
             src={vendor.src}
             alt={i < logos.length ? vendor.name : ''}
             loading="lazy"
-            className="max-h-full w-auto max-w-full object-contain"
+            className="max-h-full w-auto max-w-full object-contain vendor-logo"
             {...(i >= logos.length && { 'aria-hidden': true })}
           />
         </div>
