@@ -35,8 +35,8 @@ function App() {
         <BusinessSolutions />
         <WPayCard />
         <TrustSection />
-        <HaveYourBackBanner />
         <FAQ />
+        <HaveYourBackBanner />
         <Contact />
       </main>
       <Footer />
