@@ -56,6 +56,6 @@
     text-wrap: balance;
   }
   .animate-vendor-scroll {
-    animation: vendor-logo-scroll 40s linear infinite;
+    animation: vendor-logo-scroll 28s linear infinite;
   }
 }
