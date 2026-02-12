@@ -160,11 +160,6 @@ export default function Hero() {
         <HeroBgGraphic />
       </motion.div>
 
-      {/* Mobile only: full-width logo row; z-0 so it stays behind calculator and content */}
-      <div className="relative z-0 mb-6 flex w-full justify-center lg:hidden">
-        <HeroLogoMark path0X={path0X} path1X={path1X} />
-      </div>
-
       {/* Tighter max-width so hero stays compact on xl/2xl and beyond */}
       <div className="relative z-10 mx-auto max-w-6xl pl-2 pr-4 sm:pl-4 sm:pr-6 lg:pl-4 lg:pr-8">
         {/* Mobile: stacked with gap-8; desktop: row with clear gap so calculator never overlaps headline */}
@@ -220,8 +215,12 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right: conversion card; z-10 so it stacks above the logo when paths animate */}
+          {/* Right: conversion card; on mobile, logo at top centered then widget and badges */}
           <div className="relative z-10 flex w-full max-w-md flex-shrink-0 flex-col items-center gap-4 lg:max-w-[380px]">
+            {/* Mobile only: logo centered at top of this column */}
+            <div className="flex w-full justify-center lg:hidden">
+              <HeroLogoMark path0X={path0X} path1X={path1X} />
+            </div>
             <ConversionWidget />
             {/* App store badges: native-style Download on App Store / Get it on Google Play */}
             <div className="flex flex-wrap items-center justify-center gap-3">
