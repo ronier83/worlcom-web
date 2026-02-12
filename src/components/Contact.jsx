@@ -11,7 +11,7 @@ import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 export default function Contact() {
   const shouldAnimate = usePageLoadAnimation()
   return (
-    <section id="contact" className="bg-[#1e293b] py-10 md:py-14">
+    <section id="contact" className="bg-gray-200 py-10 md:py-14">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-6">
         {/* Centered image with rounded border and speech-bubble overlay */}
         <motion.div
@@ -39,10 +39,10 @@ export default function Contact() {
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
           className="mt-6 min-w-0 text-center md:mt-8"
         >
-          <p className="break-words text-white">
+          <p className="break-words text-gray-900">
             {contact.hours[0]} | {contact.hours[1]}
           </p>
-          <p className="mt-1 text-sm text-white/80">{contact.supportNote}</p>
+          <p className="mt-1 text-sm text-gray-600">{contact.supportNote}</p>
         </motion.div>
 
         {/* Contact methods: centred, compact on desktop */}
@@ -58,8 +58,8 @@ export default function Contact() {
             <span className="flex items-center justify-center">
               <img src="/images/mail.png" alt="" className="h-10 w-10 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" aria-hidden />
             </span>
-            <span className="mt-2 text-xs font-medium text-white sm:mt-3 sm:text-base">Email</span>
-            <span className="mt-0.5 break-all text-[10px] text-white underline underline-offset-2 sm:mt-1 sm:text-sm">{contact.email}</span>
+            <span className="mt-2 text-xs font-medium text-gray-900 sm:mt-3 sm:text-base">Email</span>
+            <span className="mt-0.5 break-all text-[10px] text-gray-700 underline underline-offset-2 sm:mt-1 sm:text-sm">{contact.email}</span>
           </a>
           <a
             href={`tel:${contact.phone.replace(/\s/g, '').replace(/-/g, '')}`}
@@ -68,8 +68,8 @@ export default function Contact() {
             <span className="flex items-center justify-center">
               <img src="/images/phone.png" alt="" className="h-10 w-10 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" aria-hidden />
             </span>
-            <span className="mt-2 text-xs font-medium text-white sm:mt-3 sm:text-base">Phone</span>
-            <span className="mt-0.5 text-[10px] text-white underline underline-offset-2 sm:mt-1 sm:text-sm">{contact.phone}</span>
+            <span className="mt-2 text-xs font-medium text-gray-900 sm:mt-3 sm:text-base">Phone</span>
+            <span className="mt-0.5 text-[10px] text-gray-700 underline underline-offset-2 sm:mt-1 sm:text-sm">{contact.phone}</span>
           </a>
         </motion.div>
       </div>
