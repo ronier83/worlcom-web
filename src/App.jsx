@@ -2,6 +2,7 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import Statistics from './components/Statistics'
 import Services from './components/Services'
+import TrustedByVendors from './components/TrustedByVendors'
 import MoneyTransfer from './components/MoneyTransfer'
 import BusinessSolutions from './components/BusinessSolutions'
 import WPayCard from './components/WPayCard'
@@ -19,6 +20,7 @@ function App() {
         <Hero />
         <Statistics />
         <Services />
+        <TrustedByVendors />
         <MoneyTransfer />
         <BusinessSolutions />
         <WPayCard />
