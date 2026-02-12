@@ -163,7 +163,7 @@ export default function Hero() {
       {/* Wider max-width so headline and calculator have enough room without overlap */}
       <div className="relative z-10 mx-auto max-w-[1520px] pl-2 pr-4 sm:pl-4 sm:pr-6 lg:pl-4 lg:pr-8">
         {/* Stack until xl so headline is never behind calculator; side-by-side only when enough space */}
-        <div className="flex flex-col items-center gap-8 xl:flex-row xl:items-center xl:justify-between xl:gap-10 2xl:gap-12" style={{ flexWrap: 'nowrap' }}>
+        <div className="flex flex-col items-center gap-4 xl:flex-row xl:items-center xl:justify-between xl:gap-10 sm:gap-8 2xl:gap-12" style={{ flexWrap: 'nowrap' }}>
           {/* Left: logo (desktop only) then text; z-0 so logo animates behind calculator; text block z-20 so never hidden */}
           <div className="relative z-0 flex min-w-0 flex-1 flex-col text-center xl:min-w-[320px] xl:flex-row xl:items-center xl:gap-6 xl:max-w-xl xl:text-left">
             <div className="hidden justify-center pb-2 xl:flex xl:shrink-0 xl:pb-0 xl:justify-start">
@@ -183,7 +183,7 @@ export default function Hero() {
               initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="relative z-10 mx-auto mt-6 max-w-2xl text-lg text-white/90 sm:text-xl md:text-2xl xl:mx-0"
+              className="relative z-10 mx-auto mt-6 max-w-2xl text-lg text-white/90 sm:text-xl md:text-2xl xl:mx-0 xl:whitespace-nowrap"
             >
               {hero.subheadline}
             </motion.p>
@@ -191,7 +191,7 @@ export default function Hero() {
               initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative z-10 mt-10 flex flex-col items-center justify-center gap-3 xl:flex-row xl:flex-nowrap xl:gap-4 xl:justify-start"
+              className="relative z-10 mt-4 flex flex-col items-center justify-center gap-3 sm:mt-10 xl:flex-row xl:flex-nowrap xl:gap-4 xl:justify-start"
             >
               <Link
                 to="services"
