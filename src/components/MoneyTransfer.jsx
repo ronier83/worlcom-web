@@ -22,14 +22,6 @@ export default function MoneyTransfer() {
   return (
     <section id="rates" className="relative overflow-hidden bg-[#E8EEFC] py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-20px' }}
-          className="mb-10 text-center text-3xl font-bold text-black md:text-4xl"
-        >
-          {moneyTransfer.heading}
-        </motion.h2>
         <div className="grid min-w-0 gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16">
           {/* Left: image + description; min-w-0 so grid doesn't overflow on narrow viewports */}
           <div className="flex min-w-0 flex-col">
