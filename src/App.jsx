@@ -9,7 +9,6 @@ import TrustSection from './components/TrustSection'
 import FAQ from './components/FAQ'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
-import PrivacyModal from './components/PrivacyModal'
 import FloatingSupport from './components/FloatingSupport'
 
 function App() {
@@ -28,7 +27,6 @@ function App() {
         <Contact />
       </main>
       <Footer />
-      <PrivacyModal />
       <FloatingSupport />
       {/* Chat bubble: bottom-right, above the support button; clean rounded box, no clip so bottom isn't cut */}
       <div
