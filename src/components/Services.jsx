@@ -23,7 +23,7 @@ const iconMap = {
  */
 export default function Services() {
   return (
-    <section id="services" className="bg-gray-50/50 py-10 sm:py-12 md:py-16">
+    <section id="services" className="bg-[#FFF0E6] py-10 sm:py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
