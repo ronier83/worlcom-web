@@ -127,9 +127,9 @@ export default function Hero() {
   useEffect(() => {
     if (reducedMotion) return
     const updateFromScroll = (v) => {
-      // Strong response: move apart from first scroll; full separation by 0.45 progress so it's very visible
-      const x0 = v < 0.01 ? 0 : v > 0.45 ? -LOGO_OFFSET : ((v - 0.01) / 0.44) * -LOGO_OFFSET
-      const x1 = v < 0.01 ? 0 : v > 0.45 ? LOGO_OFFSET : ((v - 0.01) / 0.44) * LOGO_OFFSET
+      // Start immediately on any scroll; full separation by 0.28 progress (sooner on mobile / small scroll)
+      const x0 = v <= 0 ? 0 : v >= 0.28 ? -LOGO_OFFSET : (v / 0.28) * -LOGO_OFFSET
+      const x1 = v <= 0 ? 0 : v >= 0.28 ? LOGO_OFFSET : (v / 0.28) * LOGO_OFFSET
       path0X.set(x0)
       path1X.set(x1)
     }
