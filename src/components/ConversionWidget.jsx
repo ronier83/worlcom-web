@@ -302,6 +302,9 @@ export default function ConversionWidget() {
               pattern="[0-9]*"
               autoComplete="off"
               value={sendAmount === 0 ? '' : `₪${sendAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`}
+              onFocus={() => {
+                if (sendAmount === 1000) setSendAmount(0)
+              }}
               onChange={(e) => {
                 const raw = e.target.value.replace(/[^\d]/g, '')
                 const num = raw === '' ? 0 : parseInt(raw, 10)
