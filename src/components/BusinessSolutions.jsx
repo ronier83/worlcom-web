@@ -78,7 +78,7 @@ export default function BusinessSolutions() {
         <motion.div
           initial={shouldAnimate ? { opacity: 0, y: 24 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="mx-auto max-w-3xl text-center"
+          className="font-google-sans mx-auto max-w-3xl text-center"
         >
           <div className="mb-6 inline-flex rounded-2xl bg-white/20 p-4">
             <HiOutlineBuildingOffice2 className="h-10 w-10 text-white" />

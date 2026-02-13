@@ -32,7 +32,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow] duration-200 ${
+      className={`font-google-sans fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow] duration-200 ${
         isScrolled ? 'bg-[#3482F1]/90 backdrop-blur-sm' : 'bg-[#3482F1]'
       }`}
     >

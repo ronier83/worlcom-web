@@ -27,7 +27,7 @@ export default function TrustSection() {
         <motion.h2
           initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="text-center text-2xl font-bold text-white md:text-3xl"
+          className="font-google-sans text-center text-2xl font-bold text-white md:text-3xl"
         >
           Trusted by Leading Financial Institutions Worldwide
         </motion.h2>

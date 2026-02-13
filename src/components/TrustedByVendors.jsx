@@ -58,7 +58,7 @@ function LogoStrip({ logos, scrollRight, rowId }) {
 
 export default function TrustedByVendors() {
   return (
-    <section id="trusted-by-vendors" className="bg-white py-16 md:py-24">
+    <section id="trusted-by-vendors" className="font-google-sans bg-white py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-2xl font-bold text-black md:text-3xl">
           Trusted by Leading Financial Institutions Worldwide

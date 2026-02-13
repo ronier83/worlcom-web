@@ -53,7 +53,7 @@ export default function WPayCard() {
           <motion.div
             initial={shouldAnimate ? { opacity: 0, x: -24 } : false}
             {...(shouldAnimate ? { whileInView: { opacity: 1, x: 0 }, viewport: { once: true } } : { animate: { opacity: 1, x: 0 } })}
-            className="min-w-0"
+            className="font-google-sans min-w-0"
           >
             <div className="mb-6 inline-flex rounded-2xl bg-primary/10 p-4">
               <HiOutlineCreditCard className="h-10 w-10 text-primary" />
