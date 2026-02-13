@@ -243,8 +243,9 @@ export default function ConversionWidget() {
   }, [selectedCountry?.countryCode2, selectedCountry?.coinCode, selectedTransferType, selectedSupplier?.supplierUid, countryData?.currency, sendAmount])
 
   const rate = countryData?.rate?.rate ?? 0
-  const receiveCurrency = countryData?.currency ?? 'USD'
-  const receiveSymbol = countryData?.currencySymbol ?? '$'
+  // Only use currency/symbol from API; no default (e.g. USD) until country/data returns
+  const receiveCurrency = countryData?.currency ?? ''
+  const receiveSymbol = countryData?.currencySymbol ?? ''
   const limitsMin = countryData?.limitsMin ?? {}
   const minIls = limitsMin.ils ?? 10
 
@@ -307,21 +308,23 @@ export default function ConversionWidget() {
                 if (sendAmount < minIls) setSendAmount(minIls)
               }}
               className="min-w-0 flex-1 bg-transparent text-left text-2xl font-bold text-gray-900 outline-none sm:text-3xl"
-              aria-label="Amount sent in ILS"
+              aria-label="You send (ILS)"
             />
             <span className="shrink-0 text-base font-medium text-gray-600">ILS</span>
             <Flag countryCode="il" className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
           </div>
         </div>
 
-        {/* They get (second): amount + currency; country select via clickable flag on the right */}
+        {/* They get (second): amount + currency only after API returns; country select via clickable flag on the right */}
         <div className="mt-4 text-left">
           <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.theyGet}</label>
           <div className="mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
             <span className="min-w-0 flex-1 text-left text-2xl font-bold text-gray-900 sm:text-3xl">
-              {countryDataLoading ? '...' : formatAmount(receiveAmount, receiveSymbol)}
+              {!countryData && !countryDataLoading ? '' : countryDataLoading ? '...' : formatAmount(receiveAmount, receiveSymbol)}
             </span>
-            <span className="shrink-0 text-base font-medium text-gray-600">{receiveCurrency}</span>
+            {countryData ? (
+              <span className="shrink-0 text-base font-medium text-gray-600">{receiveCurrency}</span>
+            ) : null}
             <div className="relative flex shrink-0 cursor-pointer items-center gap-1.5">
               <select
                 value={selectedCountry?.countryCode2 ?? ''}

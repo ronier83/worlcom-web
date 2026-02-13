@@ -39,7 +39,7 @@ export const conversionWidget = {
   countryLabel: 'Country',
   transferMethodLabel: 'Transfer method',
   supplierLabel: 'Supplier',
-  amountSentLabel: 'Amount sent',
+  amountSentLabel: 'You send',
 }
 
 // Rates page (content scraped from worldcomfinance.com/rates): title, intro, calculator, Q&A
