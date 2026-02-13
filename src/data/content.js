@@ -21,7 +21,7 @@ export const nav = {
 export const hero = {
   headline: 'Cross-Border Financial Solutions',
   headlineLines: ['Cross-Border Financial', 'Solutions'],
-  subheadline: 'Streamline your global finances with our cross-border solutions.',
+  subheadline: 'International payments and finances, made simple.',
   ctaLabel: "Let's Get Started",
 }
 
