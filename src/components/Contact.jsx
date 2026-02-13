@@ -16,7 +16,7 @@ export default function Contact() {
         <motion.h2
           initial={shouldAnimate ? { opacity: 0, y: 12 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="text-left text-2xl font-bold text-gray-500 sm:text-3xl md:text-4xl"
+          className="text-left text-3xl font-bold text-gray-500 sm:text-4xl md:text-5xl"
         >
           Need Help?
         </motion.h2>
@@ -25,7 +25,7 @@ export default function Contact() {
         <motion.div
           initial={shouldAnimate ? { opacity: 0, y: 12 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="mt-10 flex flex-wrap items-center justify-between gap-2 text-gray-900 sm:text-lg"
+          className="mt-6 flex flex-wrap items-center justify-between gap-2 text-gray-900 sm:text-lg"
         >
           <span>Sundays to Thursdays, Fridays</span>
           <span className="font-bold">08:00–19:00 (Sun–Thu) · 08:00–13:00 (Fri) (IL time)</span>
@@ -35,7 +35,7 @@ export default function Contact() {
         <motion.div
           initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="mt-8 flex flex-col gap-4 text-gray-900 sm:text-lg"
+          className="mt-6 flex flex-col gap-4 text-gray-900 sm:text-lg"
         >
           <p>
             <span className="font-medium">Call: </span>
