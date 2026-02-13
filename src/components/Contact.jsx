@@ -27,7 +27,7 @@ export default function Contact() {
           className="flex flex-wrap items-center justify-between gap-2 text-[1.25rem] text-gray-900 sm:text-[1.40625rem]"
         >
           <span>Sundays to Thursdays, Fridays</span>
-          <span className="font-bold">08:00–19:00 (Sun–Thu) · 08:00–13:00 (Fri) GMT+2</span>
+          <span className="font-bold text-[1rem] sm:text-[1.125rem]">08:00–19:00 (Sun–Thu) · 08:00–13:00 (Fri) GMT+2</span>
         </motion.div>
 
         {/* Contact methods — vertical list, "Label: Detail", no icons */}
