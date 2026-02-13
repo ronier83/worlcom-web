@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react'
-import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { RedocStandalone } from 'redoc'
 import Header from '../components/Header'
@@ -161,18 +160,6 @@ export default function DevelopersPage() {
               scrollYOffset: '#site-header',
             }}
           />
-        </section>
-
-        {/* Back to home CTA */}
-        <section className="border-t border-gray-200 bg-gray-50/50 px-4 py-6 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <Link
-              to="/"
-              className="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 font-medium text-white transition hover:opacity-90"
-            >
-              Back to home
-            </Link>
-          </div>
         </section>
       </main>
       <Footer />

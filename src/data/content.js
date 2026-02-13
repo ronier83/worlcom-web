@@ -127,6 +127,16 @@ export const aboutPage = {
  * Scraped from live site bundle: method descriptions, error codes, and API for customers/partners.
  * Styling applied in Developers.jsx.
  */
+// API path + short label for mobile Developers page (no Redoc)
+export const developersApiEndpoints = [
+  { path: '/sendmoney.php', method: 'POST', label: 'Send Money' },
+  { path: '/getStatus', method: 'GET', label: 'Get Status' },
+  { path: '/getCountries', method: 'GET', label: 'Get Countries' },
+  { path: '/getBanks', method: 'GET', label: 'Get Banks' },
+  { path: '/getTransactionDetails', method: 'GET', label: 'Get Transaction Details' },
+  { path: '/getPendingTransactions', method: 'GET', label: 'Get Pending Transactions' },
+]
+
 export const developersPage = {
   intro: 'The WIC API enables our customers and partners to integrate money transfer and remittance into their platforms. Use our API to perform remits, check supported countries and transfer types, and manage transactions with the same security and compliance as our licensed services.',
   wicMethodTitle: 'The WIC API methods description',
