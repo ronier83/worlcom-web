@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
 import { Link } from 'react-scroll'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiMenu, HiX } from 'react-icons/hi'
@@ -17,6 +17,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const prevScrolledRef = useRef(false)
   const shouldAnimate = usePageLoadAnimation()
+  const location = useLocation()
 
   useEffect(() => {
     const onScroll = () => {
@@ -39,8 +40,16 @@ export default function Header() {
       }`}
     >
       <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-3 sm:h-20 sm:gap-4 sm:px-6 lg:px-8">
-        {/* Logo: always navigates to main page (/) from any page */}
-        <RouterLink to="/" className="flex h-full items-center p-0">
+        {/* Logo: go to / from other pages; when already on home, scroll to top */}
+        <RouterLink
+          to="/"
+          className="flex h-full items-center p-0"
+          onClick={() => {
+            if (location.pathname === '/') {
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }
+          }}
+        >
           <img src="/logoWhite.PNG" alt={brand.name} className="h-full max-h-10 w-auto object-contain sm:max-h-14" />
         </RouterLink>
 
