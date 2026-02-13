@@ -65,7 +65,7 @@ export default function WPayCard() {
               {wpayCard.description}
             </p>
             {/* Card vendor logos — SVG fills are light, so filter to black for light background */}
-            <div className="mt-6 flex flex-wrap items-center gap-6" aria-hidden>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-6 lg:justify-start" aria-hidden>
               <img
                 src="/card-logos-svg/jerusalem_bank.svg"
                 alt=""
