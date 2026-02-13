@@ -47,6 +47,23 @@ export default function DevelopersPage() {
               {developersPage.intro}
             </motion.p>
 
+            {/* Download OpenAPI spec (same as live site) */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.05 }}
+              className="mt-6 flex flex-wrap items-center gap-2"
+            >
+              <span className="text-gray-700">Download OpenAPI specification:</span>
+              <a
+                href="/api/openapi.json"
+                download="openapi.json"
+                className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white transition hover:opacity-90"
+              >
+                Download
+              </a>
+            </motion.div>
+
             {developersPage.wicMethodTitle && (
               <motion.h2
                 initial={{ opacity: 0, y: 8 }}

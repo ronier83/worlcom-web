@@ -1,0 +1,674 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "WIC API Documentation",
+    "version": "1.1",
+    "description": "The API flow is designed to get a request (via POST or GET) and reply with a JSON encoded response."
+  },
+  "servers": [
+    {
+      "url": "https://[WIC_BASE_URL]/transfers/api/",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/sendmoney.php": {
+      "post": {
+        "summary": "Send Money",
+        "description": "Performs the remit itself. This method is used for all remit types, requiring different parameters for each type.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/username"
+          },
+          {
+            "$ref": "#/components/parameters/password"
+          },
+          {
+            "$ref": "#/components/parameters/agent_id"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "sendMoney"
+            }
+          },
+          {
+            "name": "transfer_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Bank"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "THAILAND"
+            }
+          },
+          {
+            "name": "receipt_no",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "123456789"
+            }
+          },
+          {
+            "name": "sender_full_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "John Doe"
+            }
+          },
+          {
+            "name": "sender_phone_number",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "5555555555"
+            }
+          },
+          {
+            "name": "sender_address",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1st Avenue"
+            }
+          },
+          {
+            "name": "receiver_first_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Jane"
+            }
+          },
+          {
+            "name": "receiver_last_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Doe"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 1000
+            }
+          },
+          {
+            "name": "target_currency",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Local"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authentication failed"
+          },
+          "500": {
+            "description": "Internal error occurred, please contact administrator"
+          }
+        }
+      }
+    },
+    "/getStatus": {
+      "get": {
+        "summary": "Get Transaction Status",
+        "description": "Returns the status of a transaction.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/username"
+          },
+          {
+            "$ref": "#/components/parameters/password"
+          },
+          {
+            "$ref": "#/components/parameters/agent_id"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "getStatus"
+            }
+          },
+          {
+            "name": "trans_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "MW123456789"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction status retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error_level": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "pid": {
+                      "type": "string",
+                      "example": "MW123456789"
+                    },
+                    "status": {
+                      "$ref": "#/components/schemas/TransactionStatus"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or missing parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/getCountries": {
+      "get": {
+        "summary": "Get Available Countries",
+        "description": "Returns the list of available countries for an agent.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/username"
+          },
+          {
+            "$ref": "#/components/parameters/password"
+          },
+          {
+            "$ref": "#/components/parameters/agent_id"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "getCountries"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of available countries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error_level": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "countries": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "THAILAND",
+                        "CHINA"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or missing parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/getBanks": {
+      "get": {
+        "summary": "Get Banks and Fees",
+        "description": "Returns the banks and their respective fees for a specific country.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/username"
+          },
+          {
+            "$ref": "#/components/parameters/password"
+          },
+          {
+            "$ref": "#/components/parameters/agent_id"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "getBanks"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Thailand"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of banks and their respective fees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error_level": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "banks": {
+                      "type": "object",
+                      "example": {
+                        "Thailand": {
+                          "Deposit": "3.0000"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or missing parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/getTransactionDetails": {
+      "get": {
+        "summary": "Get Transaction Details",
+        "description": "Returns detailed information about a specific transaction.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/username"
+          },
+          {
+            "$ref": "#/components/parameters/password"
+          },
+          {
+            "$ref": "#/components/parameters/agent_id"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "getTransactionDetails"
+            }
+          },
+          {
+            "name": "trans_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "WF1234567"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error_level": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "pid": {
+                      "type": "string",
+                      "example": "WF1234567"
+                    },
+                    "details": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "WF1234567"
+                        },
+                        "money_transfer_type_id": {
+                          "type": "string",
+                          "example": "LBC"
+                        },
+                        "country_id": {
+                          "type": "string",
+                          "example": "PHILIPPINES"
+                        },
+                        "coin_id": {
+                          "type": "string",
+                          "example": "PHP"
+                        },
+                        "usd_eur": {
+                          "type": "string",
+                          "example": "USD"
+                        },
+                        "amount": {
+                          "type": "number",
+                          "example": 150
+                        },
+                        "created": {
+                          "type": "string",
+                          "example": "2019-07-29 10:30:23"
+                        },
+                        "updated": {
+                          "type": "string",
+                          "example": "2019-07-29 10:30:23"
+                        },
+                        "receipt_id": {
+                          "type": "string",
+                          "example": "PENDING"
+                        },
+                        "error_description": {
+                          "type": "string",
+                          "example": ""
+                        },
+                        "sender_country": {
+                          "type": "string",
+                          "example": "ISRAEL"
+                        },
+                        "sender_name": {
+                          "type": "string",
+                          "example": "SHAHAR"
+                        },
+                        "sender_city": {
+                          "type": "string",
+                          "example": "Hod"
+                        },
+                        "sender_phone": {
+                          "type": "string",
+                          "example": "972523124789"
+                        },
+                        "receiver_name": {
+                          "type": "string",
+                          "example": "shahar"
+                        },
+                        "receiver_city": {
+                          "type": "string",
+                          "example": "HOD"
+                        },
+                        "receiver_phone": {
+                          "type": "string",
+                          "example": "632212121212"
+                        },
+                        "receiver_address": {
+                          "type": "string",
+                          "example": "test"
+                        },
+                        "receiver_relation": {
+                          "type": "string",
+                          "example": "Spouse"
+                        },
+                        "birth_date": {
+                          "type": "string",
+                          "example": "1995-03-02"
+                        },
+                        "bank_name": {
+                          "type": "string",
+                          "example": ""
+                        },
+                        "IFSC": {
+                          "type": "string",
+                          "example": ""
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or missing parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/getPendingTransactions": {
+      "get": {
+        "summary": "Get Pending Transactions",
+        "description": "Returns all transactions with status PENDING.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/username"
+          },
+          {
+            "$ref": "#/components/parameters/password"
+          },
+          {
+            "$ref": "#/components/parameters/agent_id"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "getPendingTransactions"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all pending transactions' IDs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error_level": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "all_pending_transactions_id": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "WF1234567",
+                        "WF154656"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request or missing parameters"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error_level": {
+            "type": "integer",
+            "example": 400
+          },
+          "description": {
+            "type": "string",
+            "example": "Authentication failed."
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "error_level": {
+            "type": "integer",
+            "example": 0
+          },
+          "pid": {
+            "type": "string",
+            "example": "WF1234567"
+          }
+        }
+      },
+      "TransactionStatus": {
+        "type": "string",
+        "enum": [
+          "ABORTED",
+          "FAILED",
+          "PENDING",
+          "REQUEST CANCEL",
+          "WAIT FOR PROCESS",
+          "CONFIRMED",
+          "FOR VERIFICATION",
+          "POSTED",
+          "WAIT"
+        ],
+        "description": "Transaction status values"
+      }
+    },
+    "parameters": {
+      "username": {
+        "name": "username",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "USER"
+        }
+      },
+      "password": {
+        "name": "password",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "PASS"
+        }
+      },
+      "agent_id": {
+        "name": "agent_id",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "AGENT"
+        }
+      }
+    }
+  },
+  "tags": [],
+  "x-supported-countries": [
+    {
+      "country": "THAILAND",
+      "transfer_type": "Bangkok Bank"
+    }
+  ],
+  "x-bank-list": [
+    "002BANGKOK BANK PUBLIC COMPANY LIMITED (BBL)",
+    "004KASIKORNBANK PUBLIC COMPANY LIMITED (KBANK)",
+    "006KRUNG THAI BANK PUBLIC COMPANY LIMITED (KTB)",
+    "011TMBTHANACHART BANK PUBLIC COMPANY LIMITED (TTB)",
+    "017SIAM COMMERCIAL BANK PUBLIC COMPANY LIMITED (SCB)",
+    "071CITIBANK, N.A. (CITI)",
+    "015SUMITOMO MITSUI BANKING CORPORATION (SMBC)",
+    "020STANDARD CHARTERED BANK (THAI) PUBLIC COMPANY LIMITED (SCBT)",
+    "022CIMB THAI BANK PUBLIC COMPANY LIMITED (CIMBT)",
+    "023UNITED OVERSEAS BANK (THAI) PUBLIC COMPANY LIMITED (UOBT)",
+    "025BANK OF AYUDHYA PUBLIC COMPANY LIMITED (BAY)",
+    "029INDIAN OVERSEAS BANK (IOBA)",
+    "030GOVERNMENT SAVING BANK (GSB)",
+    "031HONG KONG & SHANGHAI CORPORATION LIMITED (HSBC)",
+    "032DEUTSCHE BANK AKTIENGESELLSCHAFT (DBBK)",
+    "033GOVERNMENT HOUSING BANK (GHB)",
+    "034BANK FOR AGRICULTURE AND AGRICULTURAL COOPERATIVES (BAAC)",
+    "039MIZUHO BANK BANGKOK BRANCH (MHBK)",
+    "052BANK OF CHINA LIMITED (BOCB)",
+    "053LIMK ASIA BANK OF THAILAND (ISBT)",
+    "170SICO BANK PUBLIC COMPANY LIMITED (TSCO)",
+    "069TANJONG KATONG BANK PUBLIC COMPANY LIMITED (KKP)",
+    "071INDUSTRIAL AND COMMERCIAL BANK OF CHINA (THAI) PUBLIC COMPANY LIMITED (ICBC)",
+    "073BANK RETAIL BANK PUBLIC COMPANY LIMITED (TCBT)",
+    "073LAND AND HOUSES BANK PUBLIC COMPANY LIMITED (LHBANK)",
+    "079ANZ BANK (THAI) PUBLIC COMPANY LIMITED (ANZ)"
+  ]
+}
