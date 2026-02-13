@@ -33,12 +33,14 @@ export default function CollapsibleSection({
           aria-controls={contentId}
           className={`flex h-20 w-full items-center justify-between gap-3 px-4 py-3 text-left ${textColor}`}
         >
-          {/* Title only when collapsed; when expanded show only arrow (right-aligned) */}
-          {!isExpanded && (
-            <span className={`font-display text-2xl font-semibold sm:text-3xl ${textColor}`}>
-              {title}
-            </span>
-          )}
+          {/* Title always visible in same spot; larger when expanded */}
+          <span
+            className={`font-display font-semibold transition-all duration-300 ${textColor} ${
+              isExpanded ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl'
+            }`}
+          >
+            {title}
+          </span>
           <span
             className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${iconBgColor} transition-transform duration-300 ${isExpanded ? 'ml-auto' : ''}`}
             aria-hidden

@@ -33,7 +33,7 @@ export default function Services({ activeSection, onToggle }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-20px' }}
         transition={{ duration: 0.4 }}
-        className="text-center text-3xl font-bold text-black sm:text-3xl md:text-3xl"
+        className="hidden text-center text-3xl font-bold text-black sm:text-3xl md:block md:text-3xl"
       >
         Our Services
       </motion.h2>
