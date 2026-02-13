@@ -281,8 +281,34 @@ export default function ConversionWidget() {
       </div>
 
       <div className="p-6 text-left sm:p-8">
-        {/* Country dropdown: full row clickable so both sides open the select */}
+        {/* Amount Sent (ILS) – first field; display with thousand separators (1,000 10,000 etc.) */}
         <div className="mt-2">
+          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.amountSentLabel}</label>
+          <div className="mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              autoComplete="off"
+              value={sendAmount === 0 ? '' : sendAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+              onChange={(e) => {
+                const raw = e.target.value.replace(/,/g, '')
+                const num = raw === '' ? 0 : parseInt(raw, 10)
+                if (raw === '' || (!Number.isNaN(num) && num >= 0)) setSendAmount(raw === '' ? 0 : num)
+              }}
+              onBlur={() => {
+                if (sendAmount < minIls) setSendAmount(minIls)
+              }}
+              className="min-w-0 flex-1 bg-transparent text-left text-2xl font-bold text-gray-900 outline-none sm:text-3xl"
+              aria-label="Amount sent in ILS"
+            />
+            <span className="shrink-0 text-base font-medium text-gray-600">ILS</span>
+            <Flag countryCode="il" className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+          </div>
+        </div>
+
+        {/* Country dropdown: full row clickable so both sides open the select */}
+        <div className="mt-4">
           <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.countryLabel}</label>
           <div className="relative mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
             <select
@@ -363,22 +389,6 @@ export default function ConversionWidget() {
               {selectedSupplier?.supplierName ?? 'Select supplier'}
             </span>
             <HiChevronDown className="h-5 w-5 shrink-0 text-gray-500 pointer-events-none" />
-          </div>
-        </div>
-
-        {/* Amount Sent (ILS) */}
-        <div className="mt-6">
-          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.amountSentLabel}</label>
-          <div className="mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
-            <input
-              type="number"
-              min={minIls}
-              value={sendAmount}
-              onChange={(e) => setSendAmount(Number(e.target.value) || 0)}
-              className="min-w-0 flex-1 bg-transparent text-left text-2xl font-bold text-gray-900 outline-none sm:text-3xl"
-            />
-            <span className="shrink-0 text-base font-medium text-gray-600">ILS</span>
-            <Flag countryCode="il" className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
           </div>
         </div>
 
