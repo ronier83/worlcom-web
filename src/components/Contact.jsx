@@ -1,76 +1,55 @@
 import { motion } from 'framer-motion'
-import { HeroLogoMark } from './Hero'
 import { contact } from '../data/content'
 import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
 /**
- * Contact section: "We Are Here For You" — dark background, hero image with speech-bubble overlay,
- * availability line, and contact methods (Email, Phone) with images: mail.png, phone.png.
- * Help-desk image: public/images/help-desk.png
+ * Contact section: clean text-only layout — intro question, main heading,
+ * availability line (days left, hours right), and contact methods as "Label: Detail" list.
+ * No icons or emojis.
  */
 export default function Contact() {
   const shouldAnimate = usePageLoadAnimation()
   return (
-    <section id="contact" className="bg-white py-10 md:py-14">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-6">
-        {/* Centered image with rounded border and speech-bubble overlay */}
-        <motion.div
-          initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
+    <section id="contact" className="font-google-sans bg-white py-10 md:py-14">
+      <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+        {/* Section header — left-aligned */}
+        <motion.h2
+          initial={shouldAnimate ? { opacity: 0, y: 12 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="relative mx-auto max-w-2xl overflow-hidden rounded-3xl bg-slate-600 shadow-xl"
+          className="text-left text-xl font-bold text-gray-500 sm:text-2xl md:text-3xl"
         >
-          <img
-            src="/images/help-desk.png"
-            alt="Customer support"
-            className="h-[280px] w-full object-cover sm:h-[320px]"
-          />
-          {/* Logo mark overlay at bottom-right corner (same SVG as hero, smaller size) */}
-          <span
-            className="absolute bottom-4 right-4 flex items-end justify-end drop-shadow-lg"
-            aria-hidden
-          >
-            <HeroLogoMark className="h-14 w-[54px] shrink-0 opacity-90 sm:h-16 sm:w-[62px]" />
-          </span>
+          Need Help?
+        </motion.h2>
+
+        {/* Availability — one line, justify-between: days left, hours right (bold) */}
+        <motion.div
+          initial={shouldAnimate ? { opacity: 0, y: 12 } : false}
+          {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
+          className="mt-10 flex flex-wrap items-center justify-between gap-2 text-gray-900 sm:text-lg"
+        >
+          <span>Sundays to Thursdays, Fridays</span>
+          <span className="font-bold">08:00–19:00 (Sun–Thu) · 08:00–13:00 (Fri) (IL time)</span>
         </motion.div>
 
-        {/* Availability / support note — centered, ample spacing */}
+        {/* Contact methods — vertical list, "Label: Detail", no icons */}
         <motion.div
           initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="mt-6 min-w-0 text-center md:mt-8"
+          className="mt-8 flex flex-col gap-4 text-gray-900 sm:text-lg"
         >
-          <p className="break-words text-gray-900">
-            {contact.hours[0]} | {contact.hours[1]}
+          <p>
+            <span className="font-medium">Call: </span>
+            <a href={`tel:${contact.phone.replace(/\s/g, '').replace(/-/g, '')}`} className="hover:underline">
+              {contact.phone}
+            </a>
+          </p>
+          <p>
+            <span className="font-medium">Email: </span>
+            <a href={`mailto:${contact.email}`} className="hover:underline">
+              {contact.email}
+            </a>
           </p>
           <p className="mt-1 text-sm text-gray-600">{contact.supportNote}</p>
-        </motion.div>
-
-        {/* Contact methods: centred, compact on desktop */}
-        <motion.div
-          initial={shouldAnimate ? { opacity: 0, y: 24 } : false}
-          {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="mx-auto mt-8 grid max-w-xl grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 sm:gap-6 md:mt-10 md:gap-6"
-        >
-          <a
-            href={`mailto:${contact.email}`}
-            className="flex flex-col items-center text-center"
-          >
-            <span className="flex items-center justify-center">
-              <img src="/images/mail.png" alt="" className="h-16 w-16 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" aria-hidden />
-            </span>
-            <span className="mt-3 text-base font-medium text-gray-900 sm:mt-2 sm:text-xs md:text-base">Email</span>
-            <span className="mt-1 break-all text-sm text-gray-700 underline underline-offset-2 sm:mt-0.5 sm:text-[10px] md:text-sm">{contact.email}</span>
-          </a>
-          <a
-            href={`tel:${contact.phone.replace(/\s/g, '').replace(/-/g, '')}`}
-            className="flex flex-col items-center text-center"
-          >
-            <span className="flex items-center justify-center">
-              <img src="/images/phone.png" alt="" className="h-16 w-16 object-contain sm:h-14 sm:w-14 md:h-16 md:w-16" aria-hidden />
-            </span>
-            <span className="mt-3 text-base font-medium text-gray-900 sm:mt-2 sm:text-xs md:text-base">Phone</span>
-            <span className="mt-1 text-sm text-gray-700 underline underline-offset-2 sm:mt-0.5 sm:text-[10px] md:text-sm">{contact.phone}</span>
-          </a>
         </motion.div>
       </div>
     </section>

@@ -23,7 +23,7 @@ const row2Greetings = greetings.slice(7)
 
 export default function MultilingualGreeting() {
   return (
-    <section className="bg-white py-12 md:py-16">
+    <section className="font-google-sans bg-white py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center font-google-sans text-2xl font-bold text-gray-900 md:text-3xl">
           Support in Your Native Language

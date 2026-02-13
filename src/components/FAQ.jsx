@@ -17,12 +17,12 @@ export default function FAQ() {
         <motion.h2
           initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="text-center text-3xl font-bold text-[#A04D1A] md:text-4xl"
+          className="text-center text-[1.95rem] font-bold text-[#A04D1A] md:text-[2.35rem]"
         >
           Frequently Asked Questions
         </motion.h2>
 
-        <div className="mt-12 divide-y divide-[#2563AB]">
+        <div className="mt-12">
           {faq.map((item, index) => {
             const isOpen = openIndex === index
             return (
@@ -37,7 +37,7 @@ export default function FAQ() {
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   className="flex w-full items-center justify-between text-left"
                 >
-                  <span className="text-base font-medium text-[#A04D1A] sm:text-lg">{item.question}</span>
+                  <span className="text-lg font-medium text-[#A04D1A] sm:text-xl">{item.question}</span>
                   <motion.span
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
@@ -55,7 +55,7 @@ export default function FAQ() {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <p className="mt-3 pr-8 text-sm text-[#A04D1A]/80 sm:text-base">{item.answer}</p>
+                      <p className="mt-3 pr-8 text-base text-[#A04D1A]/80 sm:text-lg">{item.answer}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>

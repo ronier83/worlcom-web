@@ -49,6 +49,10 @@ export default function Footer() {
         <div className="mt-12 border-t border-white/20 pt-8 text-center text-sm text-white/60">
           {footer.copyright}
         </div>
+        {/* Divider and black logo */}
+        <div className="mt-8 border-t border-white/20 pt-8 flex justify-center">
+          <img src="/blackLogo.jpg" alt="Worldcom Finance" className="h-12 w-auto object-contain sm:h-14" />
+        </div>
       </div>
     </footer>
   )
