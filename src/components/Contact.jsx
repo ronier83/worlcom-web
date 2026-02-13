@@ -12,20 +12,19 @@ export default function Contact() {
   return (
     <section id="contact" className="font-google-sans bg-white py-10 md:py-14">
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-        {/* Section header — left-aligned */}
+        {/* Section header — Google Sans, black, 2xl (https://fonts.google.com/specimen/Google+Sans) */}
         <motion.h2
           initial={shouldAnimate ? { opacity: 0, y: 12 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="text-left text-3xl font-bold text-gray-500 sm:text-4xl md:text-5xl"
+          className="-ml-[3px] mb-4 text-left text-4xl font-semibold text-black sm:text-5xl md:text-6xl"
         >
           Need Help?
         </motion.h2>
-
         {/* Availability — one line, justify-between: days left, hours right (bold) */}
         <motion.div
           initial={shouldAnimate ? { opacity: 0, y: 12 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="mt-6 flex flex-wrap items-center justify-between gap-2 text-gray-900 sm:text-lg"
+          className="flex flex-wrap items-center justify-between gap-2 text-gray-900 sm:text-lg"
         >
           <span>Sundays to Thursdays, Fridays</span>
           <span className="font-bold">08:00–19:00 (Sun–Thu) · 08:00–13:00 (Fri) (IL time)</span>
@@ -35,7 +34,7 @@ export default function Contact() {
         <motion.div
           initial={shouldAnimate ? { opacity: 0, y: 16 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="mt-6 flex flex-col gap-4 text-gray-900 sm:text-lg"
+          className="mt-6 flex flex-col items-start gap-4 text-left text-gray-900 sm:text-lg"
         >
           <p>
             <span className="font-medium">Call: </span>
