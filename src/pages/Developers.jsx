@@ -39,7 +39,9 @@ export default function DevelopersPage() {
   const specUrl = useMemo(getSpecUrl, [])
 
   // When hash changes (e.g. #/paths/~1getTransactionDetails/get), scroll the target into view.
-  // Redoc updates the hash but may not scroll correctly when it uses an internal scroll container.
+  // Redoc updates the URL via history.pushState/replaceState on sidebar click, which does NOT
+  // fire hashchange; it only fires on real hash change or when you press Enter. So we also
+  // patch pushState/replaceState so sidebar clicks trigger scroll.
   useEffect(() => {
     const scrollToHashTarget = () => {
       const hash = window.location.hash
@@ -67,17 +69,40 @@ export default function DevelopersPage() {
       }
     }
     let timeoutId = null
-    const onHashChange = () => {
+    const scheduleScroll = () => {
       if (timeoutId) clearTimeout(timeoutId)
-      // Small delay so Redoc has rendered the target
       timeoutId = setTimeout(scrollToHashTarget, 150)
     }
-    window.addEventListener('hashchange', onHashChange)
+    // hashchange fires when user edits URL or presses Enter; not when Redoc uses pushState
+    window.addEventListener('hashchange', scheduleScroll)
+    // Redoc uses pushState/replaceState on sidebar click — no hashchange, so we intercept
+    const origPushState = history.pushState
+    const origReplaceState = history.replaceState
+    const isDevelopersPage = (url) => {
+      if (!url) return false
+      const path = typeof url === 'string' ? url.split('?')[0].split('#')[0] : (url.pathname || '')
+      return path.includes('/developers')
+    }
+    const runScrollIfDevelopersWithHash = (url) => {
+      if (!url) return
+      const full = typeof url === 'string' ? url : `${url.pathname || ''}${url.search || ''}${url.hash || ''}`
+      if (isDevelopersPage(full) && full.includes('#')) scheduleScroll()
+    }
+    history.pushState = function (...args) {
+      origPushState.apply(this, args)
+      runScrollIfDevelopersWithHash(args[2])
+    }
+    history.replaceState = function (...args) {
+      origReplaceState.apply(this, args)
+      runScrollIfDevelopersWithHash(args[2])
+    }
     // Initial load with hash (e.g. pasted URL)
-    onHashChange()
+    scheduleScroll()
     return () => {
-      window.removeEventListener('hashchange', onHashChange)
+      window.removeEventListener('hashchange', scheduleScroll)
       if (timeoutId) clearTimeout(timeoutId)
+      history.pushState = origPushState
+      history.replaceState = origReplaceState
     }
   }, [])
 
