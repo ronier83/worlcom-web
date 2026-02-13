@@ -6,7 +6,7 @@ import { footer } from '../data/content'
  */
 export default function Footer() {
   return (
-    <footer id="developers" className="bg-black text-white">
+    <footer id="developers" className="font-google-sans bg-black text-white">
       {/* Bottom: company, contact, navigate, copyright */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">

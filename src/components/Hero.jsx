@@ -169,7 +169,7 @@ export default function Hero() {
             <div className="hidden justify-center pb-2 xl:flex xl:shrink-0 xl:pb-0 xl:justify-start">
               <HeroLogoMark path0X={path0X} path1X={path1X} />
             </div>
-            <div className="hero-headline-block relative z-20 min-w-0 flex flex-col">
+            <div className="hero-headline-block font-google-sans relative z-20 min-w-0 flex flex-col">
             <motion.h1
               initial={shouldAnimate ? { opacity: 0, y: 24 } : false}
               animate={{ opacity: 1, y: 0 }}
