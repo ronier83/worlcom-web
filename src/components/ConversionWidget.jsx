@@ -1,45 +1,33 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { Link } from 'react-scroll'
 import { motion } from 'framer-motion'
-import { HiOutlineBolt, HiOutlineArrowRight, HiOutlinePaperAirplane, HiOutlineBanknotes, HiOutlineBuildingLibrary, HiOutlineDevicePhoneMobile } from 'react-icons/hi2'
+import { HiOutlineBolt, HiOutlineArrowRight, HiOutlineBanknotes, HiOutlineBuildingLibrary } from 'react-icons/hi2'
 import { HiChevronDown } from 'react-icons/hi'
 import { conversionWidget } from '../data/content'
 import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
 
-// Sample rates for demo: from sendCurrency to receiveCurrency. In production, replace with API or Rates page.
-const RATE_MATRIX = {
-  ILS: { USD: 0.27, EUR: 0.25, ILS: 1, THB: 9.5 },
-  USD: { ILS: 3.7, EUR: 0.92, USD: 1, THB: 35 },
-  EUR: { ILS: 4.0, USD: 1.09, EUR: 1, THB: 38 },
+// Live API (worldcomfinance.com/rates). CORS allows *.
+const API_BASE = 'https://wizdraw.prodwfs.com/api/v2'
+
+// Fee by corridor when fee API returns error (match worldcomfinance.com/rates). Key: countryCode2/transferType/supplierUid, value: fee in ILS.
+const FEE_BY_CORRIDOR = {
+  'TH/PICKUP_CASH/ria': 18,
 }
 
-const CURRENCIES = [
-  { code: 'ILS', symbol: '₪', name: 'Israeli Shekel', flag: 'il' },
-  { code: 'USD', symbol: '$', name: 'US Dollar', flag: 'us' },
-  { code: 'EUR', symbol: '€', name: 'Euro', flag: 'eu' },
-  { code: 'THB', symbol: '฿', name: 'Thai Baht', flag: 'th' },
-]
-
-// Send-currency options for "You send" dropdown (ILS, USD, EUR with round flags)
-const SEND_CURRENCIES = CURRENCIES.filter((c) => ['ILS', 'USD', 'EUR'].includes(c.code))
-
-// Receive-currency options for "They get" dropdown: USD, EUR, ILS, THB with round flags
-const RECEIVE_CURRENCIES = [
-  CURRENCIES.find((c) => c.code === 'USD'),
-  CURRENCIES.find((c) => c.code === 'EUR'),
-  CURRENCIES.find((c) => c.code === 'ILS'),
-  CURRENCIES.find((c) => c.code === 'THB'),
-].filter(Boolean)
+// Map API transfer type to display label (match original site wording)
+const TRANSFER_TYPE_LABELS = {
+  PICKUP_CASH: 'Cash Transfer',
+  DEPOSIT: 'Bank Transfer',
+}
 
 const deliveryIcons = {
   'Bank Transfer': HiOutlineBuildingLibrary,
-  'Cash Pickup': HiOutlineBanknotes,
-  'Mobile Wallet': HiOutlineDevicePhoneMobile,
+  'Cash Transfer': HiOutlineBanknotes,
 }
 
-// Circular flag image (Rewire-style). Uses flagcdn.com; fallback for EU if needed.
+// Circular flag (flagcdn). countryCode = ISO 3166-1 alpha-2.
 function Flag({ countryCode, className = 'h-6 w-6' }) {
-  const code = countryCode?.toLowerCase() || 'us'
+  const code = (countryCode || 'us').toLowerCase()
   return (
     <img
       src={`https://flagcdn.com/w40/${code}.png`}
@@ -51,27 +39,217 @@ function Flag({ countryCode, className = 'h-6 w-6' }) {
 }
 
 /**
- * Rewire-style conversion widget: light purple top strip, bold amounts, circular flags, delivery pill, purple CTA.
+ * Calculator matching worldcomfinance.com/rates: Country → Transfer Method → Supplier,
+ * then Amount Sent (ILS), Receiver Gets, Transaction Details (Fee, Total Cost, Min).
+ * Rate, limits and min from country/data; fee from fee/get when possible.
  */
 export default function ConversionWidget() {
-  const [sendAmount, setSendAmount] = useState(1000)
-  const [sendCurrency, setSendCurrency] = useState('ILS')
-  const [receiveCurrency, setReceiveCurrency] = useState('USD')
-  const [delivery, setDelivery] = useState('Cash Pickup')
   const shouldAnimate = usePageLoadAnimation()
 
-  const fromRates = RATE_MATRIX[sendCurrency]
-  const rate = fromRates?.[receiveCurrency] ?? (sendCurrency === 'ILS' ? 0.27 : 1)
-  const receiveAmount = useMemo(() => Math.round(sendAmount * rate * 100) / 100, [sendAmount, rate])
-  const fromCurrency = CURRENCIES.find((c) => c.code === sendCurrency)
-  const toCurrency = CURRENCIES.find((c) => c.code === receiveCurrency)
-  const rateDisplay = `${fromCurrency?.symbol ?? '₪'}1 = ${toCurrency?.symbol ?? '$'}${rate}`
+  // Options from API
+  const [countries, setCountries] = useState([])
+  const [transferTypes, setTransferTypes] = useState([])
+  const [suppliers, setSuppliers] = useState([])
+  // Selections (live flow)
+  const [selectedCountry, setSelectedCountry] = useState(null)
+  const [selectedTransferType, setSelectedTransferType] = useState(null)
+  const [selectedSupplier, setSelectedSupplier] = useState(null)
+  // Data for chosen corridor (rate, limits, limitsMin, currency) from country/data API
+  const [countryData, setCountryData] = useState(null)
+  const [countryDataLoading, setCountryDataLoading] = useState(false)
+  // Receiver amount from API when endpoint returns it (e.g. country/data?amount=...); null = use rate × amount
+  const [receiveAmountFromApi, setReceiveAmountFromApi] = useState(null)
+  const [fee, setFee] = useState(0)
+  const [feeLoading, setFeeLoading] = useState(false)
 
-  const formatAmount = (value, code) => {
-    const c = CURRENCIES.find((x) => x.code === code)
-    const sym = c?.symbol || code
-    return `${sym}${Number(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-  }
+  const [sendAmount, setSendAmount] = useState(1000)
+
+  // Fetch destinations on mount
+  useEffect(() => {
+    let cancelled = false
+    fetch(`${API_BASE}/country/transferdestinations`)
+      .then((res) => res.json())
+      .then((list) => {
+        if (cancelled || !Array.isArray(list)) return
+        const active = list.filter((c) => c.isActive)
+        setCountries(active)
+        // No default selection: calculator starts empty until user selects
+      })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [])
+
+  // When country changes: fetch transfer types, then keep only types that have suppliers (match original: e.g. Thailand only "Cash Transfer")
+  useEffect(() => {
+    if (!selectedCountry?.countryCode2) {
+      setTransferTypes([])
+      setSuppliers([])
+      setSelectedTransferType(null)
+      setSelectedSupplier(null)
+      setCountryData(null)
+      return
+    }
+    let cancelled = false
+    setTransferTypes([])
+    setSelectedTransferType(null)
+    setSuppliers([])
+    setSelectedSupplier(null)
+    setCountryData(null)
+    const countryCode = selectedCountry.countryCode2
+    fetch(`${API_BASE}/country/transfertypes/${countryCode}`)
+      .then((res) => res.json())
+      .then(async (types) => {
+        if (cancelled || !Array.isArray(types)) return
+        // Only show transfer types that have at least one supplier for this country
+        const withSuppliers = await Promise.all(
+          types.map(async (t) => {
+            const res = await fetch(`${API_BASE}/country/suppliers/${countryCode}/${t}`)
+            const list = await res.json()
+            return Array.isArray(list) && list.length > 0 ? t : null
+          })
+        )
+        const available = withSuppliers.filter(Boolean)
+        if (cancelled) return
+        setTransferTypes(available)
+        if (available.length) setSelectedTransferType(available[0])
+      })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [selectedCountry?.countryCode2])
+
+  // When country + transfer type: fetch suppliers, clear supplier
+  useEffect(() => {
+    if (!selectedCountry?.countryCode2 || !selectedTransferType) {
+      setSuppliers([])
+      setSelectedSupplier(null)
+      setCountryData(null)
+      return
+    }
+    let cancelled = false
+    setSuppliers([])
+    setSelectedSupplier(null)
+    setCountryData(null)
+    fetch(`${API_BASE}/country/suppliers/${selectedCountry.countryCode2}/${selectedTransferType}`)
+      .then((res) => res.json())
+      .then((list) => {
+        if (cancelled || !Array.isArray(list)) return
+        setSuppliers(list)
+        if (list.length) setSelectedSupplier(list[0])
+      })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [selectedCountry?.countryCode2, selectedTransferType])
+
+  // When country + transfer type + supplier (and amount): fetch country/data from API (rate, limits, limitsMin; receiver amount when API returns it)
+  useEffect(() => {
+    if (!selectedCountry?.countryCode2 || !selectedTransferType || !selectedSupplier?.supplierUid) {
+      setCountryData(null)
+      setReceiveAmountFromApi(null)
+      return
+    }
+    setCountryDataLoading(true)
+    let cancelled = false
+    const countryCode = selectedCountry.countryCode2
+    const transferType = selectedTransferType
+    const supplierUid = selectedSupplier.supplierUid
+    const url = `${API_BASE}/country/data/${countryCode}/${transferType}/${supplierUid}?amount=${Number(sendAmount) || 0}`
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return
+        setCountryDataLoading(false)
+        if (Array.isArray(data) && data.length) {
+          const row = data[0]
+          setCountryData(row)
+          // Use receiver amount from API when present (no client-side calculation)
+          const apiReceive =
+            typeof row.receiveAmount === 'number' ? row.receiveAmount
+            : typeof row.convertedAmount === 'number' ? row.convertedAmount
+            : typeof row.local === 'number' ? row.local
+            : row.quote != null && typeof row.quote.local === 'number' ? row.quote.local
+            : null
+          setReceiveAmountFromApi(apiReceive)
+          const minIls = row.limitsMin?.ils
+          if (typeof minIls === 'number' && minIls > 0) setSendAmount((prev) => (prev < minIls ? minIls : prev))
+          const commissionFee = Array.isArray(row.commissions) && row.commissions[0] != null
+            ? Number(row.commissions[0].amount ?? row.commissions[0]) : null
+          if (typeof commissionFee === 'number' && commissionFee >= 0) setFee(commissionFee)
+        } else {
+          setCountryData(null)
+          setReceiveAmountFromApi(null)
+        }
+      })
+      .catch(() => {
+        setCountryDataLoading(false)
+        setReceiveAmountFromApi(null)
+      })
+    return () => { cancelled = true }
+  }, [selectedCountry?.countryCode2, selectedTransferType, selectedSupplier?.supplierUid, sendAmount])
+
+  // Fee: POST fee/get with camelCase body; response is { value: 18 }
+  useEffect(() => {
+    const countryCode = selectedCountry?.countryCode2
+    const supplierUid = selectedSupplier?.supplierUid
+    const destCurrency = countryData?.currency ?? selectedCountry?.coinCode
+    if (!countryCode || !selectedTransferType || !supplierUid || !destCurrency) {
+      setFee(0)
+      return
+    }
+    const corridorKey = `${countryCode}/${selectedTransferType}/${supplierUid}`
+    const fallbackFee = FEE_BY_CORRIDOR[corridorKey] ?? 0
+    setFee(fallbackFee)
+
+    setFeeLoading(true)
+    let cancelled = false
+    fetch(`${API_BASE}/transfer/fee/get`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: sendAmount,
+        supplier: supplierUid,
+        countryCode,
+        destinationCurrencyCode: destCurrency,
+        transferMethod: selectedTransferType,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return
+        setFeeLoading(false)
+        const feeValue = data?.value ?? data?.fee ?? data?.data?.fee ?? data?.amount
+        if (typeof feeValue === 'number' && feeValue >= 0) setFee(feeValue)
+        else setFee(fallbackFee)
+      })
+      .catch(() => {
+        setFeeLoading(false)
+        setFee(fallbackFee)
+      })
+    return () => { cancelled = true }
+  }, [selectedCountry?.countryCode2, selectedCountry?.coinCode, selectedTransferType, selectedSupplier?.supplierUid, countryData?.currency, sendAmount])
+
+  const rate = countryData?.rate?.rate ?? 0
+  const receiveCurrency = countryData?.currency ?? 'USD'
+  const receiveSymbol = countryData?.currencySymbol ?? '$'
+  const limitsMin = countryData?.limitsMin ?? {}
+  const minIls = limitsMin.ils ?? 10
+
+  const totalCost = sendAmount + fee
+  // They get: from country/data API when API returns it (receiveAmount, convertedAmount, local, quote.local); else rate × amount (rate from API)
+  const receiveAmount = useMemo(() => {
+    if (typeof receiveAmountFromApi === 'number' && receiveAmountFromApi >= 0) {
+      return Math.round(receiveAmountFromApi * 100) / 100
+    }
+    if (rate <= 0) return 0
+    return Math.round(sendAmount * rate * 100) / 100
+  }, [receiveAmountFromApi, sendAmount, rate])
+
+  const rateDisplay = countryData
+    ? `₪1 = ${receiveSymbol}${Number(rate).toFixed(4)}`
+    : 'Select country & method'
+
+  const formatAmount = useCallback((value, symbol) => {
+    return `${symbol}${Number(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  }, [])
 
   return (
     <motion.div
@@ -79,7 +257,7 @@ export default function ConversionWidget() {
       {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
       className="w-full min-w-0 max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl lg:max-w-[380px]"
     >
-      {/* Top strip: light purple bg, rate left, Check Our Rates link right (underlined); min-w-0 so flex doesn't overflow on small screens */}
+      {/* Top strip: rate (from API when corridor selected), Check Our Rates link */}
       <div className="flex min-w-0 items-center justify-between gap-3 bg-[#3482F1]/10 px-4 py-3 sm:px-6">
         <span className="min-w-0 truncate text-sm font-medium text-gray-700">{rateDisplay}</span>
         <Link
@@ -87,99 +265,145 @@ export default function ConversionWidget() {
           smooth
           duration={500}
           offset={-72}
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-[#3482F1] underline decoration-[#3482F1] underline-offset-2"
+          className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-[#3482F1] underline decoration-[#3482F1] underline-offset-2"
         >
-          <HiOutlineBolt className="h-4 w-4 shrink-0" />
+          <HiOutlineBolt className="h-4 w-4" />
           {conversionWidget.rateLabel}
         </Link>
       </div>
 
       <div className="p-6 sm:p-8">
-        {/* You send: label, bold amount, dropdown (ILS / USD / EUR) with round flags */}
+        {/* Country dropdown: full row clickable so both sides open the select */}
         <div className="mt-2">
-          <label className="block text-sm font-medium text-gray-600">{conversionWidget.youSend}</label>
+          <label className="block text-sm font-medium text-gray-600">{conversionWidget.countryLabel}</label>
+          <div className="relative mt-1 flex items-center gap-2 border-b border-gray-300 pb-2">
+            <select
+              value={selectedCountry?.countryCode2 ?? ''}
+              onChange={(e) => {
+                const v = e.target.value
+                const c = v ? countries.find((x) => x.countryCode2 === v) : null
+                setSelectedCountry(c ?? null)
+              }}
+              className="absolute inset-0 z-10 min-w-0 cursor-pointer opacity-0"
+              aria-label="Select country"
+            >
+              <option value="" disabled={countries.length > 0}>{countries.length === 0 ? 'Loading...' : 'Select country'}</option>
+              {countries.map((c) => (
+                <option key={c.id} value={c.countryCode2}>{c.name}</option>
+              ))}
+            </select>
+            <span className="min-w-0 flex-1 text-base font-medium text-gray-900">
+              {selectedCountry?.name ?? (countries.length === 0 ? 'Loading...' : 'Select country')}
+            </span>
+            {selectedCountry && (
+              <Flag countryCode={selectedCountry.countryCode2} className="h-6 w-6 shrink-0 sm:h-7 sm:w-7 pointer-events-none" />
+            )}
+            <HiChevronDown className="h-5 w-5 shrink-0 text-gray-500 pointer-events-none" />
+          </div>
+        </div>
+
+        {/* Transfer Method dropdown: full row clickable */}
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-600">{conversionWidget.transferMethodLabel}</label>
+          <div className="relative mt-1 flex items-center gap-2 border-b border-gray-300 pb-2">
+            <select
+              value={selectedTransferType ?? ''}
+              onChange={(e) => setSelectedTransferType(e.target.value || null)}
+              className="absolute inset-0 z-10 min-w-0 cursor-pointer opacity-0"
+              aria-label="Select transfer method"
+            >
+              <option value="" disabled={transferTypes.length > 0}>Select transfer method</option>
+              {transferTypes.map((t) => (
+                <option key={t} value={t}>{TRANSFER_TYPE_LABELS[t] ?? t}</option>
+              ))}
+            </select>
+            <span className="min-w-0 flex-1 text-base font-medium text-gray-900">
+              {selectedTransferType ? (TRANSFER_TYPE_LABELS[selectedTransferType] ?? selectedTransferType) : 'Select transfer method'}
+            </span>
+            {selectedTransferType && deliveryIcons[TRANSFER_TYPE_LABELS[selectedTransferType]] && (
+              <span className="shrink-0 pointer-events-none">
+                {(() => {
+                  const Icon = deliveryIcons[TRANSFER_TYPE_LABELS[selectedTransferType]]
+                  return <Icon className="h-5 w-5 text-gray-500" />
+                })()}
+              </span>
+            )}
+            <HiChevronDown className="h-5 w-5 shrink-0 text-gray-500 pointer-events-none" />
+          </div>
+        </div>
+
+        {/* Supplier dropdown: full row clickable */}
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-600">{conversionWidget.supplierLabel}</label>
+          <div className="relative mt-1 flex items-center gap-2 border-b border-gray-300 pb-2">
+            <select
+              value={selectedSupplier?.supplierUid ?? ''}
+              onChange={(e) => {
+                const v = e.target.value
+                const s = v ? suppliers.find((x) => x.supplierUid === v) : null
+                setSelectedSupplier(s ?? null)
+              }}
+              className="absolute inset-0 z-10 min-w-0 cursor-pointer opacity-0"
+              aria-label="Select supplier"
+            >
+              <option value="" disabled={suppliers.length > 0}>Select supplier</option>
+              {suppliers.map((s) => (
+                <option key={s.id} value={s.supplierUid}>{s.supplierName}</option>
+              ))}
+            </select>
+            <span className="min-w-0 flex-1 text-base font-medium text-gray-900">
+              {selectedSupplier?.supplierName ?? 'Select supplier'}
+            </span>
+            <HiChevronDown className="h-5 w-5 shrink-0 text-gray-500 pointer-events-none" />
+          </div>
+        </div>
+
+        {/* Amount Sent (ILS) */}
+        <div className="mt-6">
+          <label className="block text-sm font-medium text-gray-600">{conversionWidget.amountSentLabel}</label>
           <div className="mt-1 flex items-center gap-2 border-b border-gray-300 pb-2">
             <input
               type="number"
-              min={1}
+              min={minIls}
               value={sendAmount}
               onChange={(e) => setSendAmount(Number(e.target.value) || 0)}
               className="min-w-0 flex-1 bg-transparent text-2xl font-bold text-gray-900 outline-none sm:text-3xl"
             />
-            <label className="relative flex cursor-pointer items-center gap-1.5">
-              <span className="pointer-events-none text-base font-medium text-gray-600">{sendCurrency}</span>
-              <span className="pointer-events-none">
-                <Flag countryCode={fromCurrency?.flag || 'il'} className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
-              </span>
-              <HiChevronDown className="pointer-events-none h-5 w-5 shrink-0 text-gray-500" />
-              <select
-                value={sendCurrency}
-                onChange={(e) => setSendCurrency(e.target.value)}
-                className="absolute inset-0 cursor-pointer opacity-0"
-                aria-label="Select send currency"
-              >
-                {SEND_CURRENCIES.map((c) => (
-                  <option key={c.code} value={c.code}>{c.code}</option>
-                ))}
-              </select>
-            </label>
+            <span className="shrink-0 text-base font-medium text-gray-600">ILS</span>
+            <Flag countryCode="il" className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
           </div>
         </div>
 
-        {/* They get: bold amount left-aligned on mobile (body is text-center); currency + flag on right */}
+        {/* Receiver Gets (from API rate) */}
         <div className="mt-6 text-left">
           <label className="block text-sm font-medium text-gray-600">{conversionWidget.theyGet}</label>
           <div className="mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
             <span className="min-w-0 flex-1 text-left text-2xl font-bold text-gray-900 sm:text-3xl">
-              {formatAmount(receiveAmount, receiveCurrency)}
+              {countryDataLoading ? '...' : formatAmount(receiveAmount, receiveSymbol)}
             </span>
-            <label className="relative flex cursor-pointer items-center gap-1.5">
-              <span className="pointer-events-none text-base font-medium text-gray-600">{receiveCurrency}</span>
-              <span className="pointer-events-none">
-                <Flag countryCode={toCurrency?.flag || 'us'} className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+            <span className="shrink-0 text-base font-medium text-gray-600">{receiveCurrency}</span>
+            {selectedCountry && <Flag countryCode={selectedCountry.countryCode2} className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />}
+          </div>
+        </div>
+
+        {/* Transaction Details: Total Cost first, then Fee (match original rates page order) */}
+        <div className="mt-6 rounded-xl border border-gray-100 bg-gray-50/80 px-4 py-3 sm:px-5">
+          <span className="block text-sm font-medium text-gray-600">Transaction Details</span>
+          <div className="mt-2 flex flex-col gap-1.5 text-left">
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-600">{conversionWidget.totalCostLabel}</span>
+              <span className="font-medium text-gray-900">{formatAmount(totalCost, '₪')}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-600">{conversionWidget.feeLabel}</span>
+              <span className="font-medium text-gray-900">
+                {feeLoading ? '...' : formatAmount(fee, '₪')}
               </span>
-              <HiChevronDown className="pointer-events-none h-5 w-5 shrink-0 text-gray-500" />
-              <select
-                value={receiveCurrency}
-                onChange={(e) => setReceiveCurrency(e.target.value)}
-                className="absolute inset-0 cursor-pointer opacity-0"
-                aria-label="Select receive currency"
-              >
-                {RECEIVE_CURRENCIES.map((c) => (
-                  <option key={c.code} value={c.code}>{c.name}</option>
-                ))}
-              </select>
-            </label>
+            </div>
           </div>
         </div>
 
-        {/* Delivery method: single pill with white bg, purple border, icon + "Cash Pickup" in purple */}
-        <div className="mt-6">
-          <label className="block text-sm font-medium text-gray-600">{conversionWidget.deliveryMethod}</label>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {conversionWidget.deliveryOptions.map((opt) => {
-              const Icon = deliveryIcons[opt] || HiOutlineBanknotes
-              const active = delivery === opt
-              return (
-                <button
-                  key={opt}
-                  type="button"
-                  onClick={() => setDelivery(opt)}
-                  className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
-                    active
-                      ? 'border-[#3482F1] bg-white text-[#3482F1]'
-                      : 'border-gray-200 bg-gray-50 text-gray-600'
-                  }`}
-                >
-                  <Icon className="h-4 w-4" />
-                  {opt}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Get Started: full width purple button, white text + arrow */}
+        {/* Get Started CTA */}
         <Link to="services" smooth duration={500} offset={-72} className="mt-8 block">
           <motion.span
             className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-4 text-lg font-bold text-white"

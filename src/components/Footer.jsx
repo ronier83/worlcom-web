@@ -53,7 +53,7 @@ export default function Footer() {
             <div className="mt-2 flex flex-col gap-2">
               <RouterLink to="/about" className="text-sm text-white/70 hover:text-white/90">About</RouterLink>
               <Link to="services" smooth duration={500} offset={-72} className="text-sm text-white/70">Services</Link>
-              <Link to="rates" smooth duration={500} offset={-72} className="text-sm text-white/70">Rates</Link>
+              <RouterLink to="/rates" className="text-sm text-white/70 hover:text-white/90">Rates</RouterLink>
               <Link to="contact" smooth duration={500} offset={-72} className="text-sm text-white/70">Contact</Link>
             </div>
           </div>

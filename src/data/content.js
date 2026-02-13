@@ -11,7 +11,7 @@ export const brand = {
 
 export const nav = {
   links: [
-    { label: 'Rates', href: '#rates' },
+    { label: 'Rates', href: '/rates' },
     { label: 'Developers', href: '/developers' },
     { label: 'About Us', href: '/about' },
   ],
@@ -34,6 +34,21 @@ export const conversionWidget = {
   deliveryOptions: ['Bank Transfer', 'Cash Pickup', 'Mobile Wallet'],
   ctaLabel: "Get Started",
   feesLabel: '₪0 Sending fees on all transfers',
+  feeLabel: 'Fee',
+  totalCostLabel: 'Total Cost',
+  countryLabel: 'Country',
+  transferMethodLabel: 'Transfer method',
+  supplierLabel: 'Supplier',
+  amountSentLabel: 'Amount sent',
+}
+
+// Rates page (mirrors worldcomfinance.com/rates): title, intro, calculator CTA
+export const ratesPage = {
+  title: 'Rates',
+  subhead: 'Live exchange rates and fees for international transfers.',
+  intro: "Check our competitive rates and fees for sending money abroad. Select your destination country, transfer method, and supplier to see the exact rate and how much your recipient will get. Rates are updated in real time—no hidden fees.",
+  calculatorHeading: 'Transfer calculator',
+  calculatorSubtext: 'Choose country, transfer method, and supplier to see the rate and amount received.',
 }
 
 export const statistics = [
