@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { Link } from 'react-scroll'
+import { Link as RouterLink } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { HiOutlineBolt, HiOutlineArrowRight, HiOutlineBanknotes, HiOutlineBuildingLibrary } from 'react-icons/hi2'
 import { HiChevronDown } from 'react-icons/hi'
@@ -279,16 +280,13 @@ export default function ConversionWidget() {
       {/* Top strip: rate (from API when corridor selected), Check Our Rates link */}
       <div className="flex min-w-0 items-center justify-between gap-3 bg-[#3482F1]/10 px-4 py-2 sm:px-5">
         <span className="min-w-0 truncate text-sm font-medium text-gray-700">{rateDisplay}</span>
-        <Link
-          to="rates"
-          smooth
-          duration={500}
-          offset={-72}
+        <RouterLink
+          to="/rates"
           className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-[#3482F1] underline decoration-[#3482F1] underline-offset-2"
         >
           <HiOutlineBolt className="h-4 w-4" />
           {conversionWidget.rateLabel}
-        </Link>
+        </RouterLink>
       </div>
 
       <div className="p-4 text-left sm:p-5">
