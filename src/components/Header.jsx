@@ -39,7 +39,7 @@ export default function Header() {
       <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-3 sm:h-20 sm:gap-4 sm:px-6 lg:px-8">
         {/* Logo - fills nav height; narrower on mobile (h-14), full height from sm */}
         <Link to="hero" smooth duration={500} className="flex h-full items-center p-0">
-          <img src="/logoWhite.PNG" alt={brand.name} className="h-full max-h-14 w-auto object-contain sm:max-h-20" />
+          <img src="/logoWhite.PNG" alt={brand.name} className="h-full max-h-10 w-auto object-contain sm:max-h-14" />
         </Link>
 
         {/* Desktop nav - white text */}
