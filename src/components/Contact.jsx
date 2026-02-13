@@ -20,11 +20,11 @@ export default function Contact() {
         >
           Need Help?
         </motion.h2>
-        {/* Availability — one line, justify-between: days left, hours right (bold) */}
+        {/* Availability — one line, justify-between: days left, hours right (bold); left-aligned when wrapped on mobile */}
         <motion.div
           initial={shouldAnimate ? { opacity: 0, y: 12 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="flex flex-wrap items-center justify-between gap-2 text-[1.25rem] text-gray-900 sm:text-[1.40625rem]"
+          className="flex flex-wrap items-start justify-between gap-2 text-left text-[1.25rem] text-gray-900 sm:items-center sm:text-[1.40625rem]"
         >
           <span>Sundays to Thursdays, Fridays</span>
           <span className="font-bold text-[1rem] sm:text-[1.125rem]">08:00–19:00 (Sun–Thu) · 08:00–13:00 (Fri) GMT+2</span>
