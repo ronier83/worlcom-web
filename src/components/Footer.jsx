@@ -67,6 +67,27 @@ export default function Footer() {
         {/* Divider: black logo above copyright */}
         <div className="mt-12 border-t border-white/20 pt-8 text-center">
           <img src="/logoWhite.PNG" alt="Worldcom Finance" className="mx-auto h-12 w-auto object-contain sm:h-14" />
+          {/* Social links: Facebook, LinkedIn, Instagram */}
+          <div className="mx-auto mt-4 flex justify-center gap-4">
+            <a href="https://www.facebook.com/@WorldComFinanceLtd" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white" aria-label="Facebook">
+              <img src="/images/facebook.svg" alt="" className="h-6 w-6 object-contain sm:h-7 sm:w-7" />
+            </a>
+            <a href="https://www.linkedin.com/company/worldcom-finance" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white" aria-label="LinkedIn">
+              <img src="/images/linkedin.svg" alt="" className="h-6 w-6 object-contain sm:h-7 sm:w-7" />
+            </a>
+            <a href="https://www.instagram.com/worldcom.official?igsh=bzkxYml3eWMyZHY%3D" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-white" aria-label="Instagram">
+              <img src="/images/instagram.svg" alt="" className="h-6 w-6 object-contain sm:h-7 sm:w-7" />
+            </a>
+          </div>
+          {/* App store badges */}
+          <div className="mx-auto mt-4 flex flex-wrap justify-center gap-3 pt-[4px]">
+            <a href="https://apps.apple.com/us/app/worldcom-finance/id1557852337" target="_blank" rel="noopener noreferrer" className="inline-block" aria-label="Download on the App Store">
+              <img src="/images/app-ios.svg" alt="" className="h-10 w-auto object-contain sm:h-11" />
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.worldcom.finance" target="_blank" rel="noopener noreferrer" className="inline-block" aria-label="Get it on Google Play">
+              <img src="/images/app-android.svg" alt="" className="h-10 w-auto object-contain sm:h-11" />
+            </a>
+          </div>
           <p className="mt-6 text-sm text-white/60">{footer.copyright}</p>
         </div>
       </div>
