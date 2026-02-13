@@ -4,7 +4,7 @@
  */
 
 export const brand = {
-  name: 'worldcom FINANCE',
+  name: 'WorldCom Finance',
   legalEntity: 'WIC Worldcom Finance LTD',
   licenseNumbers: '57533, 63141',
 }
