@@ -67,64 +67,65 @@ export default function RatesPage() {
                 <ConversionWidget />
               </div>
             </motion.div>
+          </div>
+        </section>
 
-            {/* Q&A section (from worldcomfinance.com/rates) */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
+        {/* FAQ section: same design as main page FAQ (peach bg, brown heading, accordion) */}
+        <section id="faq" className="bg-[#FFF0E6] py-16 font-google-sans md:py-24">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.12 }}
-              className="mt-16 border-t border-gray-200 pt-12 text-left"
+              transition={{ duration: 0.3 }}
+              className="text-center text-[1.95rem] font-bold text-[#A04D1A] md:text-[2.35rem]"
             >
-              <h2 className="text-xl font-semibold text-accent sm:text-2xl">
-                {ratesPage.questionsHeading}
-              </h2>
-              <div className="mt-8 text-left">
-                {ratesPage.questions.map((item, index) => {
-                  const isOpen = openQuestionIndex === index
-                  return (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.25, delay: index * 0.04 }}
-                      className="border-b border-gray-100 py-5 text-left last:border-b-0"
+              {ratesPage.questionsHeading}
+            </motion.h2>
+
+            <div className="mt-12 text-left">
+              {ratesPage.questions.map((item, index) => {
+                const isOpen = openQuestionIndex === index
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25, delay: index * 0.04 }}
+                    className="py-5 text-left"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenQuestionIndex(isOpen ? null : index)}
+                      className="flex w-full items-center justify-between text-left"
                     >
-                      <button
-                        type="button"
-                        onClick={() => setOpenQuestionIndex(isOpen ? null : index)}
-                        className="flex w-full items-center justify-between text-left"
+                      <span className="text-lg font-medium text-[#A04D1A] sm:text-xl">{item.question}</span>
+                      <motion.span
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="ml-4 flex-shrink-0 text-[#2563AB]"
                       >
-                        <span className="text-base font-medium text-accent sm:text-lg">
-                          {item.question}
-                        </span>
-                        <motion.span
-                          animate={{ rotate: isOpen ? 180 : 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="ml-4 flex-shrink-0 text-primary"
+                        <HiChevronDown className="h-5 w-5" />
+                      </motion.span>
+                    </button>
+                    <AnimatePresence>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden text-left"
                         >
-                          <HiChevronDown className="h-5 w-5" />
-                        </motion.span>
-                      </button>
-                      <AnimatePresence>
-                        {isOpen && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="overflow-hidden text-left"
-                          >
-                            <p className="mt-3 pr-8 text-left text-base text-gray-700 leading-relaxed sm:text-lg">
-                              {item.answer}
-                            </p>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
-                  )
-                })}
-              </div>
-            </motion.div>
+                          <p className="mt-3 pr-8 text-left text-base text-[#A04D1A]/80 leading-relaxed sm:text-lg">
+                            {item.answer}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                )
+              })}
+            </div>
           </div>
         </section>
       </main>

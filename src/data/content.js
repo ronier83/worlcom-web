@@ -50,7 +50,7 @@ export const ratesPage = {
   calculatorHeading: 'Transfer calculator',
   calculatorSubtext: 'Choose country, transfer method, and supplier to see the rate and amount received.',
   // Q&A section (from worldcomfinance.com/rates)
-  questionsHeading: 'Frequently asked questions',
+  questionsHeading: 'Frequently Asked Questions',
   questions: [
     {
       question: 'How Do I Sign Up for Worldcom Finance?',
