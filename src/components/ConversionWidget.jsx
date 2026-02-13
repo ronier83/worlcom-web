@@ -259,9 +259,12 @@ export default function ConversionWidget() {
     return Math.round(sendAmount * rate * 100) / 100
   }, [receiveAmountFromApi, sendAmount, rate])
 
+  // Only show rate after API returns; no "Select country & method" – wait until currency loads
   const rateDisplay = countryData
     ? `₪1 = ${receiveSymbol}${Number(rate).toFixed(4)}`
-    : 'Select country & method'
+    : countryDataLoading
+      ? '...'
+      : ''
 
   const formatAmount = useCallback((value, symbol) => {
     return `${symbol}${Number(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -274,7 +277,7 @@ export default function ConversionWidget() {
       className="w-full min-w-0 max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl text-left lg:max-w-[380px]"
     >
       {/* Top strip: rate (from API when corridor selected), Check Our Rates link */}
-      <div className="flex min-w-0 items-center justify-between gap-3 bg-[#3482F1]/10 px-4 py-3 sm:px-6">
+      <div className="flex min-w-0 items-center justify-between gap-3 bg-[#3482F1]/10 px-4 py-2 sm:px-5">
         <span className="min-w-0 truncate text-sm font-medium text-gray-700">{rateDisplay}</span>
         <Link
           to="rates"
@@ -288,19 +291,19 @@ export default function ConversionWidget() {
         </Link>
       </div>
 
-      <div className="p-6 text-left sm:p-8">
+      <div className="p-4 text-left sm:p-5">
         {/* Amount Sent (ILS) – first field; display with thousand separators (1,000 10,000 etc.) */}
-        <div className="mt-2">
+        <div className="mt-0">
           <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.amountSentLabel}</label>
-          <div className="mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
+          <div className="mt-0.5 flex items-center justify-start gap-2 border-b border-gray-300 pb-1.5">
             <input
               type="text"
               inputMode="numeric"
               pattern="[0-9]*"
               autoComplete="off"
-              value={sendAmount === 0 ? '' : sendAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+              value={sendAmount === 0 ? '' : `₪${sendAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`}
               onChange={(e) => {
-                const raw = e.target.value.replace(/,/g, '')
+                const raw = e.target.value.replace(/[^\d]/g, '')
                 const num = raw === '' ? 0 : parseInt(raw, 10)
                 if (raw === '' || (!Number.isNaN(num) && num >= 0)) setSendAmount(raw === '' ? 0 : num)
               }}
@@ -316,9 +319,9 @@ export default function ConversionWidget() {
         </div>
 
         {/* They get (second): amount + currency only after API returns; country select via clickable flag on the right */}
-        <div className="mt-4 text-left">
+        <div className="mt-3 text-left">
           <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.theyGet}</label>
-          <div className="mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
+          <div className="mt-0.5 flex items-center justify-start gap-2 border-b border-gray-300 pb-1.5">
             <span className="min-w-0 flex-1 text-left text-2xl font-bold text-gray-900 sm:text-3xl">
               {!countryData && !countryDataLoading ? '' : countryDataLoading ? '...' : formatAmount(receiveAmount, receiveSymbol)}
             </span>
@@ -354,9 +357,9 @@ export default function ConversionWidget() {
         </div>
 
         {/* Transfer Method dropdown: full row clickable */}
-        <div className="mt-4">
+        <div className="mt-3">
           <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.transferMethodLabel}</label>
-          <div className="relative mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
+          <div className="relative mt-0.5 flex items-center justify-start gap-2 border-b border-gray-300 pb-1.5">
             <select
               value={selectedTransferType ?? ''}
               onChange={(e) => setSelectedTransferType(e.target.value || null)}
@@ -384,9 +387,9 @@ export default function ConversionWidget() {
         </div>
 
         {/* Supplier dropdown: full row clickable */}
-        <div className="mt-4">
+        <div className="mt-3">
           <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.supplierLabel}</label>
-          <div className="relative mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
+          <div className="relative mt-0.5 flex items-center justify-start gap-2 border-b border-gray-300 pb-1.5">
             <select
               value={selectedSupplier?.supplierUid ?? ''}
               onChange={(e) => {
@@ -410,9 +413,9 @@ export default function ConversionWidget() {
         </div>
 
         {/* Transaction Details: Total Cost first, then Fee (match original rates page order) */}
-        <div className="mt-6 rounded-xl border border-gray-100 bg-gray-50/80 px-4 py-3 text-left sm:px-5">
+        <div className="mt-4 rounded-xl border border-gray-100 bg-gray-50/80 px-3 py-2.5 text-left sm:px-4">
           <span className="block text-left text-sm font-medium text-gray-600">Transaction Details</span>
-          <div className="mt-2 flex flex-col gap-1.5 text-left">
+          <div className="mt-1.5 flex flex-col gap-1 text-left">
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">{conversionWidget.totalCostLabel}</span>
               <span className="font-medium text-gray-900">{formatAmount(totalCost, '₪')}</span>
@@ -427,9 +430,9 @@ export default function ConversionWidget() {
         </div>
 
         {/* Get Started CTA */}
-        <Link to="services" smooth duration={500} offset={-72} className="mt-8 block">
+        <Link to="services" smooth duration={500} offset={-72} className="mt-5 block">
           <motion.span
-            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-4 text-lg font-bold text-white"
+            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-3 text-lg font-bold text-white"
             whileTap={{ scale: 0.99 }}
           >
             {conversionWidget.ctaLabel}

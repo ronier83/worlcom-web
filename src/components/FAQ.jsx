@@ -22,7 +22,7 @@ export default function FAQ() {
           Frequently Asked Questions
         </motion.h2>
 
-        <div className="mt-12">
+        <div className="mt-12 text-left">
           {faq.map((item, index) => {
             const isOpen = openIndex === index
             return (
@@ -30,7 +30,7 @@ export default function FAQ() {
                 key={index}
                 initial={shouldAnimate ? { opacity: 0, y: 10 } : false}
                 {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true } } : { animate: { opacity: 1, y: 0 } })}
-                className="py-5"
+                className="py-5 text-left"
               >
                 <button
                   type="button"
@@ -53,9 +53,9 @@ export default function FAQ() {
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
+                      className="overflow-hidden text-left"
                     >
-                      <p className="mt-3 pr-8 text-base text-[#A04D1A]/80 sm:text-lg">{item.answer}</p>
+                      <p className="mt-3 pr-8 text-left text-base text-[#A04D1A]/80 sm:text-lg">{item.answer}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>

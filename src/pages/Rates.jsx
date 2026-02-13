@@ -73,12 +73,12 @@ export default function RatesPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.12 }}
-              className="mt-16 border-t border-gray-200 pt-12"
+              className="mt-16 border-t border-gray-200 pt-12 text-left"
             >
               <h2 className="text-xl font-semibold text-accent sm:text-2xl">
                 {ratesPage.questionsHeading}
               </h2>
-              <div className="mt-8">
+              <div className="mt-8 text-left">
                 {ratesPage.questions.map((item, index) => {
                   const isOpen = openQuestionIndex === index
                   return (
@@ -87,7 +87,7 @@ export default function RatesPage() {
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.25, delay: index * 0.04 }}
-                      className="border-b border-gray-100 py-5 last:border-b-0"
+                      className="border-b border-gray-100 py-5 text-left last:border-b-0"
                     >
                       <button
                         type="button"
@@ -112,9 +112,9 @@ export default function RatesPage() {
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="overflow-hidden"
+                            className="overflow-hidden text-left"
                           >
-                            <p className="mt-3 pr-8 text-base text-gray-700 leading-relaxed sm:text-lg">
+                            <p className="mt-3 pr-8 text-left text-base text-gray-700 leading-relaxed sm:text-lg">
                               {item.answer}
                             </p>
                           </motion.div>
