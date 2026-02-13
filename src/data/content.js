@@ -42,13 +42,33 @@ export const conversionWidget = {
   amountSentLabel: 'Amount sent',
 }
 
-// Rates page (mirrors worldcomfinance.com/rates): title, intro, calculator CTA
+// Rates page (content scraped from worldcomfinance.com/rates): title, intro, calculator, Q&A
 export const ratesPage = {
   title: 'Rates',
   subhead: 'Live exchange rates and fees for international transfers.',
   intro: "Check our competitive rates and fees for sending money abroad. Select your destination country, transfer method, and supplier to see the exact rate and how much your recipient will get. Rates are updated in real time—no hidden fees.",
   calculatorHeading: 'Transfer calculator',
   calculatorSubtext: 'Choose country, transfer method, and supplier to see the rate and amount received.',
+  // Q&A section (from worldcomfinance.com/rates)
+  questionsHeading: 'Frequently asked questions',
+  questions: [
+    {
+      question: 'How Do I Sign Up for Worldcom Finance?',
+      answer: "You can sign up by visiting our registration page or by downloading the Worldcom Finance app from the iOS App Store or Google Play Store. Once your account is set up, you're ready to start using Worldcom Finance. By completing these steps, you'll gain secure access to all Worldcom Finance services, ensuring a smooth start to managing your finances efficiently.",
+    },
+    {
+      question: 'How Can I Send Money?',
+      answer: "Sending money through our app is simple and convenient. Follow these steps: Specify the amount you wish to send. Enter your full name, email address, and phone number. Create a strong password and confirm your phone number by entering the verification code sent to you via SMS. Choose your preferred payment method and complete the payment for the transaction.",
+    },
+    {
+      question: 'How Can I Download the Worldcom Finance App?',
+      answer: "Downloading the Worldcom Finance app is quick and easy. It is available for both iOS and Android devices. For your convenience, you can download the app from the Apple App Store or Google Play Store. Once installed, open the app and follow the simple setup process to start using Worldcom Finance. If you encounter any issues, feel free to reach out to our support team for assistance.",
+    },
+    {
+      question: 'How Can I Contact You If I Have Questions?',
+      answer: "Message us directly on WhatsApp or reach us by email at cs@worldcomfinance.com or by phone at 03-900-9823. For additional assistance, feel free to contact our support team. Our hours are Sundays to Thursdays 08:00–19:00 and Fridays 08:00–13:00 (Israel time).",
+    },
+  ],
 }
 
 export const statistics = [

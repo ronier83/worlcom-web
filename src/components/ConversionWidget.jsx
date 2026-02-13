@@ -73,7 +73,9 @@ export default function ConversionWidget() {
         if (cancelled || !Array.isArray(list)) return
         const active = list.filter((c) => c.isActive)
         setCountries(active)
-        // No default selection: calculator starts empty until user selects
+        // Default: Thailand when site loads
+        const thailand = active.find((c) => c.countryCode2 === 'TH')
+        if (thailand) setSelectedCountry(thailand)
       })
       .catch(() => {})
     return () => { cancelled = true }
@@ -111,7 +113,9 @@ export default function ConversionWidget() {
         const available = withSuppliers.filter(Boolean)
         if (cancelled) return
         setTransferTypes(available)
-        if (available.length) setSelectedTransferType(available[0])
+        // Default: Bank Transfer (DEPOSIT) when available (e.g. for Thailand)
+        const defaultType = available.includes('DEPOSIT') ? 'DEPOSIT' : available[0]
+        if (defaultType) setSelectedTransferType(defaultType)
       })
       .catch(() => {})
     return () => { cancelled = true }
@@ -134,7 +138,11 @@ export default function ConversionWidget() {
       .then((list) => {
         if (cancelled || !Array.isArray(list)) return
         setSuppliers(list)
-        if (list.length) setSelectedSupplier(list[0])
+        // Default: "Thailand Deposit" supplier when present (e.g. for TH + Bank Transfer)
+        const thailandDeposit = list.find(
+          (s) => (s.supplierName || '').toLowerCase().includes('thailand deposit') || (s.supplierName || '').toLowerCase().includes('thailand deposite')
+        )
+        setSelectedSupplier(thailandDeposit || list[0] || null)
       })
       .catch(() => {})
     return () => { cancelled = true }
@@ -255,7 +263,7 @@ export default function ConversionWidget() {
     <motion.div
       initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
       {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-      className="w-full min-w-0 max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl lg:max-w-[380px]"
+      className="w-full min-w-0 max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl text-left lg:max-w-[380px]"
     >
       {/* Top strip: rate (from API when corridor selected), Check Our Rates link */}
       <div className="flex min-w-0 items-center justify-between gap-3 bg-[#3482F1]/10 px-4 py-3 sm:px-6">
@@ -272,11 +280,11 @@ export default function ConversionWidget() {
         </Link>
       </div>
 
-      <div className="p-6 sm:p-8">
+      <div className="p-6 text-left sm:p-8">
         {/* Country dropdown: full row clickable so both sides open the select */}
         <div className="mt-2">
-          <label className="block text-sm font-medium text-gray-600">{conversionWidget.countryLabel}</label>
-          <div className="relative mt-1 flex items-center gap-2 border-b border-gray-300 pb-2">
+          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.countryLabel}</label>
+          <div className="relative mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
             <select
               value={selectedCountry?.countryCode2 ?? ''}
               onChange={(e) => {
@@ -292,7 +300,7 @@ export default function ConversionWidget() {
                 <option key={c.id} value={c.countryCode2}>{c.name}</option>
               ))}
             </select>
-            <span className="min-w-0 flex-1 text-base font-medium text-gray-900">
+            <span className="min-w-0 flex-1 text-left text-base font-medium text-gray-900">
               {selectedCountry?.name ?? (countries.length === 0 ? 'Loading...' : 'Select country')}
             </span>
             {selectedCountry && (
@@ -304,8 +312,8 @@ export default function ConversionWidget() {
 
         {/* Transfer Method dropdown: full row clickable */}
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-600">{conversionWidget.transferMethodLabel}</label>
-          <div className="relative mt-1 flex items-center gap-2 border-b border-gray-300 pb-2">
+          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.transferMethodLabel}</label>
+          <div className="relative mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
             <select
               value={selectedTransferType ?? ''}
               onChange={(e) => setSelectedTransferType(e.target.value || null)}
@@ -317,7 +325,7 @@ export default function ConversionWidget() {
                 <option key={t} value={t}>{TRANSFER_TYPE_LABELS[t] ?? t}</option>
               ))}
             </select>
-            <span className="min-w-0 flex-1 text-base font-medium text-gray-900">
+            <span className="min-w-0 flex-1 text-left text-base font-medium text-gray-900">
               {selectedTransferType ? (TRANSFER_TYPE_LABELS[selectedTransferType] ?? selectedTransferType) : 'Select transfer method'}
             </span>
             {selectedTransferType && deliveryIcons[TRANSFER_TYPE_LABELS[selectedTransferType]] && (
@@ -334,8 +342,8 @@ export default function ConversionWidget() {
 
         {/* Supplier dropdown: full row clickable */}
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-600">{conversionWidget.supplierLabel}</label>
-          <div className="relative mt-1 flex items-center gap-2 border-b border-gray-300 pb-2">
+          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.supplierLabel}</label>
+          <div className="relative mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
             <select
               value={selectedSupplier?.supplierUid ?? ''}
               onChange={(e) => {
@@ -351,7 +359,7 @@ export default function ConversionWidget() {
                 <option key={s.id} value={s.supplierUid}>{s.supplierName}</option>
               ))}
             </select>
-            <span className="min-w-0 flex-1 text-base font-medium text-gray-900">
+            <span className="min-w-0 flex-1 text-left text-base font-medium text-gray-900">
               {selectedSupplier?.supplierName ?? 'Select supplier'}
             </span>
             <HiChevronDown className="h-5 w-5 shrink-0 text-gray-500 pointer-events-none" />
@@ -360,14 +368,14 @@ export default function ConversionWidget() {
 
         {/* Amount Sent (ILS) */}
         <div className="mt-6">
-          <label className="block text-sm font-medium text-gray-600">{conversionWidget.amountSentLabel}</label>
-          <div className="mt-1 flex items-center gap-2 border-b border-gray-300 pb-2">
+          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.amountSentLabel}</label>
+          <div className="mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
             <input
               type="number"
               min={minIls}
               value={sendAmount}
               onChange={(e) => setSendAmount(Number(e.target.value) || 0)}
-              className="min-w-0 flex-1 bg-transparent text-2xl font-bold text-gray-900 outline-none sm:text-3xl"
+              className="min-w-0 flex-1 bg-transparent text-left text-2xl font-bold text-gray-900 outline-none sm:text-3xl"
             />
             <span className="shrink-0 text-base font-medium text-gray-600">ILS</span>
             <Flag countryCode="il" className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
@@ -387,8 +395,8 @@ export default function ConversionWidget() {
         </div>
 
         {/* Transaction Details: Total Cost first, then Fee (match original rates page order) */}
-        <div className="mt-6 rounded-xl border border-gray-100 bg-gray-50/80 px-4 py-3 sm:px-5">
-          <span className="block text-sm font-medium text-gray-600">Transaction Details</span>
+        <div className="mt-6 rounded-xl border border-gray-100 bg-gray-50/80 px-4 py-3 text-left sm:px-5">
+          <span className="block text-left text-sm font-medium text-gray-600">Transaction Details</span>
           <div className="mt-2 flex flex-col gap-1.5 text-left">
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">{conversionWidget.totalCostLabel}</span>
