@@ -49,7 +49,6 @@ export default function Contact() {
               {contact.email}
             </a>
           </p>
-          <p className="mt-1 text-sm text-gray-600">{contact.supportNote}</p>
         </motion.div>
       </div>
     </section>

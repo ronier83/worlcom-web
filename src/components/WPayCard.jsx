@@ -64,6 +64,19 @@ export default function WPayCard() {
             <p className="mt-6 text-lg text-black/80 break-words">
               {wpayCard.description}
             </p>
+            {/* Card vendor logos — SVG fills are light, so filter to black for light background */}
+            <div className="mt-6 flex flex-wrap items-center gap-6" aria-hidden>
+              <img
+                src="/card-logos-svg/jerusalem_bank.svg"
+                alt=""
+                className="h-6 w-auto object-contain opacity-90 [filter:brightness(0)]"
+              />
+              <img
+                src="/card-logos-svg/max.svg"
+                alt=""
+                className="h-6 w-auto object-contain opacity-90 [filter:brightness(0)]"
+              />
+            </div>
             <motion.a
               href="#wpay-login"
               whileTap={{ scale: 0.98 }}
