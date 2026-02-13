@@ -16,7 +16,7 @@ export default function Contact() {
         <motion.h2
           initial={shouldAnimate ? { opacity: 0, y: 12 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-          className="text-left text-xl font-bold text-gray-500 sm:text-2xl md:text-3xl"
+          className="text-left text-2xl font-bold text-gray-500 sm:text-3xl md:text-4xl"
         >
           Need Help?
         </motion.h2>
