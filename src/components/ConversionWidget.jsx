@@ -25,6 +25,13 @@ const deliveryIcons = {
   'Cash Transfer': HiOutlineBanknotes,
 }
 
+// ISO 3166-1 alpha-2 country code → flag emoji (regional indicator symbols).
+function flagEmoji(countryCode) {
+  if (!countryCode || countryCode.length !== 2) return ''
+  const code = countryCode.toUpperCase()
+  return code.replace(/./g, (c) => String.fromCodePoint(0x1f1e6 - 65 + c.charCodeAt(0)))
+}
+
 // Circular flag (flagcdn). countryCode = ISO 3166-1 alpha-2.
 function Flag({ countryCode, className = 'h-6 w-6' }) {
   const code = (countryCode || 'us').toLowerCase()
@@ -307,32 +314,39 @@ export default function ConversionWidget() {
           </div>
         </div>
 
-        {/* Country dropdown: full row clickable so both sides open the select */}
-        <div className="mt-4">
-          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.countryLabel}</label>
-          <div className="relative mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
-            <select
-              value={selectedCountry?.countryCode2 ?? ''}
-              onChange={(e) => {
-                const v = e.target.value
-                const c = v ? countries.find((x) => x.countryCode2 === v) : null
-                setSelectedCountry(c ?? null)
-              }}
-              className="absolute inset-0 z-10 min-w-0 cursor-pointer opacity-0"
-              aria-label="Select country"
-            >
-              <option value="" disabled={countries.length > 0}>{countries.length === 0 ? 'Loading...' : 'Select country'}</option>
-              {countries.map((c) => (
-                <option key={c.id} value={c.countryCode2}>{c.name}</option>
-              ))}
-            </select>
-            <span className="min-w-0 flex-1 text-left text-base font-medium text-gray-900">
-              {selectedCountry?.name ?? (countries.length === 0 ? 'Loading...' : 'Select country')}
+        {/* They get (second): amount + currency; country select via clickable flag on the right */}
+        <div className="mt-4 text-left">
+          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.theyGet}</label>
+          <div className="mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
+            <span className="min-w-0 flex-1 text-left text-2xl font-bold text-gray-900 sm:text-3xl">
+              {countryDataLoading ? '...' : formatAmount(receiveAmount, receiveSymbol)}
             </span>
-            {selectedCountry && (
-              <Flag countryCode={selectedCountry.countryCode2} className="h-6 w-6 shrink-0 sm:h-7 sm:w-7 pointer-events-none" />
-            )}
-            <HiChevronDown className="h-5 w-5 shrink-0 text-gray-500 pointer-events-none" />
+            <span className="shrink-0 text-base font-medium text-gray-600">{receiveCurrency}</span>
+            <div className="relative flex shrink-0 cursor-pointer items-center gap-1.5">
+              <select
+                value={selectedCountry?.countryCode2 ?? ''}
+                onChange={(e) => {
+                  const v = e.target.value
+                  const c = v ? countries.find((x) => x.countryCode2 === v) : null
+                  setSelectedCountry(c ?? null)
+                }}
+                className="absolute inset-0 z-10 min-w-0 cursor-pointer opacity-0"
+                aria-label="Select country"
+              >
+                <option value="" disabled={countries.length > 0}>{countries.length === 0 ? 'Loading...' : 'Select country'}</option>
+                {countries.map((c) => (
+                  <option key={c.id} value={c.countryCode2}>
+                    {c.name}{c.coinCode ? ` (${c.coinCode})` : ''} {flagEmoji(c.countryCode2)}
+                  </option>
+                ))}
+              </select>
+              {selectedCountry ? (
+                <Flag countryCode={selectedCountry.countryCode2} className="h-6 w-6 shrink-0 pointer-events-none sm:h-7 sm:w-7" />
+              ) : (
+                <span className="pointer-events-none text-sm font-medium text-gray-500">Select country</span>
+              )}
+              <HiChevronDown className="h-5 w-5 shrink-0 pointer-events-none text-gray-500" />
+            </div>
           </div>
         </div>
 
@@ -389,18 +403,6 @@ export default function ConversionWidget() {
               {selectedSupplier?.supplierName ?? 'Select supplier'}
             </span>
             <HiChevronDown className="h-5 w-5 shrink-0 text-gray-500 pointer-events-none" />
-          </div>
-        </div>
-
-        {/* Receiver Gets (from API rate) */}
-        <div className="mt-6 text-left">
-          <label className="block text-sm font-medium text-gray-600">{conversionWidget.theyGet}</label>
-          <div className="mt-1 flex items-center justify-start gap-2 border-b border-gray-300 pb-2">
-            <span className="min-w-0 flex-1 text-left text-2xl font-bold text-gray-900 sm:text-3xl">
-              {countryDataLoading ? '...' : formatAmount(receiveAmount, receiveSymbol)}
-            </span>
-            <span className="shrink-0 text-base font-medium text-gray-600">{receiveCurrency}</span>
-            {selectedCountry && <Flag countryCode={selectedCountry.countryCode2} className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />}
           </div>
         </div>
 
