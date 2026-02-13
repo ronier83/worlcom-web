@@ -17,8 +17,8 @@ import FloatingSupport from './components/FloatingSupport'
 
 function App() {
   // Accordion state for mobile collapsible sections (Statistics, Services, MoneyTransfer)
-  // Money Transfer (rates) starts expanded on mobile; others collapsed
-  const [activeSection, setActiveSection] = useState('rates')
+  // All sections collapsed by default on mobile (Money Transfer included)
+  const [activeSection, setActiveSection] = useState(null)
 
   const handleSectionToggle = (sectionId) => {
     setActiveSection((prev) => (prev === sectionId ? null : sectionId))
