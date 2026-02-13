@@ -225,7 +225,9 @@ export default function Hero() {
             {/* App store badges: native-style Download on App Store / Get it on Google Play */}
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
-                href="#"
+                href="https://apps.apple.com/us/app/worldcom-finance/id1557852337"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex h-10 items-center gap-1.5 rounded-[5px] bg-black px-3 py-2"
                 aria-label="Download on the App Store"
               >
@@ -239,7 +241,9 @@ export default function Hero() {
                 </div>
               </a>
               <a
-                href="#"
+                href="https://play.google.com/store/apps/details?id=com.worldcom.finance"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex h-10 items-center gap-1.5 rounded-[5px] bg-black px-3 py-2"
                 aria-label="Get it on Google Play"
               >

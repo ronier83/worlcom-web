@@ -33,8 +33,8 @@ function App() {
         <Statistics activeSection={activeSection} onToggle={handleSectionToggle} />
         <Services activeSection={activeSection} onToggle={handleSectionToggle} />
         <MoneyTransfer activeSection={activeSection} onToggle={handleSectionToggle} />
-        <BusinessSolutions />
         <WPayCard />
+        <BusinessSolutions />
         <TrustSection />
         <FAQ />
         <HaveYourBackBanner />
