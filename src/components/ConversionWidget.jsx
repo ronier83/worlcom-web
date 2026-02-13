@@ -185,7 +185,7 @@ export default function ConversionWidget() {
             : null
           setReceiveAmountFromApi(apiReceive)
           const minIls = row.limitsMin?.ils
-          if (typeof minIls === 'number' && minIls > 0) setSendAmount((prev) => (prev < minIls ? minIls : prev))
+          if (typeof minIls === 'number' && minIls > 0) setSendAmount((prev) => (prev > 0 && prev < minIls ? minIls : prev))
           const commissionFee = Array.isArray(row.commissions) && row.commissions[0] != null
             ? Number(row.commissions[0].amount ?? row.commissions[0]) : null
           if (typeof commissionFee === 'number' && commissionFee >= 0) setFee(commissionFee)
