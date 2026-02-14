@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react'
 import { Link } from 'react-scroll'
 import { Link as RouterLink } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { HiOutlineBolt, HiOutlineArrowRight, HiOutlineBanknotes, HiOutlineBuildingLibrary } from 'react-icons/hi2'
+import { HiOutlineBolt, HiOutlineArrowRight, HiOutlineBanknotes, HiOutlineBuildingLibrary, HiOutlineCreditCard } from 'react-icons/hi2'
 import { HiChevronDown } from 'react-icons/hi'
 import { conversionWidget } from '../data/content'
 import { usePageLoadAnimation } from '../hooks/usePageLoadAnimation'
@@ -19,11 +19,13 @@ const FEE_BY_CORRIDOR = {
 const TRANSFER_TYPE_LABELS = {
   PICKUP_CASH: 'Cash Transfer',
   DEPOSIT: 'Bank Transfer',
+  CREDIT_CARD: 'Credit Card',
 }
 
 const deliveryIcons = {
   'Bank Transfer': HiOutlineBuildingLibrary,
   'Cash Transfer': HiOutlineBanknotes,
+  'Credit Card': HiOutlineCreditCard,
 }
 
 // ISO 3166-1 alpha-2 country code → flag emoji (regional indicator symbols).
