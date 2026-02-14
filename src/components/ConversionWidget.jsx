@@ -22,6 +22,13 @@ const TRANSFER_TYPE_LABELS = {
   CREDIT_CARD: 'Credit Card',
 }
 
+// Order and icons for transfer method chips (all known types; availability comes from API)
+const TRANSFER_TYPE_OPTIONS = [
+  { type: 'DEPOSIT', label: TRANSFER_TYPE_LABELS.DEPOSIT, Icon: HiOutlineBuildingLibrary },
+  { type: 'PICKUP_CASH', label: TRANSFER_TYPE_LABELS.PICKUP_CASH, Icon: HiOutlineBanknotes },
+  { type: 'CREDIT_CARD', label: TRANSFER_TYPE_LABELS.CREDIT_CARD, Icon: HiOutlineCreditCard },
+]
+
 const deliveryIcons = {
   'Bank Transfer': HiOutlineBuildingLibrary,
   'Cash Transfer': HiOutlineBanknotes,
@@ -359,33 +366,38 @@ export default function ConversionWidget() {
           </div>
         </div>
 
-        {/* Transfer Method dropdown: full row clickable */}
+        {/* Transfer Method: icon + text chips; available = blue & selectable, unavailable = greyed out */}
         <div className="mt-3">
           <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.transferMethodLabel}</label>
-          <div className="relative mt-0.5 flex items-center justify-start gap-2 border-b border-gray-300 pb-1.5">
-            <select
-              value={selectedTransferType ?? ''}
-              onChange={(e) => setSelectedTransferType(e.target.value || null)}
-              className="absolute inset-0 z-10 min-w-0 cursor-pointer opacity-0"
-              aria-label="Select transfer method"
-            >
-              <option value="" disabled={transferTypes.length > 0}>Select transfer method</option>
-              {transferTypes.map((t) => (
-                <option key={t} value={t}>{TRANSFER_TYPE_LABELS[t] ?? t}</option>
-              ))}
-            </select>
-            <span className="min-w-0 flex-1 text-left text-base font-medium text-gray-900">
-              {selectedTransferType ? (TRANSFER_TYPE_LABELS[selectedTransferType] ?? selectedTransferType) : 'Select transfer method'}
-            </span>
-            {selectedTransferType && deliveryIcons[TRANSFER_TYPE_LABELS[selectedTransferType]] && (
-              <span className="shrink-0 pointer-events-none">
-                {(() => {
-                  const Icon = deliveryIcons[TRANSFER_TYPE_LABELS[selectedTransferType]]
-                  return <Icon className="h-5 w-5 text-gray-500" />
-                })()}
-              </span>
-            )}
-            <HiChevronDown className="h-5 w-5 shrink-0 text-gray-500 pointer-events-none" />
+          <div className="mt-1.5 flex flex-wrap gap-2">
+            {TRANSFER_TYPE_OPTIONS.map(({ type, label, Icon }) => {
+              const available = transferTypes.includes(type)
+              const selected = selectedTransferType === type
+              const textClass = !available ? 'text-gray-400' : selected ? 'text-[#3482F1]' : 'text-gray-700'
+              return (
+                <button
+                  key={type}
+                  type="button"
+                  disabled={!available}
+                  onClick={() => available && setSelectedTransferType(type)}
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+                    available
+                      ? selected
+                        ? 'border-[#3482F1] bg-[#3482F1]/10 text-[#3482F1] cursor-pointer'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-[#3482F1]/50 hover:bg-[#3482F1]/5 cursor-pointer'
+                      : 'cursor-not-allowed border-gray-200 bg-gray-50 text-gray-400'
+                  }`}
+                  aria-label={available ? `${label}${selected ? ', selected' : ''}` : `${label} (not available)`}
+                  aria-pressed={selected}
+                >
+                  <Icon
+                    className={`h-5 w-5 shrink-0 ${available ? 'text-[#3482F1]' : 'text-gray-400'}`}
+                    aria-hidden
+                  />
+                  <span className={textClass}>{label}</span>
+                </button>
+              )
+            })}
           </div>
         </div>
 
