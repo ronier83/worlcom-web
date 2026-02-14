@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import App from './App.jsx'
 import PrivacyPolicyPage from './pages/PrivacyPolicy.jsx'
 import TermsOfUsePage from './pages/TermsOfUse.jsx'
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/developers" element={<DevelopersPageWrapper />} />
         </Routes>
       </ErrorBoundary>
+      <Analytics />
     </BrowserRouter>
   </React.StrictMode>,
 )
