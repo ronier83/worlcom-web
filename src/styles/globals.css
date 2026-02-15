@@ -99,11 +99,19 @@
   opacity: inherit;
 }
 
-/* Hero: extra horizontal padding only in MacBook-style resolution (stacked logo + calculator) so they aren't flush to edges */
-@media (min-width: 768px) and (max-width: 1279px) {
+/* Hero: extra horizontal padding for MacBook-style widths (768px–1439px) so logo/calculator aren't flush to edges. !important overrides Tailwind px-* utilities. */
+@media (min-width: 768px) and (max-width: 1439px) {
   #hero .hero-inner {
-    padding-left: 16rem;
-    padding-right: 16rem;
+    padding-left: 1.6rem !important;
+    padding-right: 1.6rem !important;
+  }
+}
+
+/* Hero: side gaps only at 1512×768 (e.g. MacBook 14"/16" scaled) so content isn't flush to edges */
+@media (min-width: 1500px) and (max-width: 1530px) {
+  #hero .hero-inner {
+    padding-left: 3.5rem !important;
+    padding-right: 3.5rem !important;
   }
 }
 
@@ -122,10 +130,10 @@
   z-index: 20;
 }
 
-/* Hero: desktop-only adaptive typography so headline doesn't overlap the calculator. Covers 1280×720, 1920×1080, 2560×1440; full 7xl only above 2560px. Subheadline slightly smaller in this range. */
-@media (min-width: 1280px) and (max-width: 2560px) {
+/* Hero: desktop-only adaptive typography so headline doesn't overlap the calculator. Covers 1280×720 through 2880×1800 (incl. MacBook Pro 15"); full 7xl only above 2880px. Subheadline slightly smaller in this range. */
+@media (min-width: 1280px) and (max-width: 2880px) {
   #hero .hero-headline-block h1 {
-    font-size: clamp(2.25rem, 1.25rem + 1.5vw, 4.5rem); /* scales from ~2.25rem at 1280px to ~3.65rem at 2560px so text stays left of calculator */
+    font-size: clamp(2.25rem, 1.25rem + 1.5vw, 4.5rem); /* scales so text stays left of calculator up to 2880px */
   }
   #hero .hero-headline-block p {
     font-size: clamp(1.125rem, 1rem + 0.25vw, 1.4rem); /* a bit smaller than 2xl (1.5rem) in this range */
