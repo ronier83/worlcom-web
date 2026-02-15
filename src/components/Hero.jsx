@@ -161,7 +161,7 @@ export default function Hero() {
       </motion.div>
 
       {/* Wider max-width so headline and calculator have enough room without overlap; enough px on mobile so text isn't cut */}
-      <div className="relative z-10 mx-auto max-w-[1520px] px-4 sm:pl-4 sm:pr-6 lg:pl-4 lg:pr-8">
+      <div className="hero-inner relative z-10 mx-auto max-w-[1520px] px-4 sm:pl-4 sm:pr-6 lg:pl-4 lg:pr-8">
         {/* Stack until xl so headline is never behind calculator; side-by-side only when enough space */}
         <div className="flex flex-col items-center gap-4 xl:flex-row xl:items-center xl:justify-between xl:gap-10 sm:gap-8 2xl:gap-12" style={{ flexWrap: 'nowrap' }}>
           {/* Left: logo (desktop only) then text; z-0 so logo animates behind calculator; text block z-20 so never hidden */}
