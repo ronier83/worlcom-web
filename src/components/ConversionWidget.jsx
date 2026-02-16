@@ -380,7 +380,7 @@ export default function ConversionWidget() {
                   type="button"
                   disabled={!available}
                   onClick={() => available && setSelectedTransferType(type)}
-                  className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`inline-flex items-center gap-1 rounded-md border px-2 py-1.5 text-[0.6125rem] font-medium transition-colors ${
                     available
                       ? selected
                         ? 'border-[#3482F1] bg-[#3482F1]/10 text-[#3482F1] cursor-pointer'
@@ -391,7 +391,7 @@ export default function ConversionWidget() {
                   aria-pressed={selected}
                 >
                   <Icon
-                    className={`h-5 w-5 shrink-0 ${available ? 'text-[#3482F1]' : 'text-gray-400'}`}
+                    className={`h-4 w-4 shrink-0 ${available ? 'text-[#3482F1]' : 'text-gray-400'}`}
                     aria-hidden
                   />
                   <span className={textClass}>{label}</span>
@@ -402,9 +402,9 @@ export default function ConversionWidget() {
         </div>
 
         {/* Supplier dropdown: full row clickable */}
-        <div className="mt-3">
-          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.supplierLabel}</label>
-          <div className="relative mt-0.5 flex items-center justify-start gap-2 border-b border-gray-300 pb-1.5">
+        <div className="mt-2">
+          <label className="block text-left text-xs font-medium text-gray-600">{conversionWidget.supplierLabel}</label>
+          <div className="relative mt-0.5 flex items-center justify-start gap-1.5 border-b border-gray-300 pb-1">
             <select
               value={selectedSupplier?.supplierUid ?? ''}
               onChange={(e) => {
@@ -420,17 +420,16 @@ export default function ConversionWidget() {
                 <option key={s.id} value={s.supplierUid}>{s.supplierName}</option>
               ))}
             </select>
-            <span className="min-w-0 flex-1 text-left text-base font-medium text-gray-900">
+            <span className="min-w-0 flex-1 text-left text-sm font-medium text-gray-900">
               {selectedSupplier?.supplierName ?? 'Select supplier'}
             </span>
-            <HiChevronDown className="h-5 w-5 shrink-0 text-gray-500 pointer-events-none" />
+            <HiChevronDown className="h-4 w-4 shrink-0 text-gray-500 pointer-events-none" />
           </div>
         </div>
 
         {/* Transaction Details: Total Cost first, then Fee (match original rates page order) */}
         <div className="mt-4 rounded-xl border border-gray-100 bg-gray-50/80 px-3 py-2.5 text-left sm:px-4">
-          <span className="block text-left text-sm font-medium text-gray-600">Transaction Details</span>
-          <div className="mt-1.5 flex flex-col gap-1 text-left">
+          <div className="flex flex-col gap-1 text-left">
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">{conversionWidget.totalCostLabel}</span>
               <span className="font-medium text-gray-900">{formatAmount(totalCost, '₪')}</span>
@@ -447,7 +446,7 @@ export default function ConversionWidget() {
         {/* Get Started CTA */}
         <Link to="services" smooth duration={500} offset={-72} className="mt-5 block">
           <motion.span
-            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-3 text-lg font-bold text-white"
+            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-3 text-[0.7875rem] font-bold text-white"
             whileTap={{ scale: 0.99 }}
           >
             {conversionWidget.ctaLabel}
