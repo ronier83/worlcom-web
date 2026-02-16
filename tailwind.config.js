@@ -11,6 +11,10 @@ export default {
   ],
   theme: {
     extend: {
+      // Extra breakpoint for ~1512px viewport (e.g. small desktop) to add side padding
+      screens: {
+        '1512': '1512px',
+      },
       // Worldcom Finance brand colors
       colors: {
         primary: '#3482F1',
