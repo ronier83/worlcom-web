@@ -107,10 +107,10 @@ export default function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 40])
 
   // Logo paths: entrance from sides on load; scroll-out distance = edge-to-edge on mobile, fixed on desktop
-  const LOGO_OFFSET_DESKTOP = 520
+  const LOGO_OFFSET_DESKTOP = 2400
   // Right path needs larger offset on desktop so bottom arrow moves fully off screen (logo is left of center)
-  const LOGO_OFFSET_DESKTOP_RIGHT = 1200
-  const ENTRANCE_DURATION_MS = 700
+  const LOGO_OFFSET_DESKTOP_RIGHT = 2400
+  const ENTRANCE_DURATION_MS = 100
   const path0X = useMotionValue(reducedMotion ? 0 : -LOGO_OFFSET_DESKTOP)
   const path1X = useMotionValue(reducedMotion ? 0 : LOGO_OFFSET_DESKTOP)
 

@@ -366,10 +366,10 @@ export default function ConversionWidget() {
           </div>
         </div>
 
-        {/* Transfer Method: icon + text chips; available = blue & selectable, unavailable = greyed out */}
-        <div className="mt-3">
+        {/* Transfer Method: icon + text chips; available = blue & selectable, unavailable = greyed out. flex-nowrap + flex-1 min-w-0 so buttons always fit one line and resize evenly. */}
+        <div className="mt-3 min-w-0">
           <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.transferMethodLabel}</label>
-          <div className="mt-1.5 flex flex-wrap gap-2">
+          <div className="mt-1.5 flex flex-nowrap gap-2">
             {TRANSFER_TYPE_OPTIONS.map(({ type, label, Icon }) => {
               const available = transferTypes.includes(type)
               const selected = selectedTransferType === type
@@ -380,7 +380,7 @@ export default function ConversionWidget() {
                   type="button"
                   disabled={!available}
                   onClick={() => available && setSelectedTransferType(type)}
-                  className={`inline-flex items-center gap-1 rounded-md border px-2 py-1.5 text-[0.6125rem] font-medium transition-colors ${
+                  className={`inline-flex min-w-0 flex-1 shrink items-center justify-center gap-1 rounded border px-1.5 py-1 text-[0.5rem] font-medium leading-tight transition-colors ${
                     available
                       ? selected
                         ? 'border-[#3482F1] bg-[#3482F1]/10 text-[#3482F1] cursor-pointer'
@@ -391,7 +391,7 @@ export default function ConversionWidget() {
                   aria-pressed={selected}
                 >
                   <Icon
-                    className={`h-4 w-4 shrink-0 ${available ? 'text-[#3482F1]' : 'text-gray-400'}`}
+                    className={`h-3.5 w-3.5 shrink-0 ${available ? 'text-[#3482F1]' : 'text-gray-400'}`}
                     aria-hidden
                   />
                   <span className={textClass}>{label}</span>
