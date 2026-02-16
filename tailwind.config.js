@@ -4,16 +4,18 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  // Ensure hero layout classes are always generated (not purged by JIT)
+  // Ensure hero layout classes are always generated (not purged by JIT); 4K hero width so 3840x2160 isn't tiny
   safelist: [
     'xl:flex-row', 'xl:ml-8', 'xl:max-w-[380px]', 'z-20', 'font-google-sans',
     'hero-calculator-col', 'hero-headline-block',
+    'min-[3840px]:max-w-[2240px]', 'min-[3840px]:px-10', 'min-[3840px]:px-6',
   ],
   theme: {
     extend: {
-      // Extra breakpoint for ~1512px viewport (e.g. small desktop) to add side padding
+      // Extra breakpoints: 1512px (small desktop), 4K UHD so hero headline doesn't sit behind calculator
       screens: {
         '1512': '1512px',
+        '4k': '3840px',
       },
       // Worldcom Finance brand colors
       colors: {
