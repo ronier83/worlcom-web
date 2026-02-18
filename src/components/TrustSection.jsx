@@ -34,7 +34,7 @@ export default function TrustSection() {
         <motion.div
           initial={shouldAnimate ? { opacity: 0 } : false}
           {...(shouldAnimate ? { whileInView: { opacity: 1 }, viewport: { once: true }, transition: { delay: 0.2 } } : { animate: { opacity: 1 } })}
-          className="mt-12 flex flex-wrap items-center justify-center gap-8 sm:gap-10 md:gap-12 lg:gap-16"
+          className="mt-12 flex flex-wrap items-center justify-center gap-8 sm:gap-10 md:gap-12 lg:gap-16 bg-white"
         >
           {clientLogos.map((client) => (
             <div
