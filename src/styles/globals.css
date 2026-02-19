@@ -90,11 +90,12 @@
   -webkit-backface-visibility: hidden;
 }
 
-/* Client logos - black on white background */
+/* Client logos - white filter for dark background */
 #about .vendor-logo {
-  /* Convert logos (incl. SVG) to black on white background */
-  filter: brightness(0);
-  -webkit-filter: brightness(0);
+  /* Convert logos to white on dark background */
+  filter: brightness(0) invert(1);
+  -webkit-filter: brightness(0) invert(1);
+  /* Keep opacity from parent */
   opacity: inherit;
 }
 
