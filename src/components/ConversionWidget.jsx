@@ -287,7 +287,7 @@ export default function ConversionWidget() {
       className="w-full min-w-0 max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl text-left lg:max-w-[380px]"
     >
       {/* Top strip: rate (from API when corridor selected), Check Our Rates link */}
-      <div className="flex min-w-0 items-center justify-between gap-3 bg-[#3482F1]/10 px-4 py-2 sm:px-5">
+      <div className="flex min-w-0 items-center justify-between gap-3 border border-black bg-[#F38F47]/20 px-4 py-2 sm:px-5">
         <span className="min-w-0 truncate text-sm font-medium text-gray-700">{rateDisplay}</span>
         <RouterLink
           to="/rates"
@@ -301,7 +301,7 @@ export default function ConversionWidget() {
       <div className="p-4 text-left sm:p-5">
         {/* Amount Sent (ILS) – first field; display with thousand separators (1,000 10,000 etc.) */}
         <div className="mt-0">
-          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.amountSentLabel}</label>
+          <label className="block text-left text-sm font-medium text-gray-600 font-google-sans opacity-60">{conversionWidget.amountSentLabel}</label>
           <div className="mt-0.5 flex items-center justify-start gap-2 border-b border-gray-300 pb-1.5">
             <input
               type="text"
@@ -330,7 +330,7 @@ export default function ConversionWidget() {
 
         {/* They get (second): amount + currency only after API returns; country select via clickable flag on the right */}
         <div className="mt-3 text-left">
-          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.theyGet}</label>
+          <label className="block text-left text-sm font-medium text-gray-600 font-google-sans opacity-60">{conversionWidget.theyGet}</label>
           <div className="mt-0.5 flex items-center justify-start gap-2 border-b border-gray-300 pb-1.5">
             <span className="min-w-0 flex-1 text-left text-2xl font-bold text-gray-900 sm:text-3xl">
               {!countryData && !countryDataLoading ? '' : countryDataLoading ? '...' : formatAmount(receiveAmount, receiveSymbol)}
@@ -368,7 +368,7 @@ export default function ConversionWidget() {
 
         {/* Transfer Method: icon + text chips; available = blue & selectable, unavailable = greyed out. flex-nowrap + flex-1 min-w-0 so buttons always fit one line and resize evenly. */}
         <div className="mt-3 min-w-0">
-          <label className="block text-left text-sm font-medium text-gray-600">{conversionWidget.transferMethodLabel}</label>
+          <label className="block text-left text-sm font-medium text-gray-600 font-google-sans opacity-60">{conversionWidget.transferMethodLabel}</label>
           <div className="mt-1.5 flex flex-nowrap gap-2">
             {TRANSFER_TYPE_OPTIONS.map(({ type, label, Icon }) => {
               const available = transferTypes.includes(type)
@@ -380,7 +380,7 @@ export default function ConversionWidget() {
                   type="button"
                   disabled={!available}
                   onClick={() => available && setSelectedTransferType(type)}
-                  className={`inline-flex min-w-0 flex-1 shrink items-center justify-center gap-1 rounded border px-1.5 py-1 text-[0.5rem] font-medium leading-tight transition-colors ${
+                  className={`inline-flex min-w-0 flex-1 shrink items-center justify-center gap-1 rounded border px-1.5 py-1 text-xs font-google-sans font-medium leading-tight transition-colors ${
                     available
                       ? selected
                         ? 'border-[#3482F1] bg-[#3482F1]/10 text-[#3482F1] cursor-pointer'
@@ -446,7 +446,7 @@ export default function ConversionWidget() {
         {/* Get Started CTA */}
         <Link to="services" smooth duration={500} offset={-72} className="mt-5 block">
           <motion.span
-            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-3 text-[0.7875rem] font-bold text-white"
+            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-3 text-sm font-google-sans font-bold text-white"
             whileTap={{ scale: 0.99 }}
           >
             {conversionWidget.ctaLabel}
