@@ -96,7 +96,7 @@ function HeroBgGraphic() {
 }
 
 /**
- * Hero section: Rewire-style prominent blue (#3482F1) background, white text, white conversion card.
+ * Hero section: primary blue gradient (anchored on #3482F1), white text, conversion card.
  * Scroll-based parallax on background graphic so it moves slightly slower than content.
  */
 export default function Hero() {
@@ -154,8 +154,13 @@ export default function Hero() {
   }, [scrollYProgress, path0X, path1X, reducedMotion])
 
   return (
-    <section ref={ref} id="hero" className="relative overflow-hidden bg-[#3482F1] pt-14 pb-20 md:pt-20 md:pb-24">
-      {/* Background: globe/blobs with parallax (disabled when user prefers reduced motion) */}
+    <section
+      ref={ref}
+      id="hero"
+      className="relative overflow-hidden bg-gradient-to-br from-[#3a88f6] via-primary via-[45%] to-[#2d74e8] pt-[4.75rem] pb-20 sm:pt-[6.125rem] md:pb-24"
+    >
+      {/* pt clears floating home header: outer pt-3/4 + nav h-14/sm:h-20 (~76px / ~98px); keeps calculator below bar */}
+      {/* Decorative SVG blobs (parallax) sit above gradient */}
       <motion.div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0, y: reducedMotion ? 0 : y }}>
         <HeroBgGraphic />
       </motion.div>
@@ -216,7 +221,7 @@ export default function Hero() {
           </div>
 
           {/* Right: conversion card; on mobile/tablet, logo at top centered then widget and badges */}
-          <div className="relative z-10 flex w-full max-w-md flex-shrink-0 flex-col items-center gap-4 xl:max-w-[380px] xl:ml-16 2xl:ml-20 hero-calculator-col">
+          <div className="relative z-10 mt-2 flex w-full max-w-md flex-shrink-0 flex-col items-center gap-4 sm:mt-4 xl:mt-6 xl:max-w-[380px] xl:ml-16 2xl:ml-20 hero-calculator-col">
             {/* Logo centered at top of this column until xl (then logo is in left column) */}
             <div className="flex w-full justify-center xl:hidden">
               <HeroLogoMark path0X={path0X} path1X={path1X} />

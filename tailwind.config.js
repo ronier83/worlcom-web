@@ -30,6 +30,8 @@ export default {
         display: ['Outfit', 'system-ui', 'sans-serif'],
         // Google Sans for hero headline and elsewhere (https://fonts.google.com/specimen/Google+Sans)
         'google-sans': ['Google Sans', 'system-ui', 'sans-serif'],
+        /** Header (`font-plex`) — IBM Plex Sans, matches site fallback stack */
+        plex: ['IBM Plex Sans', 'Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         'xl': '1rem',

@@ -7,9 +7,11 @@
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    /* Match hero/header primary so gutters, safe areas, or 1px seams never flash default white behind fixed UI */
+    @apply bg-primary;
   }
   body {
-    @apply text-black antialiased;
+    @apply bg-primary text-black antialiased;
     overflow-x: hidden;
     /* Slightly smaller base text on mobile; normal size from md up */
     font-size: 0.875rem; /* 14px */

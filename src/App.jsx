@@ -27,7 +27,8 @@ function App() {
   return (
     <>
       <Header />
-      <main className="pt-14 sm:pt-20">
+      {/* No top padding on main — it sat above Hero and showed the default white body behind the fixed header */}
+      <main>
         <Hero />
         <TrustedByVendors />
         <Statistics activeSection={activeSection} onToggle={handleSectionToggle} />
