@@ -284,14 +284,14 @@ export default function ConversionWidget() {
     <motion.div
       initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
       {...(shouldAnimate ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-20px' } } : { animate: { opacity: 1, y: 0 } })}
-      className="w-full min-w-0 max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl text-left lg:max-w-[380px]"
+      className="w-full min-w-0 max-w-md overflow-hidden rounded-3xl border border-white/70 bg-white/95 text-left shadow-2xl shadow-slate-900/15 ring-1 ring-slate-900/[0.04] backdrop-blur-sm lg:max-w-[380px]"
     >
-      {/* Top strip: rate (from API when corridor selected), Check Our Rates link */}
-      <div className="flex min-w-0 items-center justify-between gap-3 border border-black bg-[#F38F47]/20 px-4 py-2 sm:px-5">
-        <span className="min-w-0 truncate text-sm font-medium text-gray-700">{rateDisplay}</span>
+      {/* Top strip: rate + rates link (soft brand gradient, no heavy borders) */}
+      <div className="flex min-w-0 items-center justify-between gap-3 border-b border-slate-200/70 bg-gradient-to-r from-primary/[0.11] via-slate-50/90 to-accent/[0.08] px-4 py-2 sm:px-5">
+        <span className="min-w-0 truncate text-sm font-medium text-slate-700">{rateDisplay}</span>
         <RouterLink
           to="/rates"
-          className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-[#3482F1] underline decoration-[#3482F1] underline-offset-2"
+          className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-primary underline decoration-primary/50 underline-offset-2 transition-colors hover:text-[#2868dc] hover:decoration-[#2868dc]"
         >
           <HiOutlineBolt className="h-4 w-4" />
           {conversionWidget.rateLabel}
@@ -301,8 +301,8 @@ export default function ConversionWidget() {
       <div className="p-4 text-left sm:p-5">
         {/* Amount Sent (ILS) – first field; display with thousand separators (1,000 10,000 etc.) */}
         <div className="mt-0">
-          <label className="block text-left text-sm font-medium text-gray-600 font-google-sans opacity-60">{conversionWidget.amountSentLabel}</label>
-          <div className="mt-0.5 flex items-center justify-start gap-2 border-b border-gray-300 pb-1.5">
+          <label className="block text-left text-sm font-medium font-google-sans text-slate-500">{conversionWidget.amountSentLabel}</label>
+          <div className="mt-0.5 flex items-center justify-start gap-2 border-b border-slate-200/90 pb-1.5">
             <input
               type="text"
               inputMode="numeric"
@@ -320,23 +320,23 @@ export default function ConversionWidget() {
               onBlur={() => {
                 if (sendAmount < minIls) setSendAmount(minIls)
               }}
-              className="min-w-0 flex-1 bg-transparent text-left text-2xl font-bold text-gray-900 outline-none sm:text-3xl"
+              className="min-w-0 flex-1 bg-transparent text-left text-2xl font-bold text-slate-900 outline-none sm:text-3xl"
               aria-label="You send (ILS)"
             />
-            <span className="shrink-0 text-base font-medium text-gray-600">ILS</span>
+            <span className="shrink-0 text-base font-medium text-slate-600">ILS</span>
             <Flag countryCode="il" className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
           </div>
         </div>
 
         {/* They get (second): amount + currency only after API returns; country select via clickable flag on the right */}
         <div className="mt-3 text-left">
-          <label className="block text-left text-sm font-medium text-gray-600 font-google-sans opacity-60">{conversionWidget.theyGet}</label>
-          <div className="mt-0.5 flex items-center justify-start gap-2 border-b border-gray-300 pb-1.5">
-            <span className="min-w-0 flex-1 text-left text-2xl font-bold text-gray-900 sm:text-3xl">
+          <label className="block text-left text-sm font-medium font-google-sans text-slate-500">{conversionWidget.theyGet}</label>
+          <div className="mt-0.5 flex items-center justify-start gap-2 border-b border-slate-200/90 pb-1.5">
+            <span className="min-w-0 flex-1 text-left text-2xl font-bold text-slate-900 sm:text-3xl">
               {!countryData && !countryDataLoading ? '' : countryDataLoading ? '...' : formatAmount(receiveAmount, receiveSymbol)}
             </span>
             {countryData ? (
-              <span className="shrink-0 text-base font-medium text-gray-600">{receiveCurrency}</span>
+              <span className="shrink-0 text-base font-medium text-slate-600">{receiveCurrency}</span>
             ) : null}
             <div className="relative flex shrink-0 cursor-pointer items-center gap-1.5">
               <select
@@ -359,21 +359,21 @@ export default function ConversionWidget() {
               {selectedCountry ? (
                 <Flag countryCode={selectedCountry.countryCode2} className="h-6 w-6 shrink-0 pointer-events-none sm:h-7 sm:w-7" />
               ) : (
-                <span className="pointer-events-none text-sm font-medium text-gray-500">Select country</span>
+                <span className="pointer-events-none text-sm font-medium text-slate-500">Select country</span>
               )}
-              <HiChevronDown className="h-5 w-5 shrink-0 pointer-events-none text-gray-500" />
+              <HiChevronDown className="h-5 w-5 shrink-0 pointer-events-none text-slate-500" />
             </div>
           </div>
         </div>
 
         {/* Transfer Method: icon + text chips; available = blue & selectable, unavailable = greyed out. flex-nowrap + flex-1 min-w-0 so buttons always fit one line and resize evenly. */}
         <div className="mt-3 min-w-0">
-          <label className="block text-left text-sm font-medium text-gray-600 font-google-sans opacity-60">{conversionWidget.transferMethodLabel}</label>
+          <label className="block text-left text-sm font-medium font-google-sans text-slate-500">{conversionWidget.transferMethodLabel}</label>
           <div className="mt-1.5 flex flex-nowrap gap-2">
             {TRANSFER_TYPE_OPTIONS.map(({ type, label, Icon }) => {
               const available = transferTypes.includes(type)
               const selected = selectedTransferType === type
-              const textClass = !available ? 'text-gray-400' : selected ? 'text-[#3482F1]' : 'text-gray-700'
+              const textClass = !available ? 'text-slate-400' : selected ? 'text-primary' : 'text-slate-600'
               return (
                 <button
                   key={type}
@@ -383,15 +383,15 @@ export default function ConversionWidget() {
                   className={`inline-flex min-w-0 flex-1 shrink items-center justify-center gap-1 rounded border px-1.5 py-1 text-xs font-google-sans font-medium leading-tight transition-colors ${
                     available
                       ? selected
-                        ? 'border-[#3482F1] bg-[#3482F1]/10 text-[#3482F1] cursor-pointer'
-                        : 'border-gray-300 bg-white text-gray-700 hover:border-[#3482F1]/50 hover:bg-[#3482F1]/5 cursor-pointer'
-                      : 'cursor-not-allowed border-gray-200 bg-gray-50 text-gray-400'
+                        ? 'border-primary/80 bg-primary/[0.12] text-primary shadow-sm shadow-primary/10 cursor-pointer'
+                        : 'border-slate-200/90 bg-white text-slate-600 hover:border-primary/35 hover:bg-slate-50 cursor-pointer'
+                      : 'cursor-not-allowed border-slate-100 bg-slate-50/90 text-slate-400'
                   }`}
                   aria-label={available ? `${label}${selected ? ', selected' : ''}` : `${label} (not available)`}
                   aria-pressed={selected}
                 >
                   <Icon
-                    className={`h-3.5 w-3.5 shrink-0 ${available ? 'text-[#3482F1]' : 'text-gray-400'}`}
+                    className={`h-3.5 w-3.5 shrink-0 ${available ? (selected ? 'text-primary' : 'text-primary/70') : 'text-slate-400'}`}
                     aria-hidden
                   />
                   <span className={textClass}>{label}</span>
@@ -403,8 +403,8 @@ export default function ConversionWidget() {
 
         {/* Supplier dropdown: full row clickable */}
         <div className="mt-2">
-          <label className="block text-left text-xs font-medium text-gray-600">{conversionWidget.supplierLabel}</label>
-          <div className="relative mt-0.5 flex items-center justify-start gap-1.5 border-b border-gray-300 pb-1">
+          <label className="block text-left text-xs font-medium text-slate-500">{conversionWidget.supplierLabel}</label>
+          <div className="relative mt-0.5 flex items-center justify-start gap-1.5 border-b border-slate-200/90 pb-1">
             <select
               value={selectedSupplier?.supplierUid ?? ''}
               onChange={(e) => {
@@ -420,23 +420,23 @@ export default function ConversionWidget() {
                 <option key={s.id} value={s.supplierUid}>{s.supplierName}</option>
               ))}
             </select>
-            <span className="min-w-0 flex-1 text-left text-sm font-medium text-gray-900">
+            <span className="min-w-0 flex-1 text-left text-sm font-medium text-slate-900">
               {selectedSupplier?.supplierName ?? 'Select supplier'}
             </span>
-            <HiChevronDown className="h-4 w-4 shrink-0 text-gray-500 pointer-events-none" />
+            <HiChevronDown className="h-4 w-4 shrink-0 pointer-events-none text-slate-500" />
           </div>
         </div>
 
         {/* Transaction Details: Total Cost first, then Fee (match original rates page order) */}
-        <div className="mt-4 rounded-xl border border-gray-100 bg-gray-50/80 px-3 py-2.5 text-left sm:px-4">
+        <div className="mt-4 rounded-xl border border-slate-200/60 bg-gradient-to-br from-slate-50/95 to-slate-100/80 px-3 py-2.5 text-left sm:px-4">
           <div className="flex flex-col gap-1 text-left">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">{conversionWidget.totalCostLabel}</span>
-              <span className="font-medium text-gray-900">{formatAmount(totalCost, '₪')}</span>
+              <span className="text-slate-500">{conversionWidget.totalCostLabel}</span>
+              <span className="font-semibold text-slate-900">{formatAmount(totalCost, '₪')}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">{conversionWidget.feeLabel}</span>
-              <span className="font-medium text-gray-900">
+              <span className="text-slate-500">{conversionWidget.feeLabel}</span>
+              <span className="font-semibold text-slate-900">
                 {feeLoading ? '...' : formatAmount(fee, '₪')}
               </span>
             </div>
@@ -446,7 +446,7 @@ export default function ConversionWidget() {
         {/* Get Started CTA */}
         <Link to="services" smooth duration={500} offset={-72} className="mt-5 block">
           <motion.span
-            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-[#3482F1] py-3 text-sm font-google-sans font-bold text-white"
+            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-primary to-[#2868dc] py-3 text-sm font-google-sans font-bold text-white shadow-md shadow-primary/30"
             whileTap={{ scale: 0.99 }}
           >
             {conversionWidget.ctaLabel}
