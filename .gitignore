@@ -34,5 +34,9 @@ Thumbs.db
 # Testing
 coverage/
 
+# Python (e.g. UI/UX Pro Max skill scripts)
+__pycache__/
+*.py[cod]
+
 # Optional: Cursor / project metadata (uncomment if you don't want to commit these)
 # .cursor/
